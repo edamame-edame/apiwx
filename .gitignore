@@ -1,0 +1,4 @@
+./log
+./.vscode
+./.tmp
+./apiwx/__pycache__
