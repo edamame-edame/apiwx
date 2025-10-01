@@ -1,0 +1,314 @@
+Metadata-Version: 2.4
+Name: apiwx
+Version: 0.3.1
+Summary: wxPython API wrapper with advanced generics system
+Author: edamame
+License: MIT
+Keywords: wxpython,gui,wrapper,generics,metaclass
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: User Interfaces
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: wxPython>=4.2.0
+Dynamic: license-file
+
+
+
+# apiwx
+
+**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, and powerful features like generics and message boxes.
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+pip install apiwx
+```
+
+### Requirements
+
+- Python 3.13 or higher
+- wxPython (automatically installed with apiwx)
+
+### Your First App
+
+```python
+import apiwx
+
+# Create a simple app with just a few lines
+app = apiwx.WrappedApp("My First App")
+window = apiwx.WrappedWindow(app, title="Hello World", size=(400, 300))
+panel = apiwx.WrappedPanel(window)
+button = apiwx.WrappedButton(panel, label="Click Me!", pos=(150, 100))
+
+# Add button functionality
+def on_click(event):
+    apiwx.show_info("Hello from apiwx!")
+
+button.slots_on_click += on_click
+
+app.mainloop()
+```
+
+## 🎯 Key Features
+
+### 1. **Simplified GUI Components**
+No more complex wxPython constructors - just simple, intuitive classes:
+
+```python
+# Before (raw wxPython)
+frame = wx.Frame(None, wx.ID_ANY, "Title", size=(800, 600))
+panel = wx.Panel(frame)
+button = wx.Button(panel, wx.ID_ANY, "Click", pos=(10, 10), size=(100, 30))
+
+# After (apiwx)
+app = apiwx.WrappedApp("MyApp")
+frame = apiwx.WrappedWindow(app, title="Title", size=(800, 600))
+panel = apiwx.WrappedPanel(frame)
+button = apiwx.WrappedButton(panel, label="Click", pos=(10, 10), size=(100, 30))
+```
+
+### 2. **Easy Event Handling**
+Connect events with simple syntax:
+
+```python
+button = apiwx.WrappedButton(panel, label="Save")
+
+def save_file(event):
+    # Your save logic here
+    apiwx.show_info("File saved successfully!")
+
+# Easy event connection
+button.slots_on_click += save_file
+```
+
+### 3. **Built-in Message Boxes**
+Show messages and get user input with one line:
+
+```python
+# Simple messages
+apiwx.show_info("Operation completed!")
+apiwx.show_warning("Please check your input.")
+apiwx.show_error("Something went wrong.")
+
+# Get user input
+name = apiwx.get_text_input("What's your name?", "User Input")
+if name:
+    apiwx.show_info(f"Hello, {name}!")
+
+# Ask questions
+if apiwx.ask_question("Do you want to save changes?"):
+    save_changes()
+```
+
+### 4. **Smart Button Behaviors**
+Add advanced behaviors with generics:
+
+```python
+# Button that disables itself after clicking (prevents double-clicks)
+button = apiwx.WrappedButton[apiwx.SingleClickDisable](
+    panel, label="Submit", disable_duration=2.0
+)
+
+# Button that requires double-click for confirmation
+delete_btn = apiwx.WrappedButton[apiwx.DoubleClickOnly](
+    panel, label="Delete", double_click_timeout=0.5
+)
+
+# Button with click confirmation
+confirm_btn = apiwx.WrappedButton[apiwx.ClickGuard](
+    panel, label="Delete All", guard_message="Click again to confirm"
+)
+```
+
+### 5. **Automatic Layout with Abstract Classes**
+Build complex UIs with automatic component management:
+
+```python
+from apiwx.abstract import AbstractApp, AbstractWindow, AbstractPanel
+
+class MyPanel(AbstractPanel):
+    # Components are automatically created and managed
+    title = apiwx.WrappedStaticText
+    name_input = apiwx.WrappedTextBox
+    save_button = apiwx.WrappedButton
+
+class MyWindow(AbstractWindow):
+    main_panel = MyPanel
+
+class MyApp(AbstractApp):
+    window = MyWindow
+
+# Everything is automatically connected!
+app = MyApp()
+app.window.main_panel.title.text = "User Information"
+app.window.main_panel.save_button.text = "Save User"
+```
+
+## 📚 Available Components
+
+### Core GUI Components
+- **WrappedApp** - Application container
+- **WrappedWindow** - Main windows and frames
+- **WrappedPanel** - Container panels
+- **WrappedButton** - Clickable buttons
+- **WrappedStaticText** - Text labels
+- **WrappedTextBox** - Text input fields
+- **WrappedCheckBox** - Checkboxes
+- **WrappedListBox** - List selections
+- **WrappedComboBox** - Dropdown selections
+- **WrappedSlider** - Value sliders
+- **And many more...**
+
+### Message Boxes & Dialogs
+- **show_info()** - Information messages
+- **show_warning()** - Warning messages
+- **show_error()** - Error messages
+- **ask_question()** - Yes/No questions
+- **get_text_input()** - Text input dialog
+- **get_number_input()** - Numeric input dialog
+- **get_choice_input()** - Selection dialog
+
+### Advanced Features
+- **Generics System** - Add behaviors to components
+- **Logging System** - Built-in debug logging
+- **Font Management** - Easy font handling
+- **Color Constants** - Predefined color palette
+- **Panel Management** - Multi-panel visibility control
+
+## 🛠️ Common Patterns
+
+### Creating a Simple Form
+
+```python
+import apiwx
+
+app = apiwx.WrappedApp("Form Example")
+window = apiwx.WrappedWindow(app, title="User Form", size=(400, 300))
+panel = apiwx.WrappedPanel(window)
+
+# Form elements
+name_label = apiwx.WrappedStaticText(panel, text="Name:", pos=(20, 20))
+name_input = apiwx.WrappedTextBox(panel, pos=(80, 20), size=(200, 25))
+
+email_label = apiwx.WrappedStaticText(panel, text="Email:", pos=(20, 60))
+email_input = apiwx.WrappedTextBox(panel, pos=(80, 60), size=(200, 25))
+
+submit_button = apiwx.WrappedButton(panel, label="Submit", pos=(150, 120))
+
+def submit_form(event):
+    name = name_input.text
+    email = email_input.text
+    
+    if not name or not email:
+        apiwx.show_warning("Please fill in all fields.")
+        return
+    
+    apiwx.show_info(f"Form submitted!\nName: {name}\nEmail: {email}")
+
+submit_button.slots_on_click += submit_form
+
+app.mainloop()
+```
+
+### Progress Dialog for Long Operations
+
+```python
+import apiwx
+import time
+
+def long_operation():
+    progress = apiwx.ProgressMessageBox("Processing", "Please wait...", maximum=100)
+    
+    for i in range(100):
+        time.sleep(0.05)  # Simulate work
+        progress.update(i + 1, f"Processing item {i + 1}/100")
+        if progress.was_cancelled():
+            break
+    
+    progress.close()
+    apiwx.show_info("Operation completed!")
+
+# Call this from a button click or menu
+```
+
+### Using Colors and Styles
+
+```python
+import apiwx
+
+app = apiwx.WrappedApp("Styled App")
+window = apiwx.WrappedWindow(app, title="Colors Demo", size=(400, 300))
+panel = apiwx.WrappedPanel(window)
+
+# Using built-in colors
+panel.color_background = apiwx.Colour.LIGHT_GREY
+title = apiwx.WrappedStaticText(panel, text="Welcome!", pos=(150, 50))
+title.color_text = apiwx.Colour.DARK_BLUE
+
+# Styled button
+button = apiwx.WrappedButton(panel, label="Colorful Button", pos=(130, 100))
+button.color_background = apiwx.Colour.LIGHT_GREEN
+
+app.mainloop()
+```
+
+## 📖 Learning More
+
+### Module Organization
+
+- **`core.py`** - Main wrapper classes and core functionality
+- **`message.py`** - Message boxes and dialogs
+- **`abstract.py`** - Abstract base classes for automatic UI management
+- **`generics_*.py`** - Generic behaviors for different component types
+- **`debug.py`** - Logging and debugging utilities
+- **`colors.py`** - Color constants and utilities
+- **`fontmanager.py`** - Font management system
+
+### Documentation
+- Each module contains detailed docstrings
+- Use Python's `help()` function for detailed information:
+  ```python
+  import apiwx
+  help(apiwx.WrappedButton)
+  help(apiwx.show_info)
+  ```
+
+## 🎨 Why Choose apiwx?
+
+- **🔰 Beginner-Friendly** - Simplified API that's easy to learn
+- **🚀 Productive** - Write less code, get more done
+- **🧩 Flexible** - Use simple wrappers or advanced abstract classes
+- **📱 Modern** - Contemporary Python patterns and type hints
+- **🛡️ Reliable** - Built on the mature wxPython framework
+- **🎯 Focused** - Designed specifically for desktop GUI applications
+
+## 🔧 Advanced Usage
+
+For complex applications, explore:
+- **Abstract Classes** for automatic component management
+- **Generics System** for component behavior customization
+- **Panel Management** for multi-view applications
+- **Debug Logging** for development and troubleshooting
+- **Font Management** for consistent typography
+
+## 💡 Examples
+
+Check the project repository for complete examples and tutorials showing:
+- Simple desktop applications
+- Form handling and validation
+- Multi-panel applications
+- Advanced component behaviors
+- Integration with other Python libraries
+
+## 📄 License
+
+MIT License - free for both personal and commercial use.

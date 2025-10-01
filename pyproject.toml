@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.3.0"
+version = "0.3.1"
 description = "wxPython API wrapper with advanced generics system"
 readme = "README.md"
 license = {text = "MIT"}
@@ -32,7 +32,7 @@ packages = ["apiwx"]
 include-package-data = false
 
 [tool.setuptools.package-data]
-apiwx = ["stubs/*.pyi", "stubs/py.typed"]
+apiwx = ["stubs/*.pyi", "stubs/py.typed", "py.typed"]
 
 # Build automation specific configuration
 [tool.build-automation]

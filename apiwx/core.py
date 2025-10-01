@@ -35,28 +35,28 @@ class Slots(list[typing.Callable[..., None]]):
     ```python
 
     class MyFrame(wx.Frame, UIAttributes):
-    def __init__(self, *args, **kwds):
-    super().__init__(*args, **kwds)
+        def __init__(self, *args, **kwds):
+            super().__init__(*args, **kwds)
 
-    # Add slots to EVT_CLOSE signal
-    self.slots_on_close += self.on_close_slot1
-    self.slots_on_close += self.on_close_slot2
+            # Add slots to EVT_CLOSE signal
+            self.slots_on_close += self.on_close_slot1
+            self.slots_on_close += self.on_close_slot2
 
-    # Add slots to EVT_SIZE signal
-    self.slots_on_size += self.on_size_slot1
-    self.slots_on_size += self.on_size_slot2
+            # Add slots to EVT_SIZE signal
+            self.slots_on_size += self.on_size_slot1
+            self.slots_on_size += self.on_size_slot2
 
-    def on_close_slot1(self, event):
-    print("Close slot 1")
+        def on_close_slot1(self, event):
+            print("Close slot 1")
 
-    def on_close_slot2(self, event):
-    print("Close slot 2")
+        def on_close_slot2(self, event):
+            print("Close slot 2")
 
-    def on_size_slot1(self, event):
-    print("Size slot 1")
+        def on_size_slot1(self, event):
+            print("Size slot 1")
 
-    def on_size_slot2(self, event):
-    print("Size slot 2")
+        def on_size_slot2(self, event):
+            print("Size slot 2")
 
     ```
     '''
