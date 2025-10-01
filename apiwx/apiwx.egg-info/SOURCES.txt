@@ -1,0 +1,7 @@
+README.md
+setup.cfg
+setup.py
+apiwx/apiwx.egg-info/PKG-INFO
+apiwx/apiwx.egg-info/SOURCES.txt
+apiwx/apiwx.egg-info/dependency_links.txt
+apiwx/apiwx.egg-info/top_level.txt

@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apiwx"
+version = "0.3.0"
+description = "wxPython API wrapper with advanced generics system"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "edamame"}
+]
+keywords = ["wxpython", "gui", "wrapper", "generics", "metaclass"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: User Interfaces",
+]
+requires-python = ">=3.13"
+dependencies = [
+    "wxPython>=4.2.0"
+]
+
+[tool.setuptools]
+packages = ["apiwx"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+apiwx = ["stubs/*.pyi", "stubs/py.typed"]
+
+# Build automation specific configuration
+[tool.build-automation]
+version-files = [
+    "pyproject.toml",
+    "setup.cfg", 
+    "apiwx/__init__.py"
+]
+test-command = "python test/run_tests.py"
+require-100-percent-success = true
+clean-before-build = true
+create-wheel = true
+create-source = true

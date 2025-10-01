@@ -1,0 +1,62 @@
+{
+  "project": {
+    "name": "apiwx",
+    "description": "wxPython API wrapper with advanced generics system",
+    "author": "edamame",
+    "license": "MIT"
+  },
+  "build": {
+    "clean_before_build": true,
+    "create_wheel": true,
+    "create_source": true,
+    "run_tests_before_build": true,
+    "output_directory": "dist",
+    "build_directory": "build"
+  },
+  "test": {
+    "test_command": "python test/master_test.py",
+    "require_100_percent_success": false,
+    "timeout_seconds": 120
+  },
+  "version": {
+    "files_to_update": [
+      {
+        "file": "pyproject.toml",
+        "pattern": "version = \"{old_version}\"",
+        "replacement": "version = \"{new_version}\"",
+        "section": "[project]"
+      },
+      {
+        "file": "apiwx/__init__.py",
+        "pattern": "__version__ = \"{old_version}\"",
+        "replacement": "__version__ = \"{new_version}\""
+      },
+      {
+        "file": "apiwx/__init__.py",
+        "pattern": "apiwx package v{old_version}",
+        "replacement": "apiwx package v{new_version}"
+      }
+    ]
+  },
+  "commands": {
+    "clean": "python -c \"import shutil; shutil.rmtree('build', ignore_errors=True); shutil.rmtree('dist', ignore_errors=True); shutil.rmtree('*.egg-info', ignore_errors=True)\"",
+    "build": "python -m build",
+    "wheel": "python -m build --wheel",
+    "source": "python -m build --sdist",
+    "test": "python test/master_test.py"
+  },
+  "validation": {
+    "check_files_exist": [
+      "pyproject.toml",
+      "apiwx/__init__.py",
+      "test/master_test.py"
+    ],
+    "check_version_consistency": true,
+    "verify_package_contents": true
+  },
+  "post_build": {
+    "list_output_files": true,
+    "verify_import": true,
+    "show_package_info": true
+  }
+}

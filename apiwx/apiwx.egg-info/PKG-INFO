@@ -1,0 +1,103 @@
+Metadata-Version: 2.4
+Name: apiwx
+Version: 0.1.1
+Summary: wxPython API wrapper
+Author: edamame
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+
+
+
+# apiwx
+
+apiwx is an extension package for efficient wxPython-based GUI application development. It provides multi-layered abstraction via abstract classes, along with various wrapper and management features for UI components.
+
+## Requirements
+
+- Python 3.13 or higher
+- wxPython (`pip install wxPython`)
+
+## Module Structure
+
+- `core.py` :
+    - UI metaclasses (singleton/multiton)
+    - Wrapper classes for App, Window, Panel, Controls
+    - Property wrappers (size, pos, color, text, title, etc.)
+    - Event and slot management
+
+- `fontmanager.py` :
+    - Font creation and management (size, weight, style, underline, strikethrough)
+    - Centralized management by key name or parameters
+
+- `framestyle.py` :
+    - Style constants for wx.Frame and Panel
+
+- `debug.py` :
+    - Logging and debugging classes
+    - Asynchronous log saving via threads
+
+- `signals.py` :
+    - wxPython event constants
+
+- `uiarg.py` :
+    - Command-line argument and option management
+
+- `paneltransmodel.py` :
+    - Model for managing visibility of multiple panels
+
+- `abstract.py` :
+    - Abstract base classes (AbstractApp, AbstractWindow, AbstractPanel, etc.)
+    - Automatic generation and management of UI components declared as subclass attributes
+
+- `generics.py` :
+    - Support for generic class definitions
+
+## Design Philosophy & Features
+
+- **Multi-layered abstraction via abstract classes**
+    - AbstractApp → AbstractWindow → AbstractPanel → UI components
+    - UI components declared as subclass attributes are automatically generated and managed hierarchically
+    - Parent-child relationships and references are auto-constructed
+
+- **Property and event wrappers**
+    - Pythonic access to wxPython Get/Set methods
+    - Easy event binding and slot management
+
+- **Extensibility & maintainability**
+    - Flexible UI structure by simply adding/extending subclasses at each layer
+
+## Example Code
+
+```python
+from apiwx.abstract import AbstractApp, AbstractWindow, AbstractPanel
+import apiwx.core as core
+
+class MyPanel(AbstractPanel):
+    label = core.WrappedStaticText
+    button = core.WrappedButton
+
+class MyWindow(AbstractWindow):
+    panel = MyPanel
+
+class MyApp(AbstractApp):
+    window = MyWindow
+
+# UI components are automatically generated hierarchically at runtime
+app = MyApp()
+app.window.panel.label.text = "Hello World"
+app.window.panel.button.text = "Click Me"
+```
+
+## Build Instructions
+
+```sh
+python -m build
+# dist/apiwx-*.whl will be generated
+```
+
+## License
+
+MIT

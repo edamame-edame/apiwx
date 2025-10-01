@@ -1,0 +1,3 @@
+include apiwx/stubs/*.pyi
+include apiwx/stubs/py.typed
+recursive-include apiwx/stubs *.pyi
