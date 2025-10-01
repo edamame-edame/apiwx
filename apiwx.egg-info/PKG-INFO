@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: apiwx
-Version: 0.3.1
+Version: 0.3.2
 Summary: wxPython API wrapper with advanced generics system
 Author: edamame
 License: MIT
@@ -23,9 +23,9 @@ Dynamic: license-file
 
 # apiwx
 
-**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, and powerful features like generics and message boxes.
+**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful features like generics and message boxes, and comprehensive type declaration files for better IDE support.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -36,7 +36,7 @@ pip install apiwx
 ### Requirements
 
 - Python 3.13 or higher
-- wxPython (automatically installed with apiwx)
+- wxPython 4.2.0 or higher (automatically installed with apiwx)
 
 ### Your First App
 
@@ -58,9 +58,17 @@ button.slots_on_click += on_click
 app.mainloop()
 ```
 
-## 🎯 Key Features
+## Key Features
 
-### 1. **Simplified GUI Components**
+### Enhanced IDE Support (New in v0.3.1)
+apiwx now includes comprehensive type declaration files (.pyi) that provide:
+
+- **Better IntelliSense**: Improved autocompletion and parameter hints
+- **Go to Definition**: F12 in VS Code shows clean type declarations instead of implementation details
+- **Type Safety**: Enhanced static analysis and error detection during development
+- **PEP 561 Compliance**: Full compatibility with mypy, pyright, and other type checkers
+
+### Simplified GUI Components
 No more complex wxPython constructors - just simple, intuitive classes:
 
 ```python
@@ -76,7 +84,7 @@ panel = apiwx.WrappedPanel(frame)
 button = apiwx.WrappedButton(panel, label="Click", pos=(10, 10), size=(100, 30))
 ```
 
-### 2. **Easy Event Handling**
+### Easy Event Handling
 Connect events with simple syntax:
 
 ```python
@@ -90,7 +98,7 @@ def save_file(event):
 button.slots_on_click += save_file
 ```
 
-### 3. **Built-in Message Boxes**
+### Built-in Message Boxes
 Show messages and get user input with one line:
 
 ```python
@@ -109,7 +117,7 @@ if apiwx.ask_question("Do you want to save changes?"):
     save_changes()
 ```
 
-### 4. **Smart Button Behaviors**
+### Smart Button Behaviors
 Add advanced behaviors with generics:
 
 ```python
@@ -129,31 +137,27 @@ confirm_btn = apiwx.WrappedButton[apiwx.ClickGuard](
 )
 ```
 
-### 5. **Automatic Layout with Abstract Classes**
-Build complex UIs with automatic component management:
+### Comprehensive Type Support
+apiwx includes complete type declaration files that work seamlessly with:
 
 ```python
-from apiwx.abstract import AbstractApp, AbstractWindow, AbstractPanel
+# Full type hints and IDE support
+from apiwx import WrappedApp, WrappedWindow, WrappedButton
+from typing import Optional
 
-class MyPanel(AbstractPanel):
-    # Components are automatically created and managed
-    title = apiwx.WrappedStaticText
-    name_input = apiwx.WrappedTextBox
-    save_button = apiwx.WrappedButton
+app: WrappedApp = WrappedApp("TypedApp")
+window: WrappedWindow = WrappedWindow(app, title="Typed Window")
 
-class MyWindow(AbstractWindow):
-    main_panel = MyPanel
-
-class MyApp(AbstractApp):
-    window = MyWindow
-
-# Everything is automatically connected!
-app = MyApp()
-app.window.main_panel.title.text = "User Information"
-app.window.main_panel.save_button.text = "Save User"
+# IDE shows full parameter information and type checking
+button: WrappedButton = WrappedButton(
+    parent=window.main_panel,
+    label="Click Me",
+    size=(120, 40),
+    pos=(10, 10)
+)
 ```
 
-## 📚 Available Components
+## Available Components
 
 ### Core GUI Components
 - **WrappedApp** - Application container
@@ -167,6 +171,18 @@ app.window.main_panel.save_button.text = "Save User"
 - **WrappedComboBox** - Dropdown selections
 - **WrappedSlider** - Value sliders
 - **And many more...**
+
+### Generics System
+Add advanced behaviors to components:
+
+- **AutoDetect** - Automatic component detection
+- **FixSize** - Fixed sizing behavior  
+- **Singleton/Multiton** - Instance management patterns
+- **SingleClickDisable** - Prevent double-clicking
+- **DoubleClickOnly** - Require double-click confirmation
+- **ClickGuard** - Click confirmation prompts
+- **WithBoarder** - Automatic border management
+- **DetectChildren** - Child component detection
 
 ### Message Boxes & Dialogs
 - **show_info()** - Information messages
@@ -184,7 +200,7 @@ app.window.main_panel.save_button.text = "Save User"
 - **Color Constants** - Predefined color palette
 - **Panel Management** - Multi-panel visibility control
 
-## 🛠️ Common Patterns
+## Common Patterns
 
 ### Creating a Simple Form
 
@@ -215,6 +231,53 @@ def submit_form(event):
     apiwx.show_info(f"Form submitted!\nName: {name}\nEmail: {email}")
 
 submit_button.slots_on_click += submit_form
+
+app.mainloop()
+```
+
+### Working with Type Declarations
+
+```python
+import apiwx
+from typing import Optional
+
+# Type-aware development
+app: apiwx.WrappedApp = apiwx.WrappedApp("MyApp")
+window: apiwx.WrappedWindow = apiwx.WrappedWindow(app, title="Type Demo")
+
+# IDE provides full IntelliSense and error checking
+def create_button_with_types(parent: apiwx.WrappedPanel, 
+                           label: str,
+                           callback: Optional[callable] = None) -> apiwx.WrappedButton:
+    button = apiwx.WrappedButton(parent, label=label, pos=(10, 10))
+    if callback:
+        button.slots_on_click += callback
+    return button
+```
+
+### Using Generics for Enhanced Functionality
+
+```python
+import apiwx
+
+app = apiwx.WrappedApp("Generics Demo")
+window = apiwx.WrappedWindow(app, title="Advanced Buttons")
+panel = apiwx.WrappedPanel(window)
+
+# Button that disables after click to prevent double-submission
+submit_btn = apiwx.WrappedButton[apiwx.SingleClickDisable](
+    panel, label="Submit Form", pos=(10, 10)
+)
+
+# Button requiring double-click for dangerous operations
+delete_btn = apiwx.WrappedButton[apiwx.DoubleClickOnly](
+    panel, label="Delete All", pos=(10, 50)
+)
+
+# Button with confirmation guard
+reset_btn = apiwx.WrappedButton[apiwx.ClickGuard](
+    panel, label="Reset Data", pos=(10, 90)
+)
 
 app.mainloop()
 ```
@@ -261,17 +324,26 @@ button.color_background = apiwx.Colour.LIGHT_GREEN
 app.mainloop()
 ```
 
-## 📖 Learning More
+## Learning More
+
+### Type Declaration Benefits
+
+apiwx v0.3.1+ includes comprehensive type stubs that provide:
+
+- **IDE Integration**: Go to Definition (F12) shows clean type interfaces
+- **Development Speed**: Enhanced autocompletion and parameter hints  
+- **Error Prevention**: Static type checking catches issues before runtime
+- **Documentation**: Type signatures serve as built-in API documentation
 
 ### Module Organization
 
 - **`core.py`** - Main wrapper classes and core functionality
-- **`message.py`** - Message boxes and dialogs
-- **`abstract.py`** - Abstract base classes for automatic UI management
+- **`message.py`** - Message boxes and dialogs  
 - **`generics_*.py`** - Generic behaviors for different component types
 - **`debug.py`** - Logging and debugging utilities
 - **`colors.py`** - Color constants and utilities
 - **`fontmanager.py`** - Font management system
+- **`stubs/`** - Type declaration files (.pyi) for IDE support
 
 ### Documentation
 - Each module contains detailed docstrings
@@ -282,33 +354,45 @@ app.mainloop()
   help(apiwx.show_info)
   ```
 
-## 🎨 Why Choose apiwx?
+## Why Choose apiwx?
 
-- **🔰 Beginner-Friendly** - Simplified API that's easy to learn
-- **🚀 Productive** - Write less code, get more done
-- **🧩 Flexible** - Use simple wrappers or advanced abstract classes
-- **📱 Modern** - Contemporary Python patterns and type hints
-- **🛡️ Reliable** - Built on the mature wxPython framework
-- **🎯 Focused** - Designed specifically for desktop GUI applications
+- **Beginner-Friendly** - Simplified API that's easy to learn
+- **Productive** - Write less code, get more done  
+- **Type-Safe** - Comprehensive type declarations for better development experience
+- **Flexible** - Use simple wrappers or advanced generic behaviors
+- **Modern** - Contemporary Python patterns and full IDE support
+- **Reliable** - Built on the mature wxPython framework
+- **Focused** - Designed specifically for desktop GUI applications
 
-## 🔧 Advanced Usage
+## Advanced Usage
 
 For complex applications, explore:
-- **Abstract Classes** for automatic component management
 - **Generics System** for component behavior customization
-- **Panel Management** for multi-view applications
+- **Type Declarations** for enhanced IDE support and development experience
+- **Panel Management** for multi-view applications  
 - **Debug Logging** for development and troubleshooting
 - **Font Management** for consistent typography
+- **Message Dialogs** for user interaction and feedback
 
-## 💡 Examples
+## Examples
 
 Check the project repository for complete examples and tutorials showing:
 - Simple desktop applications
 - Form handling and validation
-- Multi-panel applications
-- Advanced component behaviors
+- Multi-panel applications  
+- Advanced component behaviors using generics
+- Type-safe development patterns
 - Integration with other Python libraries
 
-## 📄 License
+## Latest Updates
+
+### Version 0.3.1
+- Added comprehensive type declaration files (.pyi)
+- Enhanced VS Code and IDE integration
+- Improved "Go to Definition" functionality
+- PEP 561 compliance for type checkers
+- Better development experience with full IntelliSense support
+
+## License
 
 MIT License - free for both personal and commercial use.

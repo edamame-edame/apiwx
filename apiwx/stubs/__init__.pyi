@@ -4,7 +4,7 @@ from typing import Any, Callable, Optional, Union, TypeVar, Generic, Type, overl
 import wx
 
 # Version information
-__version__: str = "0.3.1"
+__version__: str = "0.3.2"
 
 # Type variables
 T = TypeVar('T')

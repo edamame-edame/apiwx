@@ -48,6 +48,8 @@ apiwx/stubs/generics_common.pyi
 apiwx/stubs/py.typed
 dist/apiwx-0.3.0-py3-none-any.whl
 dist/apiwx-0.3.0.tar.gz
+dist/apiwx-0.3.1-py3-none-any.whl
+dist/apiwx-0.3.1.tar.gz
 project/README.md
 project/auto_build.py
 project/build.bat
@@ -56,6 +58,7 @@ project/build_quick.py
 releasenotes/RELEASE_NOTES_v0.1.16.md
 releasenotes/RELEASE_NOTES_v0.2.3.md
 releasenotes/RELEASE_NOTES_v0.3.0.md
+releasenotes/RELEASE_NOTES_v0.3.1.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py

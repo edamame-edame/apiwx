@@ -334,5 +334,5 @@ __all__ = [
     "internalerror_log", "internalcritical_log", "internal_set_level", "internal_get_level", "internallog_output_remaining",
 ]
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
