@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.3.2"
+version = "0.4.0"
 description = "wxPython API wrapper with advanced generics system"
 readme = "README.md"
 license = {text = "MIT"}
@@ -18,11 +18,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: User Interfaces",
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "wxPython>=4.2.0"
 ]

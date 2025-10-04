@@ -1,5 +1,5 @@
 """
-apiwx package v0.3.0
+apiwx package v0.4.0
 
 Usage:
     from apiwx import (
@@ -362,5 +362,5 @@ __all__ = [
     "internalerror_log", "internalcritical_log", "internal_set_level", "internal_get_level", "internallog_output_remaining",
 ]
 
-__version__ = "0.3.2"
+__version__ = "0.4.0"
 

@@ -5,8 +5,6 @@ LICENSE
 MANIFEST.in
 Makefile
 README.md
-debug_singleton.py
-final_build_test.py
 pyproject.toml
 setup.cfg
 setup.py
@@ -31,6 +29,7 @@ apiwx/paneltransmodel.py
 apiwx/py.typed
 apiwx/signals.py
 apiwx/styleflags.py
+apiwx/testcode.py
 apiwx/uiarg.py
 apiwx.egg-info/PKG-INFO
 apiwx.egg-info/SOURCES.txt
@@ -46,10 +45,6 @@ apiwx/stubs/core.pyi
 apiwx/stubs/generics_app.pyi
 apiwx/stubs/generics_common.pyi
 apiwx/stubs/py.typed
-dist/apiwx-0.3.0-py3-none-any.whl
-dist/apiwx-0.3.0.tar.gz
-dist/apiwx-0.3.1-py3-none-any.whl
-dist/apiwx-0.3.1.tar.gz
 project/README.md
 project/auto_build.py
 project/build.bat
@@ -59,6 +54,7 @@ releasenotes/RELEASE_NOTES_v0.1.16.md
 releasenotes/RELEASE_NOTES_v0.2.3.md
 releasenotes/RELEASE_NOTES_v0.3.0.md
 releasenotes/RELEASE_NOTES_v0.3.1.md
+releasenotes/RELEASE_NOTES_v0.3.2.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py
@@ -67,3 +63,4 @@ test/master_test.py
 test/pattern_tests.py
 test/quick_test.py
 test/test_generics_core_changes.py
+test/test_recent_changes.py

@@ -4,3 +4,4 @@ log
 apiwx/__pycache__
 apiwx/testcode.py
 project/__pycache__
+test_version_support

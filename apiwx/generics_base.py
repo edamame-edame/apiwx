@@ -292,7 +292,6 @@ class Singleton(BaseGenerics):
         """Get the singleton instance if it exists, else None"""
         return getattr(cls, '_instance', None)
 
-    @typing.override
     def __call__(cls, *args, **kwds):
         if not hasattr(cls, '_instance') or cls._instance is None:
             debug.internallog("SNGLTON", f"Creating singleton instance for {cls.__name__}.")
@@ -340,7 +339,6 @@ class Multiton(BaseGenerics):
     _instance_counter: typing.ClassVar[int]
 
 
-    @typing.override
     def __call__(cls, *args, **kwds):
         # create _instances dict if not exists
         if not hasattr(cls, '_instances'):

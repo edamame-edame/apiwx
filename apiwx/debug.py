@@ -51,6 +51,9 @@ class LogLevel(IntEnum):
 
 
 class Logger(threading.Thread):
+    _name: str
+
+
     def __init__(self, logger_name: str, log_dir: str, log_timestamp: str, log_tag_length: int, log_maxline: int, log_maxfiles: int, log_level: LogLevel = LogLevel.DEBUG):
         # init thread
         super().__init__(
@@ -166,21 +169,10 @@ class Logger(threading.Thread):
 
         # add log message to buffer
         self._buffer.append(
-            f"{
-                self._get_time_stamp()
-            } [{
-                self._name.ljust(self._log_tag_length)[
-                    0:self._log_tag_length
-                ].upper()
-            }] [{
-                level_str
-            }] [{
-                tag.ljust(self._log_tag_length)[
-                    0:self._log_tag_length
-                ].upper()
-            }] {
-                message
-            }"
+            self._get_time_stamp()
+            + f" [{self._name.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}] "
+            + f" [{tag.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}] "
+            + f" {message}"
         )
 
         # call signal

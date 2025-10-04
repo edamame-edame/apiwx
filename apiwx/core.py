@@ -184,18 +184,16 @@ class UIAttributes:
 
     @property
     def color_foreground(self: _wx.Window) -> str:
-        return f"#{
-            ''.join(
+        return "#" + ''.join(
             map(
                 lambda hexstr: (
                         str.replace(
                             str(hexstr), "0x", ""
                         )
                     ),
-                    self.GetForegroundColour()
-                )
+                self.GetForegroundColour()
             )
-        }"
+        )
 
     @color_foreground.setter
     def color_foreground(self: _wx.Window, value: str):
@@ -204,18 +202,16 @@ class UIAttributes:
 
     @property
     def color_background(self: _wx.Window) -> str:
-        return f"#{
-            ''.join(
-                map(
-                    lambda hexstr: (
+        return "#" + ''.join(
+            map(
+                lambda hexstr: (
                         str.replace(
                             str(hexstr), "0x", ""
                         )
                     ),
-                    self.GetBackgroundColour()
-                )
+                self.GetBackgroundColour()
             )
-        }"
+        )
 
     @color_background.setter
     def color_background(self: _wx.Window, value: str):
@@ -582,7 +578,8 @@ class WrappedWindow(
     def __init__(
         self,
         app: WrappedApp,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         title: str | None = None,
         color: str | None = None,
         style: int = _wx.DEFAULT_FRAME_STYLE,
@@ -678,7 +675,8 @@ class WrappedPanel(
     def __init__(
         self,
         parent: WrappedWindow,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         color: str | None = None,
         style: int = framestyle.TAB_TRAVERSAL,
         * args, **kwds):
@@ -720,7 +718,8 @@ class WrappedStaticText(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         label: str | None = None,
         font: tuple[int, int, int, bool, bool] | str | None = None,
         color_foreground: str | None = None,
@@ -832,7 +831,8 @@ class WrappedTextBox(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         value: str | None = None,
         font: tuple[int, int, int, bool, bool] | str | None = None,
         color_foreground: str | None = None,
@@ -904,7 +904,8 @@ class WrappedButton(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         label: str | None = None,
         font: tuple[int, int, int, bool, bool] | str | None = None,
         color_foreground: str | None = None,
@@ -977,7 +978,8 @@ class WrappedCheckBox(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         label: str | None = None,
         font: tuple[int, int, int, bool, bool] | str | None = None,
         color_foreground: str | None = None,
@@ -1042,7 +1044,8 @@ class WrappedRadioBox(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         label: str | None = None,
         choices: list[str] | None = None,
         major_dimension: int = 0,
@@ -1106,7 +1109,8 @@ class WrappedListBox(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         choices: list[str] | None = None,
         style: int = 0,
         *args, **kwds):
@@ -1154,7 +1158,8 @@ class WrappedComboBox(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         value: str | None = None,
         choices: list[str] | None = None,
         style: int = 0,
@@ -1205,7 +1210,8 @@ class WrappedSlider(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         value: int = 0,
         min_value: int = 0,
         max_value: int = 100,
@@ -1268,7 +1274,8 @@ class WrappedGauge(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         range: int = 100,
         style: int = _wx.GA_HORIZONTAL,
         *args, **kwds):
@@ -1321,7 +1328,8 @@ class WrappedListCtrl(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         style: int = _wx.LC_REPORT,
         *args, **kwds):
 
@@ -1381,7 +1389,8 @@ class WrappedScrolledWindow(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         style: int = _wx.HSCROLL | _wx.VSCROLL,
         *args, **kwds):
 
@@ -1435,7 +1444,8 @@ class WrappedChoice(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         choices: list[str] | None = None,
         style: int = 0,
         *args, **kwds):
@@ -1495,7 +1505,8 @@ class WrappedImage(
     def __init__(
         self,
         parent: _wx.Window,
-        size: tuple[int, int], pos: tuple[int, int],
+        size: tuple[int, int] = _wx.DefaultSize,
+        pos: tuple[int, int] = _wx.DefaultPosition,
         image_path: str | None = None,
         style: int = 0,
         *args, **kwds):

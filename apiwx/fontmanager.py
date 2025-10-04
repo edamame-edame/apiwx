@@ -325,16 +325,6 @@ class FontManager(dict[str, _Font]):
             if value == font:
                 return key
 
-        key = f"{
-            font.GetPointSize()
-        }_{
-            font.GetWeight()
-        }_{
-            font.GetStyle()
-        }_{
-            int(font.GetUnderlined())
-        }_{
-            int(font.GetStrikethrough())
-        }"
+        key = f"{font.GetPointSize()}_{font.GetWeight()}_{font.GetStyle()}_{int(font.GetUnderlined())}_{int(font.GetStrikethrough())}"
 
         return key
