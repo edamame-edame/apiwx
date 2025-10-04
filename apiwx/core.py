@@ -313,6 +313,14 @@ class UIAttributes:
 
     def hide(self: _wx.Window):
         return self.Hide()
+    
+
+    def enable(self: _wx.Window):
+        return self.Enable()
+    
+    
+    def disable(self: _wx.Window):
+        return self.Disable()
 
 
     def is_shown(self: _wx.Window) -> bool:

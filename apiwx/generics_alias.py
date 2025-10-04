@@ -140,7 +140,6 @@ except ImportError:
 
 try:
     from .generics_button import (
-        DetectButton,
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
@@ -148,7 +147,6 @@ try:
 
 except ImportError:
     from generics_button import (
-        DetectButton,
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
@@ -180,8 +178,11 @@ WindowWithPanel = WrappedWindow[DetectPanel]
 WindowByPanelSize = WindowWithPanel[ByPanelSize]
 """ WrappedWindow<DetectPanel<ByPanelSize>> """
 
-WindowPanelTransit = WindowWithPanel[SupportTransit]
+WindowPanelTransit = WrappedWindow[SupportTransit]
 """ WrappedWindow<DetectPanel<SupportTransit>> """
+
+WindowSizeTransitWithPanel = WrappedWindow[SupportTransit, ByPanelSize]
+""" WrappedWindow<DetectPanel<SupportTransit, ByPanelSize>> """
 
 
 PanelDetectChildren = WrappedPanel[DetectChildren]
@@ -193,9 +194,6 @@ PanelWithBoarder = WrappedPanel[WithBoarder]
 PanelNoTransition = WrappedPanel[NotTransition]
 """ WrappedPanel<NotTransition> """
 
-
-ButtonDetect = WrappedButton[DetectButton]
-""" WrappedButton<DetectButton> """
 
 ButtonSingleClickDisable = WrappedButton[SingleClickDisable]
 """ WrappedButton<SingleClickDisable> """

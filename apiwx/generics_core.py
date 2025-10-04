@@ -33,12 +33,6 @@ class GenericsType(sip.wrappertype):
         else:
             metaclass = cls.__class__
 
-        # add __generic_classes__ attribute if not exists
-        if not hasattr(cls, '__generic_classes__'):
-            cls.__generic_classes__ = ()
-
-        print(cls.__dict__)
-
         # create new class
         new_cls: 'GenericsType' = types.new_class(
             f"{cls.__name__}<{','.join([t.__name__ for t in generics])}>",
@@ -47,8 +41,24 @@ class GenericsType(sip.wrappertype):
             lambda ns: ns.update(cls.__dict__)
         )
 
+        # add __generic_classes__ attribute if not exists
+        if not hasattr(new_cls, '__generic_classes__'):
+            new_cls.__generic_classes__ = ()
+
+        if((new_cls.__generic_classes__)
+           and(isinstance(new_cls.__generic_classes__[0], BaseGenerics))):
+            raise TypeError(
+                "BaseGenerics-derived class is already set as metaclass,"
+                " cannot add another BaseGenerics."
+            )
+
+        # add generics to __generic_classes__
+        new_cls.__generic_classes__ = (base_generics, ) + new_cls.__generic_classes__
+
         # create new class namespace
         new_cls._mro_generics_namespace(generics)
+
+        debug.internaldebug_log("GENERICS", f"Created new generics class: {new_cls.__name__} with metaclass {type(new_cls)} and bases {new_cls.__bases__}")
 
         return new_cls
 
@@ -129,7 +139,7 @@ class GenericsType(sip.wrappertype):
 
     def _namespace_editor(cls: 'GenericsType', generic_type: type, namespace: dict):
         # check all attributes
-        for attr_name in generic_type.__dict__:
+        for attr_name in cls.get_all_members(generic_type):
             # get attribute
             attribute = getattr(generic_type, attr_name)
 
@@ -189,11 +199,17 @@ class GenericsType(sip.wrappertype):
         return True
     
 
+    @staticmethod
     def get_all_members(cls) -> dict:
         members = {}
 
         for base in reversed(cls.__mro__):
+            if base is object:
+                continue # skip object class
+
             members.update(base.__dict__)
+
+        debug.internaldebug_log("MEMBERS", f"All members of {cls.__name__}: {members}")
 
         return members
 

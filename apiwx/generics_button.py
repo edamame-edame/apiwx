@@ -469,8 +469,4 @@ class ClickGuard:
                 debug.uilog("CLICK_GUARD", f"Handler error: {e}")
 
 
-# Auto-detect type for buttons
-DetectButton = generics_common.AutoDetect[
-    core.WrappedButton
-]
 """ ### A type variable for auto detect button class. """

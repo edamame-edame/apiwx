@@ -456,9 +456,9 @@ Total: 29 tests, 100% success rate
 - **Impact**: All button generics attributes now initialize correctly
 
 #### 3. Missing Method Implementation
-- **Issue**: `hasgeneric` method and `__generic_classes__` attribute did not exist
+- **Issue**: `hasgenerics` method and `__generic_classes__` attribute did not exist
 - **Fix**:
-  - Implemented `hasgeneric(generic_type)` method (determines if specified generics type is used)
+  - Implemented `hasgenerics(generic_type)` method (determines if specified generics type is used)
   - Implemented `__generic_classes__` attribute (stores tuple of used generics types)
 - **Impact**: Generics type inspection and introspection functionality now available
 

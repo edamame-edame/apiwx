@@ -44,7 +44,7 @@ class AutoDetect:
 		# init children namelist
 		instance._children_namelist = []
 
-		members = cls.get_all_members()
+		members = cls.get_all_members(cls)
 
 		debug.internaldebug_log("CHILDREN", f"__dict__ = {members}")
 
@@ -154,7 +154,11 @@ class AutoDetect:
 
 			if self.is_target_instance(child):
 				# increase counter
-				index = self._children_counter
+				index = core.UIIndexor(
+					self._children_counter,
+					self.children
+				)
+				
 				self._children_counter += 1
 
 				# set index attribute

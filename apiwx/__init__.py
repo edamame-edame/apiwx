@@ -89,9 +89,17 @@ except ImportError:
         WrappedImage,
     )
 
-# --- Font, Debug, Panel Transform, Events ---
+# --- Font, Debug, Panel Transform, Events --- 
 try:
-    from .fontmanager import FontManager
+    from .fontmanager import (
+        FontManager
+    )
+except ImportError:
+    from fontmanager import (
+        FontManager
+    )
+
+try:
     from .debug import (
         Logger,
         LogLevel,
@@ -114,11 +122,7 @@ try:
         internal_get_level,
         internallog_output_remaining,
     )
-    from .framestyle import *
-    from .paneltransmodel import PanelTransModel, NotTransition
-    from .signals import *
 except ImportError:
-    from fontmanager import FontManager
     from debug import (
         Logger,
         LogLevel,
@@ -141,8 +145,24 @@ except ImportError:
         internal_get_level,
         internallog_output_remaining,
     )
+
+try:
+    from .framestyle import *
+except ImportError:
     from framestyle import *
-    from paneltransmodel import PanelTransModel, NotTransition
+
+try:
+    from .paneltransmodel import (
+        PanelTransModel, NotTransition
+    )
+except ImportError:
+    from paneltransmodel import (
+        PanelTransModel, NotTransition
+    )
+
+try:
+    from .signals import *
+except ImportError:
     from signals import *
 
 # --- UI Arguments ---
@@ -168,47 +188,101 @@ try:
         FixSize,
     )
 
+except ImportError:
+    from generics_common import (
+        AutoDetect,
+        FixSize,
+    )
+
+try:
     from .generics_base import (
         Singleton,
         Multiton,
     )
 
+except ImportError:
+    from generics_base import (
+        Singleton,
+        Multiton,
+    )
+
+try:
     from .generics_app import (
         DetectWindow,
     )
 
+except ImportError:
+    from generics_app import (
+        DetectWindow,
+    )
+
+try:
     from .generics_window import (
         ByPanelSize,
         DetectPanel,
     )
+except ImportError:
+    from generics_window import (
+        ByPanelSize,
+        DetectPanel,
+    )
 
+try:
     from .generics_panel import (
         WithBoarder,
         DetectChildren,
     )
+except ImportError:
+    from generics_panel import (
+        WithBoarder,
+        DetectChildren,
+    )
 
+try:
     from .generics_button import (
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
-        DetectButton,
+    )
+except ImportError:
+    from generics_button import (
+        SingleClickDisable,
+        DoubleClickOnly,
+        ClickGuard,
     )
 
+try:
     from .generics_alias import (
         AppBase,
         AppDetectWindow,
         WindowWithPanel,
         WindowByPanelSize,
         WindowPanelTransit,
+        WindowSizeTransitWithPanel,
         PanelDetectChildren,
         PanelWithBoarder,
         PanelNoTransition,
         ButtonClickGuard,
         ButtonSingleClickDisable,
         ButtonDoubleClickOnly,
-        ButtonDetect,
+    )
+except ImportError:
+    from generics_alias import (
+        AppBase,
+        AppDetectWindow,
+        WindowWithPanel,
+        WindowByPanelSize,
+        WindowPanelTransit,
+        WindowSizeTransitWithPanel,
+        PanelDetectChildren,
+        PanelWithBoarder,
+        PanelNoTransition,
+        ButtonClickGuard,
+        ButtonSingleClickDisable,
+        ButtonDoubleClickOnly,
     )
 
+try:
     from .message import (
         MessageBox,
         MessageResult,
@@ -226,54 +300,7 @@ try:
         get_number_input,
         get_choice_input,
     )
-    
 except ImportError:
-    from generics_common import (
-        AutoDetect,
-        FixSize,
-    )
-
-    from generics_base import (
-        Singleton,
-        Multiton,
-    )
-
-    from generics_app import (
-        DetectWindow,
-    )
-
-    from generics_window import (
-        ByPanelSize,
-        DetectPanel,
-    )
-
-    from generics_panel import (
-        WithBoarder,
-        DetectChildren,
-    )
-
-    from generics_button import (
-        SingleClickDisable,
-        DoubleClickOnly,
-        ClickGuard,
-        DetectButton,
-    )
-
-    from generics_alias import (
-        AppBase,
-        AppDetectWindow,
-        WindowWithPanel,
-        WindowByPanelSize,
-        WindowPanelTransit,
-        PanelDetectChildren,
-        PanelWithBoarder,
-        PanelNoTransition,
-        ButtonClickGuard,
-        ButtonSingleClickDisable,
-        ButtonDoubleClickOnly,
-        ButtonDetect,
-    )
-
     from message import (
         MessageBox,
         MessageResult,
@@ -292,6 +319,7 @@ except ImportError:
         get_choice_input,
     )
 
+
 __all__ = [
     # Core Wrappers
     "WrappedApp", "WrappedWindow", "WrappedPanel", "WrappedStaticText",
@@ -299,13 +327,13 @@ __all__ = [
     "WrappedListBox", "WrappedComboBox", "WrappedSlider", "WrappedGauge",
     "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", "WrappedImage",
     # Font, Debug, Panel Transform, Events
-    "FontManager", "framestyle", "PanelTransModel", "signals",
+    "FontManager", "PanelTransModel",
     # UI Arguments
     "Options", "exist_option", "get_option", "get_var",
     # Constants, Flags, Colors
     "ALIGN_LEFT", "ALIGN_TOP", "ALIGN_RIGHT", "ALIGN_BOTTOM", "ALIGN_CENTER",
     "WindowStyle", "ControlStyle", "BorderStyle", "TraversalStyle", "ExtraWindowStyle", "FrameStyle", "DialogStyle", "ControlBorderStyle", "MiscFlag",
-    "Colour", "Colors",
+    "Colors",
     # Generics
     "AutoDetect", "FixSize",
     # Base Generics
@@ -316,12 +344,12 @@ __all__ = [
     "WithBoarder", "DetectChildren",
     "NotTransition",
     # Button Generics
-    "SingleClickDisable", "DoubleClickOnly", "ClickGuard", "DetectButton",
+    "SingleClickDisable", "DoubleClickOnly", "ClickGuard",
     # Generics Aliases
     "AppBase", "AppDetectWindow",
-    "WindowWithPanel", "WindowByPanelSize", "WindowPanelTransit",
+    "WindowWithPanel", "WindowByPanelSize", "WindowPanelTransit", "WindowSizeTransitWithPanel",
     "PanelDetectChildren", "PanelWithBoarder", "PanelNoTransition",
-    "ButtonClickGuard", "ButtonSingleClickDisable", "ButtonDoubleClickOnly", "ButtonDetect",
+    "ButtonClickGuard", "ButtonSingleClickDisable", "ButtonDoubleClickOnly",
     # Message Box Functionality
     "MessageBox", "MessageResult", "MessageType", "CustomMessageBox",
     "MessageButtons", "ProgressMessageBox", "InputDialog",

@@ -6,12 +6,15 @@
 try:
     from . import core
     from . import debug
+    from .generics_core import GenericsType
     from . import generics_window
 
 except ImportError:
     import core
     import debug
+    from generics_core import GenericsType
     import generics_window
+	
 
 class NotTransition:
 	'''
@@ -25,16 +28,23 @@ class SupportTransit(generics_window.DetectPanel):
 	@property
 	def panel_trans(self) -> 'PanelTransModel':
 		return self._panel_trans
+	
+	def __new__(cls, instance, *args, **kwds):
+		instance = generics_window.DetectPanel.__new__(
+			cls, instance, *args, **kwds
+		)
+
+		return instance
 
 	def __init__(self, *args, **kwds):
-		super().__init__(*args, **kwds)
+		generics_window.DetectPanel.__init__(self, *args, **kwds)
 
 		self._panel_trans = PanelTransModel()
 
 		for child_id in self.children:
 			child: core.WrappedPanel = self.children[child_id]
 
-			if not child.hasgeneric(NotTransition):
+			if not GenericsType.hasgenerics(child, NotTransition):
 				self.panel_trans.add(child_id, child)
 
 		debug.internaldebug_log("TRANSIT", "Panels: {}".format(self.panel_trans))
@@ -66,7 +76,7 @@ class TransitPanelContainer:
 		for child_id in self.children:
 			child: core.WrappedPanel = self.children[child_id]
 
-			if not child.hasgeneric(NotTransition):
+			if not GenericsType.hasgenerics(child, NotTransition):
 				self.panel_trans.add(child_id, child)
 
 
@@ -122,7 +132,7 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
 		if indexor in self:
 			raise KeyError('indexor already exists')
 
-		if panel.__class__.hasgeneric(NotTransition):
+		if GenericsType.hasgenerics(panel.__class__, NotTransition):
 			return # do nothing for NotTransition panels
 		
 		if len(self) == 0:
