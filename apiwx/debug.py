@@ -170,8 +170,8 @@ class Logger(threading.Thread):
         # add log message to buffer
         self._buffer.append(
             self._get_time_stamp()
-            + f" [{self._name.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}] "
-            + f" [{tag.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}] "
+            + f" [{self._name.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}]"
+            + f" [{tag.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}]"
             + f" {message}"
         )
 
