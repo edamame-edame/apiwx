@@ -1,6 +1,7 @@
 log
 .vscode
 .tmp
+.python-version
 apiwx/__pycache__
 apiwx/testcode.py
 project/__pycache__
