@@ -1,6 +1,34 @@
-'''
-# Api wxPython debug logger
-'''
+"""Debug logging system for apiwx framework.
+
+This module provides a comprehensive logging system designed specifically for 
+the apiwx framework. It includes threaded logging capabilities, configurable
+log levels, file rotation, and both UI debug and internal logging systems.
+
+The module features:
+- Multi-threaded logging with buffered message processing
+- Configurable log levels from DEBUG to CRITICAL
+- Automatic log file rotation based on size and count limits
+- Separate loggers for UI debugging and internal framework logging
+- Command-line argument integration for logger configuration
+
+Classes:
+    LogLevel: Enum defining log severity levels
+    Logger: Thread-based logger with file output and rotation
+
+Functions:
+    Various logging convenience functions for UI and internal logging
+
+Example:
+    from apiwx.debug import uilog, LogLevel
+    
+    uilog("NETWORK", "Connection established", LogLevel.INFO)
+    uilog("ERROR", "Failed to load config", LogLevel.ERROR)
+
+Note:
+    The logger system automatically starts daemon threads for asynchronous
+    log processing. Loggers are configured via command-line arguments using
+    the uiarg module.
+"""
 import os.path
 import threading
 from datetime import datetime
@@ -9,6 +37,7 @@ from enum import IntEnum
 
 try:
     from . import uiarg
+
 except ImportError:
     import uiarg
 
@@ -51,10 +80,57 @@ class LogLevel(IntEnum):
 
 
 class Logger(threading.Thread):
-    _name: str
+    """Thread-based logger with file output and rotation capabilities.
+    
+    This class implements a daemon thread that processes log messages
+    asynchronously. It supports configurable log levels, automatic file
+    rotation based on line count and file count limits, and both console
+    and file output.
+    
+    The logger maintains an internal buffer of messages and processes them
+    in a separate thread to avoid blocking the main application thread.
+    
+    Args:
+        logger_name: Name identifier for the logger thread
+        log_dir: Directory path where log files will be stored
+        log_timestamp: strftime format string for timestamp formatting
+        log_tag_length: Maximum length for log tags (truncated if longer)
+        log_maxline: Maximum lines per log file before rotation
+        log_maxfiles: Maximum number of log files to keep
+        log_level: Minimum log level threshold for output
+        
+    Attributes:
+        _buffer: Internal message buffer for thread-safe logging
+        _log_dir: Directory path for log file storage
+        _log_timestamp: Timestamp format string
+        _log_tag_length: Maximum tag display length
+        _log_maxline: Line limit per file
+        _log_maxfiles: File count limit
+        _log_level: Minimum logging threshold
+        _log_idlesignal: Threading event for message processing
+        
+    Example:
+        logger = Logger("MyApp", "./logs", "%Y-%m-%d %H:%M:%S", 
+                       8, 5000, 10, LogLevel.INFO)
+        logger.info("INIT", "Application started")
+    """
 
 
-    def __init__(self, logger_name: str, log_dir: str, log_timestamp: str, log_tag_length: int, log_maxline: int, log_maxfiles: int, log_level: LogLevel = LogLevel.DEBUG):
+    def __init__(
+            self,
+            logger_name: str,
+            log_dir: str,
+            log_timestamp: str,
+            log_tag_length: int,
+            log_maxline: int,
+            log_maxfiles: int,
+            log_level: LogLevel = LogLevel.DEBUG):
+        """Initialize the logger thread with configuration parameters.
+        
+        Sets up the logger thread as a daemon thread and initializes all
+        configuration parameters. The logger thread starts immediately
+        upon initialization.
+        """
         # init thread
         super().__init__(
             target = self._logger,
@@ -93,34 +169,37 @@ class Logger(threading.Thread):
 
 
     def _logger(self):
-    # loop daemon thread
-        while(True):
-            # has log message ?
-            if(self._buffer):
-                # get log message
+        """Main logger thread loop for processing buffered messages."""
+        # Daemon thread main loop
+        while True:
+            # Process messages if available
+            if self._buffer:
                 message = self._buffer.pop(0)
-                # print log message
                 self._logprint(message)
-                # save log message
                 self._logsave(message)
             else:
-                # wait idle signal
+                # Wait for new messages
                 self._log_idlesignal.wait()
-                # clear idle signal
                 self._log_idlesignal.clear()
 
 
     def _logprint(self, message: str):
-        # end with linefeed ?
+        """Print log message to console, handling newline normalization."""
+        # Remove trailing newline if present (print adds its own)
         if message.endswith("\n"):
-            # remove linefeed (print is add linefeed default)
-            message = message[0:len(message) - 1]
+            message = message[:-1]
             
-        # flush: print just now
-        print(message, flush = True)
+        # Print immediately with flush
+        print(message, flush=True)
 
 
     def _logsave(self, message: str):
+        """Save log message to file with rotation management.
+        
+        Handles file writing with automatic rotation based on line count
+        and maximum file count limits. Creates log directory if needed
+        and manages old file cleanup.
+        """
         # exists log folder
         if os.path.exists(self._log_dir):
             # if endline is not linefeed ?
@@ -138,69 +217,104 @@ class Logger(threading.Thread):
                             f"{self._log_dir}\\{sorted(logfiles)[1]}"
                         )
 
-                    with open(self._log_dir + f"\\{self._name}.log", "r") as logfile:
+                    log_file_path = os.path.join(
+                        self._log_dir, f"{self._name}.log"
+                    )
+                    with open(log_file_path, "r") as logfile:
                         line_amount = len(logfile.readlines())
 
                     if(line_amount >= self._log_maxline):
-                        os.rename(
-                            self._log_dir
-                            + f"\\{self._name}.log",
-                            self._log_dir
-                            + f"\\{self._name + datetime.now().strftime('%Y%m%d%H%M%S')}.log"
+                        current_log = os.path.join(
+                            self._log_dir, f"{self._name}.log"
                         )
+                        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+                        archived_log = os.path.join(
+                            self._log_dir, 
+                            f"{self._name}{timestamp}.log"
+                        )
+                        os.rename(current_log, archived_log)
 
                 except:
                     ...
 
                 # file add mode
-                with open(self._log_dir + f"\\{self._name}.log", "a") as logfile:
+                log_file_path = os.path.join(
+                    self._log_dir, f"{self._name}.log"
+                )
+                with open(log_file_path, "a") as logfile:
                     # write lines
                     logfile.write(message)
 
 
     def log(self, tag: str, message: str, level: LogLevel = LogLevel.INFO):
-        """Log a message with specified level"""
+        """Log a message with specified level and tag.
+        
+        Adds a log message to the internal buffer for processing by the
+        logger thread. The message will only be logged if the specified
+        level meets or exceeds the logger's minimum log level threshold.
+        
+        The logged message includes a timestamp, logger name, tag, and
+        the actual message content, all properly formatted for output.
+        
+        Args:
+            tag: A category or context identifier for the message.
+            message: The actual log message content.
+            level: The severity level of the message (default: INFO).
+                  
+        Example:
+            logger.log("NETWORK", "Connection established", LogLevel.INFO)
+            logger.log("ERROR", "Failed to load config", LogLevel.ERROR)
+        """
         # Check if this level should be logged
         if level < self._log_level:
             return
 
-        # Format level string
-        level_str = level.to_string().ljust(8)[0:8].upper()
-
+        # Format log components
+        timestamp = self._get_time_stamp()
+        logger_tag = self._name.ljust(self._log_tag_length)
+        logger_tag = logger_tag[0:self._log_tag_length].upper()
+        message_tag = tag.ljust(self._log_tag_length)
+        message_tag = message_tag[0:self._log_tag_length].upper()
+        
         # add log message to buffer
-        self._buffer.append(
-            self._get_time_stamp()
-            + f" [{self._name.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}]"
-            + f" [{tag.ljust(self._log_tag_length)[0:self._log_tag_length].upper()}]"
-            + f" {message}"
+        formatted_message = (
+            f"{timestamp} [{logger_tag}] [{message_tag}] {message}"
         )
+        self._buffer.append(formatted_message)
 
         # call signal
         self._log_idlesignal.set()
+
 
     def debug(self, tag: str, message: str):
         """Log debug message"""
         self.log(tag, message, LogLevel.DEBUG)
 
+
     def info(self, tag: str, message: str):
         """Log info message"""
         self.log(tag, message, LogLevel.INFO)
+
 
     def warning(self, tag: str, message: str):
         """Log warning message"""
         self.log(tag, message, LogLevel.WARNING)
 
+
     def error(self, tag: str, message: str):
         """Log error message"""
         self.log(tag, message, LogLevel.ERROR)
+
 
     def critical(self, tag: str, message: str):
         """Log critical message"""
         self.log(tag, message, LogLevel.CRITICAL)
 
+
     def set_level(self, level: LogLevel):
         """Change the minimum log level"""
         self._log_level = level
+
 
     def get_level(self) -> LogLevel:
         """Get current minimum log level"""
@@ -213,7 +327,27 @@ class Logger(threading.Thread):
         )
 
 
-def create_logger_from_sysargs(option: uiarg.Options, name: str) -> Logger | None:
+def create_logger_from_sysargs(
+        option: uiarg.Options, 
+        name: str) -> Logger | None:
+    """Create a Logger instance from system command-line arguments.
+    
+    Parses command-line arguments to extract logger configuration and
+    creates a Logger instance with the specified parameters. Returns
+    None if the required option is not present in the arguments.
+    
+    Args:
+        option: The uiarg.Options enum value to check for
+        name: Name identifier for the logger
+        
+    Returns:
+        Configured Logger instance or None if option not found
+        
+    Example:
+        logger = create_logger_from_sysargs(
+            uiarg.Options.UI_DEBUG, "ui_logger"
+        )
+    """
     if uiarg.exist_option(option):
         options = uiarg.get_option(
             option
@@ -266,6 +400,15 @@ def create_logger_from_sysargs(option: uiarg.Options, name: str) -> Logger | Non
 
 
 def remain_logger_output(logger: Logger | None):
+    """Process any remaining messages in the logger buffer.
+    
+    Forces the logger to process all remaining buffered messages
+    before shutdown. Waits up to 1 second for message processing
+    to complete, then manually processes any remaining messages.
+    
+    Args:
+        logger: Logger instance to flush, or None (no-op)
+    """
     if logger is not None:
 
         logger._log_idlesignal.clear()
@@ -382,3 +525,40 @@ def internal_get_level() -> LogLevel:
 
 def internallog_output_remaining():
     remain_logger_output(internal)
+
+
+__all__ = [
+    # Core classes
+    'LogLevel',
+    'Logger',
+    
+    # Logger creation and management
+    'create_logger_from_sysargs',
+    'remain_logger_output',
+    
+    # UI Debug logging functions
+    'uilog',
+    'uidebug_log',
+    'uiinfo_log', 
+    'uiwarning_log',
+    'uierror_log',
+    'uicritical_log',
+    'uidebug_set_level',
+    'uidebug_get_level',
+    'uilog_output_remaining',
+    
+    # Internal logging functions
+    'internallog',
+    'internaldebug_log',
+    'internalinfo_log',
+    'internalwarning_log', 
+    'internalerror_log',
+    'internalcritical_log',
+    'internal_set_level',
+    'internal_get_level',
+    'internallog_output_remaining',
+    
+    # Logger instances
+    'uidebug',
+    'internal',
+]

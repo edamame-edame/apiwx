@@ -1,55 +1,69 @@
+"""apiwx - A comprehensive wxPython wrapper library v0.4.0.
+
+This package provides a simplified, type-safe interface to wxPython with
+advanced features including generic type support, automatic component
+detection, and enhanced UI utilities.
+
+Basic Usage:
+    >>> from apiwx import (
+    ...     WrappedApp, WrappedWindow, WrappedPanel, WrappedButton,
+    ...     ALIGN_CENTER, Colors, Options, get_option
+    ... )
+    >>> 
+    >>> # Create an application and main window
+    >>> app = WrappedApp("MyApp")
+    >>> frame = WrappedWindow(
+    ...     app, size=(800, 600), pos=(100, 100), 
+    ...     title="Demo", color=Colors.WHITE
+    ... )
+    >>> 
+    >>> # Add a panel and a button
+    >>> panel = WrappedPanel(frame, size=(800, 600), pos=(0, 0))
+    >>> button = WrappedButton(
+    ...     panel, size=(120, 40), pos=(20, 20), label="Click Me"
+    ... )
+    >>> 
+    >>> # Connect an event slot
+    >>> def on_click(event):
+    ...     print("Button clicked!")
+    >>> button.slots_on_click += on_click
+    >>> 
+    >>> # Use constants and colors
+    >>> frame.size = (640, 480)
+    >>> frame.color_background = Colors.LIGHT_GREY
+    >>> 
+    >>> # Use UI argument utilities
+    >>> opt = get_option("theme", default="dark")
+    >>> 
+    >>> app.mainloop()
+
+Main Export Categories:
+    Core Wrappers: WrappedApp, WrappedWindow, WrappedPanel, WrappedButton, etc.
+    Constants & Flags: ALIGN_*, WindowStyle, ControlStyle, BorderStyle, etc.
+    Colors: Colors class with predefined color constants
+    Generics: Singleton, Multiton, AutoDetect, DetectChildren, etc.
+    Type Aliases: AppBase, WindowWithPanel, PanelDetectChildren, etc.
+    UI Utilities: FontManager, MessageBox, Options, logging functions
+    Event System: Signals, slots, and event handling utilities
+
+For detailed documentation, see individual module docstrings.
 """
-apiwx package v0.4.0
 
-Usage:
-    from apiwx import (
-    WrappedApp, WrappedWindow, WrappedPanel, WrappedButton,
-    ALIGN_CENTER, Colour, Options, get_option
-    )
-
-    # Create an application and main window
-    app = WrappedApp("MyApp")
-    frame = WrappedWindow(app, size=(800, 600), pos=(100, 100), title="Demo", color=Colour.WHITE)
-
-    # Add a panel and a button
-    panel = WrappedPanel(frame, size=(800, 600), pos=(0, 0))
-    button = WrappedButton(panel, size=(120, 40), pos=(20, 20), label="Click Me")
-
-    # Connect an event slot
-    def on_click(event):
-    print("Button clicked!")
-    button.slots_on_click += on_click
-
-    # Use constants and colors
-    frame.size = (640, 480)
-    frame.color_background = Colour.LIGHT_GREY
-
-    # Use UI argument utilities
-    opt = get_option("theme", default="dark")
-
-    app.mainloop()
-
-Main Exports:
-    - Core wxPython wrapper classes (Wrapped*)
-    - Constants, flags, colors
-    - FontManager, framestyle, signals, PanelTransModel
-    - UI argument utilities (Options, exist_option, get_option, get_var)
-
-See each module for details.
-"""
-# --- Constants, Flags, Colors ---
+# Constants, Flags, and Colors
 try:
     # Try relative import (for installed package)
     from .constants import *
     from .styleflags import *
     from .colors import *
+
 except ImportError:
     # Fall back to absolute import (for direct execution)
     from constants import *
     from styleflags import *
     from colors import *
 
-# --- Core Wrappers & UI ---
+
+# Core Wrappers and UI Components
 try:
     from .core import (
         WrappedApp,
@@ -69,6 +83,7 @@ try:
         WrappedChoice,
         WrappedImage,
     )
+
 except ImportError:
     from core import (
         WrappedApp,
@@ -89,11 +104,13 @@ except ImportError:
         WrappedImage,
     )
 
-# --- Font, Debug, Panel Transform, Events --- 
+
+# Font Management, Debug, Panel Transform, and Events
 try:
     from .fontmanager import (
         FontManager
     )
+
 except ImportError:
     from fontmanager import (
         FontManager
@@ -122,6 +139,7 @@ try:
         internal_get_level,
         internallog_output_remaining,
     )
+
 except ImportError:
     from debug import (
         Logger,
@@ -148,6 +166,7 @@ except ImportError:
 
 try:
     from .framestyle import *
+
 except ImportError:
     from framestyle import *
 
@@ -155,6 +174,7 @@ try:
     from .paneltransmodel import (
         PanelTransModel, NotTransition
     )
+
 except ImportError:
     from paneltransmodel import (
         PanelTransModel, NotTransition
@@ -162,10 +182,12 @@ except ImportError:
 
 try:
     from .signals import *
+
 except ImportError:
     from signals import *
 
-# --- UI Arguments ---
+
+# UI Arguments and Options
 try:
     from .uiarg import (
         Options,
@@ -173,6 +195,7 @@ try:
         get_option,
         get_var,
     )
+
 except ImportError:
     from uiarg import (
         Options,
@@ -181,7 +204,8 @@ except ImportError:
         get_var,
     )
 
-# --- Generics Exports ---
+
+# Generic Type System Exports
 try:
     from .generics_common import (
         AutoDetect,
@@ -221,6 +245,7 @@ try:
         ByPanelSize,
         DetectPanel,
     )
+
 except ImportError:
     from generics_window import (
         ByPanelSize,
@@ -232,6 +257,7 @@ try:
         WithBoarder,
         DetectChildren,
     )
+
 except ImportError:
     from generics_panel import (
         WithBoarder,
@@ -244,6 +270,7 @@ try:
         DoubleClickOnly,
         ClickGuard,
     )
+
 except ImportError:
     from generics_button import (
         SingleClickDisable,
@@ -266,6 +293,7 @@ try:
         ButtonSingleClickDisable,
         ButtonDoubleClickOnly,
     )
+
 except ImportError:
     from generics_alias import (
         AppBase,
@@ -300,6 +328,7 @@ try:
         get_number_input,
         get_choice_input,
     )
+
 except ImportError:
     from message import (
         MessageBox,
@@ -325,42 +354,71 @@ __all__ = [
     "WrappedApp", "WrappedWindow", "WrappedPanel", "WrappedStaticText",
     "WrappedTextBox", "WrappedButton", "WrappedCheckBox", "WrappedRadioBox",
     "WrappedListBox", "WrappedComboBox", "WrappedSlider", "WrappedGauge",
-    "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", "WrappedImage",
+    "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", 
+    "WrappedImage",
+    
     # Font, Debug, Panel Transform, Events
     "FontManager", "PanelTransModel",
+    
     # UI Arguments
     "Options", "exist_option", "get_option", "get_var",
-    # Constants, Flags, Colors
+    
+    # Constants and Alignment
     "ALIGN_LEFT", "ALIGN_TOP", "ALIGN_RIGHT", "ALIGN_BOTTOM", "ALIGN_CENTER",
-    "WindowStyle", "ControlStyle", "BorderStyle", "TraversalStyle", "ExtraWindowStyle", "FrameStyle", "DialogStyle", "ControlBorderStyle", "MiscFlag",
+    
+    # Style Classes
+    "WindowStyle", "ControlStyle", "BorderStyle", "TraversalStyle", 
+    "ExtraWindowStyle", "FrameStyle", "DialogStyle", "ControlBorderStyle", 
+    "MiscFlag",
+    
+    # Colors
     "Colors",
+    
     # Generics
     "AutoDetect", "FixSize",
+    
     # Base Generics
     "Singleton", "Multiton",
+    
     # App, Window, Panel Generics
-    "DetectWindow",
-    "ByPanelSize", "DetectPanel",
-    "WithBoarder", "DetectChildren",
-    "NotTransition",
+    "DetectWindow", "ByPanelSize", "DetectPanel", "WithBoarder", 
+    "DetectChildren", "NotTransition",
+    
     # Button Generics
     "SingleClickDisable", "DoubleClickOnly", "ClickGuard",
-    # Generics Aliases
+    
+    # Application Aliases
     "AppBase", "AppDetectWindow",
-    "WindowWithPanel", "WindowByPanelSize", "WindowPanelTransit", "WindowSizeTransitWithPanel",
+    
+    # Window Aliases
+    "WindowWithPanel", "WindowByPanelSize", "WindowPanelTransit", 
+    "WindowSizeTransitWithPanel",
+    
+    # Panel Aliases
     "PanelDetectChildren", "PanelWithBoarder", "PanelNoTransition",
+    
+    # Button Aliases
     "ButtonClickGuard", "ButtonSingleClickDisable", "ButtonDoubleClickOnly",
-    # Message Box Functionality
+    
+    # Message Box Classes
     "MessageBox", "MessageResult", "MessageType", "CustomMessageBox",
     "MessageButtons", "ProgressMessageBox", "InputDialog",
+    
+    # Message Box Functions
     "show_info", "show_warning", "show_error", "ask_question", "show_success",
     "get_text_input", "get_number_input", "get_choice_input",
-    # Debug & Logging
-    "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", "uiwarning_log",
-    "uierror_log", "uicritical_log", "uidebug_set_level", "uidebug_get_level", "uilog_output_remaining",
-    "internallog", "internaldebug_log", "internalinfo_log", "internalwarning_log",
-    "internalerror_log", "internalcritical_log", "internal_set_level", "internal_get_level", "internallog_output_remaining",
+    
+    # Debug & Logging Functions
+    "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", 
+    "uiwarning_log", "uierror_log", "uicritical_log", "uidebug_set_level", 
+    "uidebug_get_level", "uilog_output_remaining",
+    
+    # Internal Logging Functions
+    "internallog", "internaldebug_log", "internalinfo_log", 
+    "internalwarning_log", "internalerror_log", "internalcritical_log", 
+    "internal_set_level", "internal_get_level", "internallog_output_remaining",
 ]
+
 
 __version__ = "0.4.0"
 

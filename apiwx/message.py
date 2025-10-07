@@ -1,6 +1,23 @@
-"""
-# apiwx - Message box wrapper for wxPython
-Simplified and enhanced message box functionality with consistent API
+"""Message box wrapper for wxPython with enhanced functionality.
+
+This module provides simplified and enhanced message box functionality
+with a consistent API for wxPython applications. It includes various
+message types, custom dialogs, progress dialogs, and input dialogs
+with comprehensive error handling and logging.
+
+Key Features:
+    - Simple message boxes (info, warning, error, question, success)
+    - Custom message boxes with full style control
+    - Progress dialogs for long operations
+    - Input dialogs for text, numbers, and choices
+    - Convenience functions for quick usage
+    - Comprehensive error handling and logging
+
+Classes:
+    MessageBox: Main message box functionality
+    CustomMessageBox: Advanced customizable message dialogs
+    ProgressMessageBox: Progress dialogs for long operations
+    InputDialog: Input dialogs for user data entry
 """
 import wx
 from typing import Optional, Union, Tuple, Any
@@ -15,7 +32,12 @@ except ImportError:
 
 
 class MessageType(Enum):
-    """Message box types with predefined styles"""
+    """Message box types with predefined styles.
+    
+    This enum defines the available message types that automatically
+    configure appropriate icons and button combinations for common
+    dialog scenarios.
+    """
     INFO = auto()
     WARNING = auto()
     ERROR = auto()
@@ -24,7 +46,11 @@ class MessageType(Enum):
 
 
 class MessageResult(Enum):
-    """Standardized message box results"""
+    """Standardized message box results.
+    
+    This enum provides a consistent interface for message box return
+    values, mapping wxPython dialog results to more readable constants.
+    """
     OK = wx.ID_OK
     CANCEL = wx.ID_CANCEL
     YES = wx.ID_YES
@@ -35,26 +61,23 @@ class MessageResult(Enum):
 
 
 class MessageBox:
-    """
-    # Enhanced message box wrapper for wxPython
-    ### Usage
-    ```python
-    # Simple info message
-    MessageBox.info("Operation completed successfully!")
+    """Enhanced message box wrapper for wxPython.
 
-    # Yes/No question
-    result = MessageBox.question("Do you want to save changes?")
-    if result == MessageResult.YES:
-    save_changes()
+    This class provides a simplified interface for displaying various types
+    of message dialogs with consistent styling and error handling. All methods
+    are static and can be called without instantiating the class.
 
-    # Custom message with multiple buttons
-    result = MessageBox.custom(
-    "Choose an action:",
-    "Custom Dialog",
-    buttons=MessageButtons.YES_NO_CANCEL,
-    default_button=MessageResult.YES
-    )
-    ```
+    The class automatically handles parent window detection and provides
+    comprehensive logging of all message box operations.
+
+    Example:
+        >>> # Simple info message
+        >>> MessageBox.info("Operation completed successfully!")
+        >>> 
+        >>> # Yes/No question
+        >>> result = MessageBox.question("Do you want to save changes?")
+        >>> if result == MessageResult.YES:
+        ...     save_changes()
     """
 
     @staticmethod
@@ -108,12 +131,14 @@ class MessageBox:
                 return MessageResult(result)
             
             except ValueError:
-                debug.uilog("MESSAGE", f"Unknown result code: {result}", LogLevel.WARNING)
+                debug.uilog("MESSAGE", f"Unknown result code: {result}",
+                           LogLevel.WARNING)
 
             return MessageResult.UNKNOWN
 
         except Exception as e:
-            debug.uilog("MESSAGE", f"Error showing message: {e}", LogLevel.ERROR)
+            debug.uilog("MESSAGE", f"Error showing message: {e}",
+                       LogLevel.ERROR)
 
             return MessageResult.UNKNOWN
 
@@ -123,9 +148,19 @@ class MessageBox:
             title: str = "Information",
             parent: Optional[wx.Window] = None
         ) -> MessageResult:
-        """Show information message"""
+        """Show information message.
+        
+        Args:
+            message (str): The message text to display.
+            title (str): The dialog title. Defaults to "Information".
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            MessageResult: The user's response (typically OK).
+        """
 
-        debug.uilog("MESSAGE", f"Info: {title} - {message[:50]}...", LogLevel.INFO)
+        debug.uilog("MESSAGE", f"Info: {title} - {message[:50]}...",
+                   LogLevel.INFO)
         
         return MessageBox._show_message(
             message,
@@ -140,9 +175,19 @@ class MessageBox:
             title: str = "Warning",
             parent: Optional[wx.Window] = None
         ) -> MessageResult:
-        """Show warning message"""
+        """Show warning message.
+        
+        Args:
+            message (str): The warning message text to display.
+            title (str): The dialog title. Defaults to "Warning".
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            MessageResult: The user's response (typically OK).
+        """
 
-        debug.uilog("MESSAGE", f"Warning: {title} - {message[:50]}...", LogLevel.WARNING)
+        debug.uilog("MESSAGE", f"Warning: {title} - {message[:50]}...",
+                   LogLevel.WARNING)
 
         return MessageBox._show_message(
             message,
@@ -157,9 +202,19 @@ class MessageBox:
             title: str = "Error",
             parent: Optional[wx.Window] = None
         ) -> MessageResult:
-        """Show error message"""
+        """Show error message.
+        
+        Args:
+            message (str): The error message text to display.
+            title (str): The dialog title. Defaults to "Error".
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            MessageResult: The user's response (typically OK).
+        """
 
-        debug.uilog("MESSAGE", f"Error: {title} - {message[:50]}...", LogLevel.ERROR)
+        debug.uilog("MESSAGE", f"Error: {title} - {message[:50]}...",
+                   LogLevel.ERROR)
 
         return MessageBox._show_message(
             message,
@@ -174,7 +229,16 @@ class MessageBox:
             title: str = "Question",
             parent: Optional[wx.Window] = None
         ) -> MessageResult:
-        """Show yes/no question"""
+        """Show yes/no question.
+        
+        Args:
+            message (str): The question text to display.
+            title (str): The dialog title. Defaults to "Question".
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            MessageResult: YES or NO based on user choice.
+        """
 
         debug.uilog("MESSAGE", f"Question: {title} - {message[:50]}...")
 
@@ -191,7 +255,16 @@ class MessageBox:
         title: str = "Success",
         parent: Optional[wx.Window] = None
     ) -> MessageResult:
-        """Show success message"""
+        """Show success message.
+        
+        Args:
+            message (str): The success message text to display.
+            title (str): The dialog title. Defaults to "Success".
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            MessageResult: The user's response (typically OK).
+        """
 
         debug.uilog("MESSAGE", f"Success: {title} - {message[:50]}...")
 
@@ -204,7 +277,11 @@ class MessageBox:
 
 
 class MessageButtons(Enum):
-    """Predefined button combinations"""
+    """Predefined button combinations for message dialogs.
+    
+    This enum provides common button combinations that can be used
+    with CustomMessageBox to create dialogs with specific button sets.
+    """
     OK = wx.OK
     OK_CANCEL = wx.OK | wx.CANCEL
     YES_NO = wx.YES_NO
@@ -213,18 +290,20 @@ class MessageButtons(Enum):
 
 
 class CustomMessageBox:
-    """
-    # Advanced message box with full customization
-    ### Usage
-    ```python
-    result = CustomMessageBox(
-    message="Are you sure you want to delete all files?",
-    title="Confirm Deletion",
-    buttons=MessageButtons.YES_NO_CANCEL,
-    icon=wx.ICON_EXCLAMATION,
-    default_button=MessageResult.NO
-    ).show()
-    ```
+    """Advanced message box with full customization.
+
+    This class provides complete control over message dialog appearance
+    and behavior, including custom button combinations, icons, and
+    default button selection.
+
+    Example:
+        >>> result = CustomMessageBox(
+        ...     message="Are you sure you want to delete all files?",
+        ...     title="Confirm Deletion",
+        ...     buttons=MessageButtons.YES_NO_CANCEL,
+        ...     icon=wx.ICON_EXCLAMATION,
+        ...     default_button=MessageResult.NO
+        ... ).show()
     """
 
     def __init__(
@@ -236,15 +315,30 @@ class CustomMessageBox:
             default_button: Optional[MessageResult] = None,
             parent: Optional[wx.Window] = None
         ):
+        """Initialize the custom message box.
+        
+        Args:
+            message (str): The message text to display.
+            title (str): The dialog title. Defaults to "Message".
+            buttons (Union[MessageButtons, int]): Button combination.
+            icon (int): Icon style flags.
+            default_button (Optional[MessageResult]): Default button.
+            parent (Optional[wx.Window]): Parent window or None for auto.
+        """
         self.message = message
         self.title = title
-        self.buttons = buttons.value if isinstance(buttons, MessageButtons) else buttons
+        self.buttons = (buttons.value if isinstance(buttons, MessageButtons)
+                       else buttons)
         self.icon = icon
         self.default_button = default_button
         self.parent = parent or MessageBox._get_parent()
 
     def show(self) -> MessageResult:
-        """Show the custom message box"""
+        """Show the custom message box.
+        
+        Returns:
+            MessageResult: The user's response based on button clicked.
+        """
         style = self.buttons | self.icon
 
         # Set default button if specified
@@ -255,7 +349,8 @@ class CustomMessageBox:
             elif self.default_button == MessageResult.CANCEL:
                 style |= wx.CANCEL_DEFAULT
 
-        debug.uilog("MESSAGE", f"Custom: {self.title} - {self.message[:50]}...")
+        debug.uilog("MESSAGE",
+                   f"Custom: {self.title} - {self.message[:50]}...")
 
         return MessageBox._show_message(
             self.message,
@@ -323,7 +418,8 @@ class ProgressMessageBox:
 
                 else:
                     self._dialog.Pulse(message)
-                    debug.uilog("MESSAGE", f"Progress updated: {message[:30]}...")
+                    debug.uilog("MESSAGE",
+                               f"Progress updated: {message[:30]}...")
 
             except Exception as e:
                     debug.uilog("MESSAGE", f"Error updating progress: {e}")
@@ -344,18 +440,20 @@ class ProgressMessageBox:
 
 
 class InputDialog:
-    """
-    # Input dialog for getting text from user
-    ### Usage
-    ```python
-        name = InputDialog.get_text("Enter your name:", "User Input")
+    """Input dialog for getting text from user.
 
-        if name:
-            print(f"Hello, {name}!")
+    This class provides various input dialog types for collecting
+    user data including text, numbers, and choices from lists.
+    All methods are static and return None if user cancels.
 
-        # Number input
-        age = InputDialog.get_number("Enter your age:", "Age Input", min_value=0, max_value=150)
-    ```
+    Example:
+        >>> name = InputDialog.get_text("Enter your name:", "User Input")
+        >>> if name:
+        ...     print(f"Hello, {name}!")
+        >>> 
+        >>> # Number input with validation
+        >>> age = InputDialog.get_number("Enter your age:", "Age Input",
+        ...                             min_value=0, max_value=150)
     """
 
     @staticmethod
@@ -365,17 +463,29 @@ class InputDialog:
             default_value: str = "",
             parent: Optional[wx.Window] = None
         ) -> Optional[str]:
-        """Get text input from user"""
+        """Get text input from user.
+        
+        Args:
+            message (str): The prompt message to display.
+            title (str): The dialog title. Defaults to "Input".
+            default_value (str): Default text in input field.
+            parent (Optional[wx.Window]): Parent window or None for auto.
+            
+        Returns:
+            Optional[str]: The entered text or None if cancelled.
+        """
         if parent is None:
             parent = MessageBox._get_parent()
 
             try:
-                dlg = wx.TextEntryDialog(parent, message, title, default_value)
+                dlg = wx.TextEntryDialog(parent, message, title,
+                                       default_value)
 
                 if dlg.ShowModal() == wx.ID_OK:
                     result = dlg.GetValue()
                     dlg.Destroy()
-                    debug.uilog("MESSAGE", f"Text input received: {len(result)} chars")
+                    debug.uilog("MESSAGE",
+                               f"Text input received: {len(result)} chars")
                     return result
 
                 else:
@@ -482,7 +592,8 @@ def show_success(message: str, title: str = "Success") -> MessageResult:
     """Quick success message"""
     return MessageBox.success(message, title)
 
-def get_text_input(message: str, title: str = "Input", default: str = "") -> Optional[str]:
+def get_text_input(message: str, title: str = "Input",
+                   default: str = "") -> Optional[str]:
     """Quick text input"""
     return InputDialog.get_text(message, title, default)
 
@@ -496,7 +607,8 @@ def get_number_input(
     """Quick number input"""
     return InputDialog.get_number(message, title, default, min_val, max_val)
 
-def get_choice_input(message: str, choices: list[str], title: str = "Choose") -> Optional[str]:
+def get_choice_input(message: str, choices: list[str],
+                     title: str = "Choose") -> Optional[str]:
     """Quick choice input"""
     return InputDialog.get_choice(message, choices, title)
 
@@ -505,7 +617,8 @@ def get_choice_input(message: str, choices: list[str], title: str = "Choose") ->
 if __name__ == "__main__":
     # This will run when the module is executed directly
     print("apiwx.message - Message box wrapper")
-    print("This module provides enhanced message box functionality for wxPython")
+    print("This module provides enhanced message box functionality "
+          "for wxPython")
     print("\nExample usage:")
     print(" from apiwx.message import show_info, ask_question")
     print(" show_info('Hello World!')")

@@ -1,37 +1,64 @@
-"""
-# apiwx - A generic definitions for wxPython wx.Button.
-Button-specific generics for enhanced click behavior and control
+"""Generic type definitions for wxPython Button components.
+
+This module provides advanced button behavior generics for the apiwx framework.
+These generics add sophisticated click handling, guard mechanisms, and state
+management to button components through mixins rather than inheritance.
+
+Key Generic Classes:
+    - SingleClickDisable: Temporarily disables button after clicking
+    - DoubleClickOnly: Requires double-click to activate
+    - ClickGuard: Combines disable behavior with optional double-click 
+      protection
+
+All generics are designed to work with WrappedButton and provide enhanced
+user interaction patterns for preventing accidental clicks, implementing
+confirmation workflows, and managing button state during processing.
+
+Example:
+    from apiwx.core import WrappedButton
+    from apiwx.generics_button import SingleClickDisable, ClickGuard
+    
+    # Button that disables after click
+    button1 = WrappedButton[SingleClickDisable](
+        parent, label="Submit", disable_duration=2.0
+    )
+    
+    # Button with confirmation requirement
+    button2 = WrappedButton[ClickGuard](
+        parent, label="Delete", require_double_click=True
+    )
 """
 import time
 import threading
+
 try:
-    from . import core
-    from . import generics_common
     from . import debug
 except ImportError:
-    import core
-    import generics_common
     import debug
 
 
 class SingleClickDisable:
-    """
-    # Button generic that disables the button after a single click
-    ### Usage
-    ```python
-    button = WrappedButton[SingleClickDisable](
-    panel,
-    size=(120, 40),
-    pos=(20, 20),
-    label="Click Me",
-    disable_duration=2.0 # Re-enable after 2 seconds
-    )
+    """Button generic that disables the button after a single click.
+    
+    This generic adds behavior to buttons that automatically disables them
+    after being clicked once, preventing accidental double-clicks or rapid
+    repeated clicking. The button can be configured to automatically
+    re-enable after a specified duration.
+    
+    Usage:
 
-    # Connect event handler
-    def on_click(event):
-    print("Button was clicked!")
-    button.slots_on_click += on_click
-    ```
+        button = WrappedButton[SingleClickDisable](
+            panel,
+            size=(120, 40),
+            pos=(20, 20),
+            label="Click Me",
+            disable_duration=2.0  # Re-enable after 2 seconds
+        )
+
+        # Connect event handler
+        def on_click(event):
+            print("Button was clicked!")
+        button.slots_on_click += on_click
     """
 
     @property
@@ -48,7 +75,7 @@ class SingleClickDisable:
     def disable_duration(self, value: float | None):
         if value is None:
             value = self.default_disable_duration
-            self._disable_duration = max(0.1, float(value))
+        self._disable_duration = max(0.1, float(value))
 
     @property
     def is_auto_re_enable(self) -> bool:
@@ -66,25 +93,29 @@ class SingleClickDisable:
             auto_re_enable: bool = False,
             **kwds
         ):
-        # super class init was called from WrappedButton.__init__
+        # Super class init was called from WrappedButton.__init__
         # so do nothing here
         ...
 
-        # below code was called after super class init
+        # Below code was called after super class init
 
-        # set disable duration
+        # Set disable duration
         self.disable_duration = disable_duration
 
-        # set auto re-enable flag
+        # Set auto re-enable flag
         self.is_auto_re_enable = auto_re_enable
 
-        # store original click handlers
+        # Store original click handlers
         self._original_click_slots = []
 
-        # connect our click interceptor
+        # Connect our click interceptor
         self.slots_on_click.insert(0, self._handle_single_click)
 
-        debug.uilog("SINGLE_CLICK_DISABLE", f"Initialized with duration: {self.disable_duration}s, auto_re_enable: {self.is_auto_re_enable}")
+        debug.uilog(
+            "SINGLE_CLICK_DISABLE", 
+            f"Initialized with duration: {self.disable_duration}s, "
+            f"auto_re_enable: {self.is_auto_re_enable}"
+        )
 
     def _handle_single_click(self, event):
         """Handle single click by disabling button and scheduling re-enable"""
@@ -95,7 +126,10 @@ class SingleClickDisable:
 
         # Schedule re-enabling if auto re-enable is enabled
         if self.is_auto_re_enable and self.disable_duration > 0:
-            timer_thread = threading.Timer(self.disable_duration, self._re_enable_button)
+            timer_thread = threading.Timer(
+                self.disable_duration, 
+                self._re_enable_button
+            )
             timer_thread.daemon = True
             timer_thread.start()
 
@@ -123,23 +157,25 @@ class SingleClickDisable:
 
 
 class DoubleClickOnly:
-    """
-    # Button generic that only responds to double-clicks
-    ### Usage
-    ```python
-    button = WrappedButton[DoubleClickOnly](
-    panel,
-    size=(120, 40),
-    pos=(20, 20),
-    label="Double Click Me",
-    double_click_timeout=0.5 # Maximum time between clicks
-    )
+    """Button generic that only responds to double-clicks.
+    
+    This generic modifies button behavior to ignore single clicks and only
+    respond to double-click events. Useful for dangerous or irreversible
+    actions that need confirmation.
+    
+    Usage:
+        button = WrappedButton[DoubleClickOnly](
+            panel,
+            size=(120, 40),
+            pos=(20, 20),
+            label="Double Click Me",
+            double_click_timeout=0.5  # Maximum time between clicks
+        )
 
-    # Connect event handler (will only trigger on double-click)
-    def on_double_click(event):
-    print("Button was double-clicked!")
-    button.slots_on_click += on_double_click
-    ```
+        # Connect event handler (will only trigger on double-click)
+        def on_double_click(event):
+            print("Button was double-clicked!")
+        button.slots_on_click += on_double_click
     """
 
     @property
@@ -175,30 +211,34 @@ class DoubleClickOnly:
         show_single_click_feedback: bool = True,
         **kwds
         ):
-        # super class init was called from WrappedButton.__init__
+        # Super class init was called from WrappedButton.__init__
         # so do nothing here
         ...
 
-        # below code was called after super class init
+        # Below code was called after super class init
 
-        # set double click timeout
+        # Set double click timeout
         self.double_click_timeout = double_click_timeout
 
-        # set feedback flag
+        # Set feedback flag
         self.show_single_click_feedback = show_single_click_feedback
 
-        # track click state
+        # Track click state
         self._last_click_time = 0
         self._click_count = 0
         self._pending_timer = None
 
-        # store original click slots
+        # Store original click slots
         self._stored_click_slots = None
 
-        # replace click handler
+        # Replace click handler
         self._intercept_click_events()
 
-        debug.uilog("DOUBLE_CLICK_ONLY", f"Initialized with timeout: {self.double_click_timeout}s, feedback: {self.show_single_click_feedback}")
+        debug.uilog(
+            "DOUBLE_CLICK_ONLY", 
+            f"Initialized with timeout: {self.double_click_timeout}s, "
+            f"feedback: {self.show_single_click_feedback}"
+        )
 
     def _intercept_click_events(self):
         """Intercept and replace click event handling"""
@@ -224,7 +264,10 @@ class DoubleClickOnly:
 
         self._last_click_time = current_time
 
-        debug.uilog("DOUBLE_CLICK_ONLY", f"Click #{self._click_count} at {current_time}")
+        debug.uilog(
+            "DOUBLE_CLICK_ONLY", 
+            f"Click #{self._click_count} at {current_time}"
+        )
 
         # Cancel any pending single-click timer
         if self._pending_timer:
@@ -233,13 +276,19 @@ class DoubleClickOnly:
 
         if self._click_count >= 2:
             # Double-click detected!
-            debug.uilog("DOUBLE_CLICK_ONLY", "Double-click confirmed - executing handlers")
+            debug.uilog(
+                "DOUBLE_CLICK_ONLY", 
+                "Double-click confirmed - executing handlers"
+            )
             self._execute_stored_handlers(event)
             self._click_count = 0
         else:
             # Single click - wait for potential second click
             if self.show_single_click_feedback:
-                debug.uilog("DOUBLE_CLICK_ONLY", "Single click - waiting for double-click")
+                debug.uilog(
+                    "DOUBLE_CLICK_ONLY", 
+                    "Single click - waiting for double-click"
+                )
                 self._show_single_click_feedback()
 
                 # Start timer for single-click timeout
@@ -259,7 +308,10 @@ class DoubleClickOnly:
                     handler(event)
 
                 except Exception as e:
-                    debug.uilog("DOUBLE_CLICK_ONLY", f"Error in click handler: {e}")
+                    debug.uilog(
+                        "DOUBLE_CLICK_ONLY", 
+                        f"Error in click handler: {e}"
+                    )
 
     def _single_click_timeout(self):
         """Called when single-click timeout expires"""
@@ -277,7 +329,9 @@ class DoubleClickOnly:
             def reset_label():
                 try:
                     import wx
-                    wx.CallAfter(lambda: setattr(self, 'label', original_label))
+                    wx.CallAfter(
+                        lambda: setattr(self, 'label', original_label)
+                    )
 
                 except:
                     self.label = original_label
@@ -302,20 +356,24 @@ class DoubleClickOnly:
 
 
 class ClickGuard:
-    """
-    # Button generic that combines single-click disable with optional double-click requirement
-    ### Usage
-    ```python
-    button = WrappedButton[ClickGuard](
-    panel,
-    size=(120, 40),
-    pos=(20, 20),
-    label="Guarded Button",
-    require_double_click=True,
-    disable_duration=3.0,
-    guard_message="Click again to confirm"
-    )
-    ```
+    """Button generic that combines single-click disable with optional 
+    double-click requirement.
+    
+    This generic provides comprehensive click protection by combining
+    temporary disable behavior with optional double-click confirmation.
+    Useful for dangerous actions that need both time-based and 
+    confirmation-based protection.
+    
+    Usage:
+        button = WrappedButton[ClickGuard](
+            panel,
+            size=(120, 40),
+            pos=(20, 20),
+            label="Guarded Button",
+            require_double_click=True,
+            disable_duration=3.0,
+            guard_message="Click again to confirm"
+        )
     """
 
     @property
@@ -332,7 +390,7 @@ class ClickGuard:
     def guard_message(self, value: str | None):
         if value is None:
             value = self.default_guard_message
-            self._guard_message = str(value)
+        self._guard_message = str(value)
 
     def __init__(
         self,
@@ -342,11 +400,11 @@ class ClickGuard:
         guard_message: str | None = None,
         **kwds
     ):
-    # super class init was called from WrappedButton.__init__
-    # so do nothing here
+        # Super class init was called from WrappedButton.__init__
+        # so do nothing here
         ...
 
-        # below code was called after super class init
+        # Below code was called after super class init
 
         self.require_double_click = require_double_click
         self.disable_duration = disable_duration
@@ -364,7 +422,11 @@ class ClickGuard:
         self.slots_on_click.clear()
         self.slots_on_click += self._handle_guarded_click
 
-        debug.uilog("CLICK_GUARD", f"Initialized: double_click={require_double_click}, duration={disable_duration}s")
+        debug.uilog(
+            "CLICK_GUARD", 
+            f"Initialized: double_click={require_double_click}, "
+            f"duration={disable_duration}s"
+        )
 
     def _handle_guarded_click(self, event):
         """Handle guarded click logic"""
@@ -380,7 +442,10 @@ class ClickGuard:
                 self._enter_guard_state()
             else:
                 # Single click mode - just execute with disable
-                debug.uilog("CLICK_GUARD", "Single click mode - executing with disable")
+                debug.uilog(
+                    "CLICK_GUARD", 
+                    "Single click mode - executing with disable"
+                )
                 self._execute_original_handlers(event)
                 self._temporary_disable()
 
@@ -442,7 +507,8 @@ class ClickGuard:
 
         # Re-enable after duration
         re_enable_timer = threading.Timer(
-            self.disable_duration * 0.5, # Shorter disable after successful action
+            # Shorter disable after successful action
+            self.disable_duration * 0.5,  
             self._re_enable
         )
 
@@ -469,4 +535,8 @@ class ClickGuard:
                 debug.uilog("CLICK_GUARD", f"Handler error: {e}")
 
 
-""" ### A type variable for auto detect button class. """
+__all__ = [
+    'SingleClickDisable',
+    'DoubleClickOnly', 
+    'ClickGuard',
+]
