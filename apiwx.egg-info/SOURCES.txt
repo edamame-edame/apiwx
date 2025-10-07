@@ -29,7 +29,6 @@ apiwx/paneltransmodel.py
 apiwx/py.typed
 apiwx/signals.py
 apiwx/styleflags.py
-apiwx/testcode.py
 apiwx/uiarg.py
 apiwx.egg-info/PKG-INFO
 apiwx.egg-info/SOURCES.txt
@@ -45,6 +44,13 @@ apiwx/stubs/core.pyi
 apiwx/stubs/generics_app.pyi
 apiwx/stubs/generics_common.pyi
 apiwx/stubs/py.typed
+dist/apiwx-0.4.0-py3-none-any.whl
+dist/apiwx-0.4.0.tar.gz
+memo/python311_compatibility_fixes_en.md
+memo/python312_compatibility_results_en.md
+memo/python313_compatibility_results_en.md
+memo/quick_reference_en.md
+memo/v0.3.3_technical_summary_en.md
 project/README.md
 project/auto_build.py
 project/build.bat
@@ -55,6 +61,7 @@ releasenotes/RELEASE_NOTES_v0.2.3.md
 releasenotes/RELEASE_NOTES_v0.3.0.md
 releasenotes/RELEASE_NOTES_v0.3.1.md
 releasenotes/RELEASE_NOTES_v0.3.2.md
+releasenotes/RELEASE_NOTES_v0.4.0.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py
