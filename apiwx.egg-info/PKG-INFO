@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: apiwx
-Version: 0.5.1
+Version: 0.5.2
 Summary: wxPython API wrapper with advanced generics system and integrated type stubs
 Author: edamame
 License: MIT
@@ -220,13 +220,13 @@ button: WrappedButton = WrappedButton[apiwx.SingleClickDisable](
     disable_duration=3.0
 )
 
-# Check applied generics at runtime (Fixed in v0.3.2)
-if button.hasgenerics(apiwx.SingleClickDisable):
+# Check applied mixins at runtime (Fixed in v0.3.2)
+if button.hasmixins(apiwx.SingleClickDisable):
     print("Single-click disable behavior is active")
 
-# Get all generics classes
-generics_list = button.__generic_classes__
-print(f"Applied generics: {generics_list}")
+# Get all mixins classes
+mixins_list = button.__mixin_classes__
+print(f"Applied mixins: {mixins_list}")
 ```
 
 ## Available Components
@@ -243,6 +243,9 @@ print(f"Applied generics: {generics_list}")
 - **WrappedComboBox** - Dropdown selections
 - **WrappedSlider** - Value sliders
 - **And many more...**
+
+### Event System (Enhanced in v0.5.2)
+- **Slots** - Event handling system for connecting callbacks and managing event slots
 
 ### Generics System (Enhanced in v0.3.2)
 Add advanced behaviors to components with the fixed generics system:
@@ -511,9 +514,9 @@ apiwx v0.3.2 includes comprehensive type stubs with fixed generics system:
 
 - **`core.py`** - Main wrapper classes with enhanced UI controls (`enable()`, `disable()`)
 - **`message.py`** - Message boxes and dialogs with comprehensive options
-- **`generics_*.py`** - Generic behaviors for different component types (fixed system)
-- **`generics_core.py`** - Core generics system with working `hasgenerics()` method
-- **`generics_alias.py`** - Convenient aliases like `WindowSizeTransitWithPanel`
+- **`mixins_*.py`** - Mixin behaviors for different component types (fixed system)
+- **`mixins_core.py`** - Core mixins system with working `hasmixins()` method
+- **`mixins_alias.py`** - Convenient aliases like `WindowSizeTransitWithPanel`
 - **`debug.py`** - Advanced logging and debugging utilities
 - **`colors.py`** - Color constants and utilities
 - **`fontmanager.py`** - Font management system

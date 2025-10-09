@@ -1,27 +1,27 @@
-"""Generic type system for apiwx framework.
+"""Mixin type system for apiwx framework.
 
-This module provides the core generic type system that enables dynamic
+This module provides the core mixin type system that enables dynamic
 composition of functionality for wxPython wrapper classes. It implements
-a metaclass-based approach that supports both regular generics and
-metaclass-replacing BaseGenerics patterns.
+a metaclass-based approach that supports both regular mixins and
+metaclass-replacing BaseMixins patterns.
 
 The system allows developers to create flexible and reusable UI components
-by applying generic types that modify class behavior, add functionality,
+by applying mixin types that modify class behavior, add functionality,
 or replace the metaclass entirely for advanced patterns like Singleton
 or Multiton.
 
 Key Components:
-    - GenericsType: Main metaclass for generic type functionality
-    - BaseGenerics: Base class for metaclass-replacing generics
+    - MixinsType: Main metaclass for mixin type functionality
+    - BaseMixins: Base class for metaclass-replacing mixins
 
 Example:
-    >>> class MyWindow(wx.Frame, metaclass=GenericsType):
+    >>> class MyWindow(wx.Frame, metaclass=MixinsType):
     ...     pass
     >>> 
-    >>> # Apply regular generic functionality
-    >>> EnhancedWindow = MyWindow[SomeGeneric]
+    >>> # Apply regular mixin functionality
+    >>> EnhancedWindow = MyWindow[SomeMixin]
     >>> 
-    >>> # Apply metaclass-replacing generic
+    >>> # Apply metaclass-replacing mixin
     >>> SingletonWindow = MyWindow[Singleton]
 """
 import typing
@@ -34,92 +34,92 @@ except:
     import debug
 
 
-class GenericsType(sip.wrappertype):
-    """Metaclass for generic type system in wxPython applications.
+class MixinsType(sip.wrappertype):
+    """Metaclass for mixin type system in wxPython applications.
 
-    GenericsType provides a metaclass that enables generic programming patterns
+    MixinsType provides a metaclass that enables mixin programming patterns
     for wxPython wrapper classes. It allows dynamic composition of 
-    functionality through generic type parameters, supporting both regular 
-    generics and metaclass-replacing BaseGenerics.
+    functionality through mixin type parameters, supporting both regular 
+    mixins and metaclass-replacing BaseMixins.
 
     The class extends wx.siplib.wrappertype to maintain compatibility with
-    wxPython's SIP-generated wrapper classes while adding generic capabilities.
+    wxPython's SIP-generated wrapper classes while adding mixin capabilities.
 
     Key Features:
-        - Generic type instantiation: MyClass[GenericType]
-        - Namespace merging from generic types
-        - BaseGenerics support for metaclass replacement
+        - Mixin type instantiation: MyClass[MixinType]
+        - Namespace merging from mixin types
+        - BaseMixins support for metaclass replacement
         - Automatic method collection and integration
-        - Debug logging for generic operations
+        - Debug logging for mixin operations
 
-    Generic Types:
-        - Regular Generics: Add functionality without changing metaclass
-        - BaseGenerics: Replace metaclass entirely (Singleton, Multiton, etc.)
+    Mixin Types:
+        - Regular Mixins: Add functionality without changing metaclass
+        - BaseMixins: Replace metaclass entirely (Singleton, Multiton, etc.)
 
     Attributes:
-        __generic_classes__: Tuple containing all applied generic types.
+        __mixin_classes__: Tuple containing all applied mixin types.
 
     Example:
-        >>> class MyWindow(wx.Frame, metaclass=GenericsType):
+        >>> class MyWindow(wx.Frame, metaclass=MixinsType):
         ...     pass
         >>> 
-        >>> # Apply regular generic
-        >>> EnhancedWindow = MyWindow[SomeGeneric]
+        >>> # Apply regular mixin
+        >>> EnhancedWindow = MyWindow[SomeMixin]
         >>> 
-        >>> # Apply BaseGenerics (metaclass replacement)
+        >>> # Apply BaseMixins (metaclass replacement)
         >>> SingletonWindow = MyWindow[Singleton]
         >>> assert type(SingletonWindow) == Singleton
         >>> 
-        >>> # Multiple generics
-        >>> ComplexWindow = MyWindow[Generic1, Generic2]
+        >>> # Multiple mixins
+        >>> ComplexWindow = MyWindow[Mixin1, Mixin2]
     """
-    __generic_classes__: tuple[type] = ()
+    __mixin_classes__: tuple[type] = ()
 
 
-    def __getitem__(cls, generics: type | tuple[type]) -> type:
+    def __getitem__(cls, mixins: type | tuple[type]) -> type:
         # If is single type, convert to tuple.
-        if not isinstance(generics, tuple):
-            generics = (generics,)
+        if not isinstance(mixins, tuple):
+            mixins = (mixins,)
 
-        # Check generics validity.
-        base_generics, generics = cls._get_base_generics(generics)
+        # Check mixins validity.
+        base_mixins, mixins = cls._get_base_mixins(mixins)
 
-        if base_generics is not None:
-            metaclass = base_generics
+        if base_mixins is not None:
+            metaclass = base_mixins
 
         else:
             metaclass = cls.__class__
 
         # Create new class.
-        new_cls: 'GenericsType' = types.new_class(
-            f"{cls.__name__}<{','.join([t.__name__ for t in generics])}>",
+        new_cls: 'MixinsType' = types.new_class(
+            f"{cls.__name__}<{','.join([t.__name__ for t in mixins])}>",
             cls.__mro__,
             {'metaclass': metaclass},
             lambda ns: ns.update(cls.__dict__)
         )
 
-        # Add __generic_classes__ attribute if not exists.
-        if not hasattr(new_cls, '__generic_classes__'):
-            new_cls.__generic_classes__ = ()
+        # Add __mixin_classes__ attribute if not exists.
+        if not hasattr(new_cls, '__mixin_classes__'):
+            new_cls.__mixin_classes__ = ()
 
-        if (new_cls.__generic_classes__ and
-                isinstance(new_cls.__generic_classes__[0], BaseGenerics)):
+        if (new_cls.__mixin_classes__ and
+                isinstance(new_cls.__mixin_classes__[0], BaseMixins)):
             raise TypeError(
-                "BaseGenerics-derived class is already set as metaclass, "
-                "cannot add another BaseGenerics."
+                "BaseMixins-derived class is already set as metaclass, "
+                "cannot add another BaseMixins."
             )
 
-        # Add generics to __generic_classes__.
-        new_cls.__generic_classes__ = (
-            (base_generics,) + new_cls.__generic_classes__
+        # Add mixins to __mixin_classes__.
+        new_cls.__mixin_classes__ = (
+            (base_mixins,) + new_cls.__mixin_classes__
         )
 
         # Create new class namespace.
-        new_cls._mro_generics_namespace(generics)
+        new_cls._mro_mixins_namespace(mixins)
 
         debug.internaldebug_log(
-            "GENERICS", 
-            f"Created new generics class: {new_cls.__name__} "
+            "MIXINS", 
+            f"Created new mixins class: {new_cls.__name__} "
             f"with metaclass {type(new_cls)} and bases {new_cls.__bases__}"
         )
 
@@ -139,7 +139,7 @@ class GenericsType(sip.wrappertype):
 
         if hasattr(cls, "meta__new__"):
             debug.internaldebug_log(
-                "GENERICS", f"generics.__new__[] = {cls.meta__new__}"
+                "MIXINS", f"mixins.__new__[] = {cls.meta__new__}"
             )
 
             # Then, call meta__new__ methods.
@@ -148,7 +148,7 @@ class GenericsType(sip.wrappertype):
 
         if hasattr(cls, "meta__init__"):
             debug.internaldebug_log(
-                "GENERICS", f"generics.__init__[] = {cls.meta__init__}"
+                "MIXINS", f"mixins.__init__[] = {cls.meta__init__}"
             )
 
             # Finally, call meta__init__ methods.
@@ -158,58 +158,58 @@ class GenericsType(sip.wrappertype):
         return instance
 
 
-    def _get_base_generics(
-        cls, _generics: tuple[type]
-    ) -> tuple[typing.Type['BaseGenerics'] | None, tuple[type]]:
-        base_generics = []
-        generics: tuple[type] = ()
+    def _get_base_mixins(
+        cls, _mixins: tuple[type]
+    ) -> tuple[typing.Type['BaseMixins'] | None, tuple[type]]:
+        base_mixins = []
+        mixins: tuple[type] = ()
 
-        for generic_type in _generics:
-            if issubclass(generic_type, BaseGenerics):
-                base_generics.append(generic_type)
+        for mixin_type in _mixins:
+            if issubclass(mixin_type, BaseMixins):
+                base_mixins.append(mixin_type)
 
-            elif isinstance(generic_type, type):
-                generics += (generic_type,)
+            elif isinstance(mixin_type, type):
+                mixins += (mixin_type,)
 
-        if len(base_generics) > 1:
+        if len(base_mixins) > 1:
             raise ValueError(
-                "Only one BaseGenerics-derived class is allowed "
-                "per generic instantiation."
+                "Only one BaseMixins-derived class is allowed "
+                "per mixin instantiation."
             )
 
-        return base_generics[0] if base_generics else None, generics
+        return base_mixins[0] if base_mixins else None, mixins
 
 
-    def _mro_generics_namespace(
-        cls: 'GenericsType', 
-        generics: tuple[type]
+    def _mro_mixins_namespace(
+        cls: 'MixinsType', 
+        mixins: tuple[type]
     ) -> dict:
         # Create added namespace.
         added_namespace = {}
 
-        # Iterate generics.
-        for generic_type in generics:
+        # Iterate mixins.
+        for mixin_type in mixins:
             # Already added.
-            if generic_type in cls.__generic_classes__:
+            if mixin_type in cls.__mixin_classes__:
                 debug.internaldebug_log(
-                    "GENERICS", 
-                    f"Generic '{generic_type.__name__}' already in "
-                    f"__generic_classes__, skipping"
+                    "MIXINS", 
+                    f"Mixin '{mixin_type.__name__}' already in "
+                    f"__mixin_classes__, skipping"
                 )
                 continue
             
-            # Add generics type.
-            cls.__generic_classes__ += (generic_type, )
+            # Add mixins type.
+            cls.__mixin_classes__ += (mixin_type, )
 
-            if isinstance(generic_type, sip.wrappertype):
+            if isinstance(mixin_type, sip.wrappertype):
                 # UI type conflict.
-                raise TypeError("Generic type cannot be a wrapper type")
+                raise TypeError("Mixin type cannot be a wrapper type")
 
-            elif isinstance(generic_type, BaseGenerics):
-                ... # Target is BaseGenerics, skip.
+            elif isinstance(mixin_type, BaseMixins):
+                ... # Target is BaseMixins, skip.
 
             else:
-                cls._namespace_editor(generic_type, added_namespace)
+                cls._namespace_editor(mixin_type, added_namespace)
 
         cls._link_namespace(added_namespace)
 
@@ -217,14 +217,14 @@ class GenericsType(sip.wrappertype):
 
 
     def _namespace_editor(
-        cls: 'GenericsType', 
-        generic_type: type, 
+        cls: 'MixinsType', 
+        mixin_type: type, 
         namespace: dict
     ):
         # Check all attributes.
-        for attr_name in GenericsType.get_all_members(generic_type):
+        for attr_name in MixinsType.get_all_members(mixin_type):
             # Get attribute.
-            attribute = getattr(generic_type, attr_name)
+            attribute = getattr(mixin_type, attr_name)
 
             if attr_name == '__new__':
                 if not hasattr(cls, 'meta__new__'):
@@ -249,10 +249,10 @@ class GenericsType(sip.wrappertype):
                 else:
                     # Skip existing attributes.
                     debug.internallog(
-                        "GENERICS",
+                        "MIXINS",
                         f"Attribute '{attr_name}' already exists"
                         f" in class '{cls.__name__}', skipping addition"
-                        f" from generic '{generic_type.__name__}'")
+                        f" from mixin '{mixin_type.__name__}'")
     
 
     def _link_namespace(cls, namespace: dict[str, ]):
@@ -271,12 +271,12 @@ class GenericsType(sip.wrappertype):
         return 
 
 
-    def hasgenerics(cls, generics: type | tuple[type]) -> bool:
-        if not isinstance(generics, tuple):
-            generics = (generics,)
+    def hasmixins(cls, mixins: type | tuple[type]) -> bool:
+        if not isinstance(mixins, tuple):
+            mixins = (mixins,)
 
-        for generic_type in generics:
-            if not generic_type in cls.__generic_classes__:
+        for mixin_type in mixins:
+            if not mixin_type in cls.__mixin_classes__:
                 return False
 
         return True
@@ -300,29 +300,29 @@ class GenericsType(sip.wrappertype):
         return members
 
 
-class BaseGenerics(GenericsType):
-    """Base class for metaclass-replacing generics.
+class BaseMixins(MixinsType):
+    """Base class for metaclass-replacing mixins.
 
-    BaseGenerics is a special type of generic that replaces the metaclass 
+    BaseMixins is a special type of mixin that replaces the metaclass 
     of the target class rather than just modifying its structure. This allows 
     for fundamental changes to class behavior, particularly instance creation 
     and lifecycle management.
 
-    BaseGenerics vs Regular Generics:
-        - BaseGenerics: Replaces the metaclass entirely 
+    BaseMixins vs Regular Mixins:
+        - BaseMixins: Replaces the metaclass entirely 
           (e.g., Singleton, Multiton)
-        - Regular Generics: Only modifies class structure without changing 
+        - Regular Mixins: Only modifies class structure without changing 
           metaclass
 
-    When using BaseGenerics-derived classes, the metaclass is completely 
+    When using BaseMixins-derived classes, the metaclass is completely 
     replaced:
-        >>> class MyClass(metaclass=GenericsType):
+        >>> class MyClass(metaclass=MixinsType):
         ...     pass
         >>> SingletonClass = MyClass[Singleton]
         >>> assert type(SingletonClass) == Singleton  # Metaclass is replaced
 
     MRO Behavior:
-        BaseGenerics classes do NOT appear in the MRO of generated classes 
+        BaseMixins classes do NOT appear in the MRO of generated classes 
         because they function as metaclasses, not parent classes:
         
         >>> SingletonClass.__mro__  
@@ -337,12 +337,12 @@ class BaseGenerics(GenericsType):
         - Lifecycle Management: Control object construction/destruction
 
     Implementation Requirements:
-        BaseGenerics subclasses should implement:
+        BaseMixins subclasses should implement:
         - __call__(): Custom instance creation logic
         - Class-level state management (e.g., _instance, _instances)
 
     Example:
-        >>> class Singleton(BaseGenerics):
+        >>> class Singleton(BaseMixins):
         ...     def __call__(cls, *args, **kwargs):
         ...         if not hasattr(cls, '_instance'):
         ...             cls._instance = super().__call__(*args, **kwargs)

@@ -10,7 +10,7 @@ from typing import TypeAlias
 import wx
 
 # Version information
-__version__: str = "0.5.1"
+__version__: str = "0.5.2"
 
 # Type variables
 T = TypeVar('T')
@@ -52,16 +52,16 @@ from .signals import *
 # === UI Arguments and Options ===
 from .uiarg import Options, exist_option, get_option, get_var
 
-# === Generic Type System ===
-from .generics_common import AutoDetect, FixSize
-from .generics_base import Singleton, Multiton
-from .generics_app import DetectWindow
-from .generics_window import ByPanelSize, DetectPanel
-from .generics_panel import WithBoarder, DetectChildren
-from .generics_button import SingleClickDisable, DoubleClickOnly, ClickGuard
+# === Mixin Type System ===
+from .mixins_common import AutoDetect, FixSize
+from .mixins_base import Singleton, Multiton
+from .mixins_app import DetectWindow
+from .mixins_window import ByPanelSize, DetectPanel
+from .mixins_panel import WithBoarder, DetectChildren
+from .mixins_button import SingleClickDisable, DoubleClickOnly, ClickGuard
 
 # === Type Aliases ===
-from .generics_alias import (
+from .mixins_alias import (
     AppBase, AppDetectWindow,
     WindowWithPanel, WindowByPanelSize, WindowPanelTransit, WindowSizeTransitWithPanel,
     PanelDetectChildren, PanelWithBoarder, PanelNoTransition,

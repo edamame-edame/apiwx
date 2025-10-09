@@ -101,9 +101,9 @@ def test_basic_imports():
     """Test basic module imports"""
     try:
         import apiwx
-        from apiwx import debug, core, generics_core, generics_base
-        from apiwx.generics_base import Singleton, Multiton
-        from apiwx.generics_core import GenericsType, BaseGenerics
+        from apiwx import debug, core, mixins_core, mixins_base
+        from apiwx.mixins_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType, BaseMixins
         print("Basic imports successful")
         return True
     except Exception as e:
@@ -145,10 +145,10 @@ def test_debug_system():
 def test_singleton_pattern():
     """Test Singleton pattern implementation"""
     try:
-        from apiwx.generics_base import Singleton
-        from apiwx.generics_core import GenericsType
+        from apiwx.mixins_base import Singleton
+        from apiwx.mixins_core import MixinsType
         
-        class TestClass(metaclass=GenericsType):
+        class TestClass(metaclass=MixinsType):
             def __init__(self, name="test"):
                 self.name = name
                 self.counter = 0
@@ -184,10 +184,10 @@ def test_singleton_pattern():
 def test_multiton_pattern():
     """Test Multiton pattern implementation"""
     try:
-        from apiwx.generics_base import Multiton
-        from apiwx.generics_core import GenericsType
+        from apiwx.mixins_base import Multiton
+        from apiwx.mixins_core import MixinsType
         
-        class TestClass(metaclass=GenericsType):
+        class TestClass(metaclass=MixinsType):
             def __init__(self, name="test"):
                 self.name = name
                 self.counter = 0
@@ -224,13 +224,13 @@ def test_multiton_pattern():
         print(f"Multiton test failed: {e}")
         return False
 
-def test_generics_system():
+def test_mixins_system():
     """Test core generics system"""
     try:
-        from apiwx.generics_core import GenericsType, BaseGenerics
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType, BaseGenerics
+        from apiwx.mixins_base import Singleton, Multiton
         
-        class TestBase(metaclass=GenericsType):
+        class TestBase(metaclass=MixinsType):
             def __init__(self, value=42):
                 self.value = value
         
@@ -314,11 +314,11 @@ def test_constants_and_enums():
         print(f"Constants test failed: {e}")
         return False
 
-def test_generics_integration():
+def test_mixins_integration():
     """Test advanced generics integration"""
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
         # Test inheritance with generics
         class BaseClass:
@@ -328,7 +328,7 @@ def test_generics_integration():
             def base_method(self):
                 return "base_method"
         
-        class TestClass(BaseClass, metaclass=GenericsType):
+        class TestClass(BaseClass, metaclass=MixinsType):
             def __init__(self, name="test", extra="extra"):
                 super().__init__(name)
                 self.extra = extra
@@ -371,11 +371,11 @@ def test_generics_integration():
 def test_error_handling():
     """Test error handling and edge cases"""
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton
         
         # Test empty class with generics
-        class EmptyClass(metaclass=GenericsType):
+        class EmptyClass(metaclass=MixinsType):
             pass
         
         EmptySingleton = EmptyClass[Singleton]
@@ -441,11 +441,11 @@ def run_all_tests():
         ("Debug System", test_debug_system),
         ("Singleton Pattern", test_singleton_pattern),
         ("Multiton Pattern", test_multiton_pattern),
-        ("Generics System", test_generics_system),
+        ("Generics System", test_mixins_system),
         ("Core Components", test_core_components),
         ("Message System", test_message_system),
         ("Constants and Enums", test_constants_and_enums),
-        ("Generics Integration", test_generics_integration),
+        ("Generics Integration", test_mixins_integration),
         ("Error Handling", test_error_handling),
         ("Auto-Build Compatibility", test_auto_build_compatibility),
     ]
@@ -464,11 +464,11 @@ def run_specific_test(test_name: str):
         "debug": test_debug_system,
         "singleton": test_singleton_pattern,
         "multiton": test_multiton_pattern,
-        "generics": test_generics_system,
+        "generics": test_mixins_system,
         "core": test_core_components,
         "message": test_message_system,
         "constants": test_constants_and_enums,
-        "integration": test_generics_integration,
+        "integration": test_mixins_integration,
         "errors": test_error_handling,
         "autobuild": test_auto_build_compatibility,
     }

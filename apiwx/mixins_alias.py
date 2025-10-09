@@ -1,8 +1,8 @@
-"""Generics Alias Module for apiwx.
+"""Mixins Alias Module for apiwx.
 
-This module provides convenient type aliases for commonly used generic
+This module provides convenient type aliases for commonly used mixin
 class combinations in the apiwx framework. It defines pre-configured
-generic types that combine core wrapped classes with various generic
+mixin types that combine core wrapped classes with various mixin
 behaviors like Singleton, Multiton, AutoDetect, and specialized
 component behaviors.
 
@@ -12,14 +12,14 @@ the naming pattern of combining the base class name with descriptive
 behavior names.
 
 Common Alias Categories:
-    - App aliases: Application-level generics with singleton patterns
+    - App aliases: Application-level mixins with singleton patterns
     - Window aliases: Window classes with panel detection and sizing
     - Panel aliases: Panel classes with children detection and transitions
     - Button aliases: Button classes with click behaviors and guards
 
 Example Usage:
-    >>> from apiwx.generics_alias import AppBase, WindowWithPanel
-    >>> from apiwx.generics_alias import PanelDetectChildren
+    >>> from apiwx.mixins_alias import AppBase, WindowWithPanel
+    >>> from apiwx.mixins_alias import PanelDetectChildren
     >>> 
     >>> # Create singleton application
     >>> app = AppBase()
@@ -74,82 +74,82 @@ except ImportError:
     )
 
 try:
-    from .generics_app import (
+    from .mixins_app import (
         DetectWindow,
     )
 
 except ImportError: 
-    from generics_app import (
+    from mixins_app import (
         DetectWindow,
     )
 
 try:
-    from .generics_window import (
+    from .mixins_window import (
         DetectPanel,
         ByPanelSize,
     )
 
 except ImportError:
-    from generics_window import (
+    from mixins_window import (
         DetectPanel,
         ByPanelSize,
     )
 
 try:
-    from .generics_panel import (
+    from .mixins_panel import (
         DetectChildren,
         WithBoarder,
     )
 
 except ImportError:
-    from generics_panel import (
+    from mixins_panel import (
         DetectChildren,
         WithBoarder,
     )
 
 try:
-    from .generics_base import (
+    from .mixins_base import (
         Singleton,
         Multiton,
     )
 
 except ImportError:
-    from generics_base import (
+    from mixins_base import (
         Singleton,
         Multiton,
     )
 
 try:
-    from .generics_common import (
+    from .mixins_common import (
         AutoDetect,
         FixSize,
     )
 
 except ImportError:
-    from generics_common import (
+    from mixins_common import (
         AutoDetect,
         FixSize,
     )
 
 try:
-    from .generics_core import (
-        BaseGenerics,
+    from .mixins_core import (
+        BaseMixins,
     )
 
 except ImportError:
-    from generics_core import (
-        BaseGenerics,
+    from mixins_core import (
+        BaseMixins,
     )
 
 try:
-    from .generics_button import (
+    from .mixins_button import (
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
     )
 
 except ImportError:
-    from generics_button import (
+    from mixins_button import (
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
@@ -525,10 +525,10 @@ __all__ = [
 
 # Example usage and common patterns
 if __name__ == "__main__":
-    print("apiwx.generics_alias - Type aliases for generic combinations")
-    print("This module provides convenient aliases for common generic types")
+    print("apiwx.mixins_alias - Type aliases for mixin combinations")
+    print("This module provides convenient aliases for common mixin types")
     print("\nExample usage:")
-    print("  from apiwx.generics_alias import AppBase, WindowWithPanel")
+    print("  from apiwx.mixins_alias import AppBase, WindowWithPanel")
     print("  app = AppBase()  # Singleton application")
     print("  window = WindowWithPanel(None, 'Title')  # Window with panels")
     print("\nAvailable aliases:")

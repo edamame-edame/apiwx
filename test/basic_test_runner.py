@@ -23,8 +23,8 @@ def test_imports():
     print("Testing imports...")
     try:
         import apiwx
-        from apiwx import core, debug, generics_core, generics_base
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx import core, debug, mixins_core, mixins_base
+        from apiwx.mixins_base import Singleton, Multiton
         print("[PASS] Basic imports successful")
         return True
     except Exception as e:
@@ -35,10 +35,10 @@ def test_singleton_basic():
     """Test basic Singleton functionality"""
     print("Testing Singleton pattern...")
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton
-        
-        class TestClass(metaclass=GenericsType):
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton
+
+        class TestClass(metaclass=MixinsType):
             def __init__(self, name="test"):
                 self.name = name
         
@@ -60,10 +60,10 @@ def test_multiton_basic():
     """Test basic Multiton functionality"""
     print("Testing Multiton pattern...")
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Multiton
         
-        class TestClass(metaclass=GenericsType):
+        class TestClass(metaclass=MixinsType):
             def __init__(self, name="test"):
                 self.name = name
         

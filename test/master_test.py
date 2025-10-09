@@ -34,7 +34,7 @@ def main():
         "pattern_tests.py", 
         "integration_tests.py",
         "comprehensive_test_runner.py",
-        "test_generics_core_changes.py"
+        "test_mixins_core_changes.py"
     ]
     
     passed = 0

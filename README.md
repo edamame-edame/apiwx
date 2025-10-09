@@ -2,7 +2,15 @@
 
 # apiwx
 
-**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful generics system, comprehensive message boxes, **integrated type stubs**, and comprehensive Python version compatibility testing.
+**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful **mixin system**, comprehensive message boxes, **integrated type stubs**, and comprehensive Python version compatibility testing.
+
+## 🎉 What's New in v0.5.2
+
+- **🔄 Terminology Standardization**: Complete migration from "generics" to "mixins" terminology
+- **📚 Industry Alignment**: Now uses standard Python mixin conventions
+- **🔧 Zero Breaking Changes**: All existing code continues to work unchanged
+- **🎯 Enhanced Documentation**: Clearer examples and better developer experience
+- **🏗️ Improved Type Support**: Comprehensive type stubs with VSCode integration
 
 ## Quick Start
 
@@ -50,8 +58,8 @@ apiwx now includes **built-in type stubs** that are automatically installed:
 - **Zero Configuration**: Type stubs included in main package - no separate installation needed
 - **Universal VSCode Support**: "Go to Definition" (F12) shows clean type stubs across all environments
 - **PEP 561 Compliance**: Full compatibility with mypy, pylance, pyright, and other type checkers
-- **Complete Coverage**: 21 comprehensive type stub files covering all modules and generics
-- **Intelligent Class Definitions**: Real instantiable classes for generic aliases with full parameter support
+- **Complete Coverage**: 21 comprehensive type stub files covering all modules and mixins
+- **Intelligent Class Definitions**: Real instantiable classes for mixin aliases with full parameter support
 
 ```python
 # Full type support out of the box
@@ -70,8 +78,8 @@ Enhanced development experience with comprehensive type information:
 
 - **Superior IntelliSense**: Advanced autocompletion and parameter hints
 - **Go to Definition**: F12 shows clean type declarations instead of implementation
-- **Enhanced Type Safety**: Static analysis and error detection with proper generics support
-- **Generic System**: Advanced metaclass-based generics with full type introspection
+- **Enhanced Type Safety**: Static analysis and error detection with proper mixin support
+- **Mixin System**: Advanced metaclass-based mixins with full type introspection
 
 ### Simplified GUI Components
 No more complex wxPython constructors - just simple, intuitive classes:
@@ -129,8 +137,8 @@ if apiwx.ask_question("Do you want to save changes?"):
     save_changes()
 ```
 
-### Smart Button Behaviors with Generics System
-Add advanced behaviors with the powerful generics system:
+### Smart Button Behaviors with Mixin System
+Add advanced behaviors with the powerful mixin system:
 
 ```python
 # Button that disables itself after clicking (prevents double-clicks)
@@ -148,8 +156,9 @@ confirm_btn = apiwx.WrappedButton[apiwx.ClickGuard](
     panel, label="Delete All", guard_message="Click again to confirm"
 )
 
-# Check what generics are applied (New in v0.3.2)
-if button.hasgenerics(apiwx.SingleClickDisable):
+# Check what mixins are applied (New in v0.3.2, updated in v0.5.2)
+from apiwx.mixins_core import MixinsType
+if MixinsType.hasmixins(type(button), apiwx.SingleClickDisable):
     print("Button has single-click disable behavior")
 ```
 
@@ -172,11 +181,11 @@ panel = apiwx.WrappedPanel[apiwx.DetectChildren](window)
 transit_window = apiwx.WindowSizeTransitWithPanel(app, title="Transition Window")
 ```
 
-### Enhanced Type Support with Fixed Generics
-apiwx v0.3.2 includes a completely fixed generics system with full type support:
+### Enhanced Type Support with Mixin System
+apiwx v0.5.2 includes a completely redesigned mixin system with full type support:
 
 ```python
-# Full type hints and IDE support with working generics
+# Full type hints and IDE support with working mixins
 from apiwx import WrappedApp, WrappedWindow, WrappedButton, Singleton
 from typing import Optional
 
@@ -184,7 +193,7 @@ from typing import Optional
 app: WrappedApp = WrappedApp[Singleton]("TypedApp")
 window: WrappedWindow = WrappedWindow(app, title="Typed Window")
 
-# Enhanced button with type checking and generics introspection
+# Enhanced button with type checking and mixin introspection
 button: WrappedButton = WrappedButton[apiwx.SingleClickDisable](
     parent=window,
     label="Click Me",
@@ -193,13 +202,13 @@ button: WrappedButton = WrappedButton[apiwx.SingleClickDisable](
     disable_duration=3.0
 )
 
-# Check applied generics at runtime (Fixed in v0.3.2)
-if button.hasgenerics(apiwx.SingleClickDisable):
+# Check applied mixins at runtime (Redesigned in v0.5.2)
+if button.hasmixins(apiwx.SingleClickDisable):
     print("Single-click disable behavior is active")
 
-# Get all generics classes
-generics_list = button.__generic_classes__
-print(f"Applied generics: {generics_list}")
+# Get all mixins classes
+mixins_list = button.__mixin_classes__
+print(f"Applied mixins: {mixins_list}")
 ```
 
 ## Available Components
@@ -217,20 +226,23 @@ print(f"Applied generics: {generics_list}")
 - **WrappedSlider** - Value sliders
 - **And many more...**
 
-### Generics System (Enhanced in v0.3.2)
-Add advanced behaviors to components with the fixed generics system:
+### Event System (Enhanced in v0.5.2)
+- **Slots** - Event handling system for connecting callbacks and managing event slots
+
+### Mixin System (Redesigned in v0.5.2)
+Add advanced behaviors to components with the comprehensive mixin system:
 
 #### Base Patterns
-- **Singleton/Multiton** - Instance management patterns (now working correctly)
+- **Singleton/Multiton** - Instance management patterns (using standardized mixins)
 - **AutoDetect** - Automatic component detection and management
 - **FixSize** - Fixed sizing behavior
 
-#### Button Generics  
+#### Button Mixins  
 - **SingleClickDisable** - Prevent double-clicking with auto re-enable
 - **DoubleClickOnly** - Require double-click confirmation
 - **ClickGuard** - Click confirmation prompts with customizable messages
 
-#### Window & Panel Generics
+#### Window & Panel Mixins
 - **DetectPanel** - Automatic panel detection in windows
 - **DetectChildren** - Child component detection in panels
 - **WithBoarder** - Automatic border management
@@ -238,11 +250,11 @@ Add advanced behaviors to components with the fixed generics system:
 - **SupportTransit** - Panel transition support
 - **NotTransition** - Exclude panels from transition management
 
-#### App Generics
+#### App Mixins
 - **DetectWindow** - Automatic window detection in applications
 
-#### Generics Aliases (Enhanced in v0.5.1)
-Convenient pre-built classes that combine common generic behaviors:
+#### Mixin Aliases (Enhanced in v0.5.2)
+Convenient pre-built classes that combine common mixin behaviors:
 
 **Application Classes:**
 - **AppBase** - `WrappedApp[Singleton]` - Single instance applications
@@ -277,7 +289,7 @@ panel = apiwx.PanelWithBoarder(
 button = apiwx.ButtonClickGuard(
     panel,
     label="Delete",
-    require_double_click=True,   # Typed generic parameters
+    require_double_click=True,   # Typed mixin parameters
     guard_message="Click again to confirm"
 )
 ```
@@ -292,12 +304,12 @@ button = apiwx.ButtonClickGuard(
 - **get_choice_input()** - Selection dialog
 
 ### Advanced Features
-- **Enhanced Generics System** - Add behaviors to components with proper introspection
+- **Enhanced Mixin System** - Add behaviors to components with proper introspection
 - **Robust Logging System** - Built-in debug logging with multiple levels
 - **Font Management** - Easy font handling and management
 - **Color Constants** - Predefined color palette and utilities
 - **Panel Transition Management** - Multi-panel visibility control with transitions
-- **Type Introspection** - Runtime generics detection with `hasgenerics()` method
+- **Type Introspection** - Runtime mixin detection with `hasmixins()` method
 - **Convenient UI Controls** - `enable()` and `disable()` methods for all components
 
 ## Common Patterns
@@ -335,13 +347,13 @@ submit_button.slots_on_click += submit_form
 app.mainloop()
 ```
 
-### Working with Enhanced Type Declarations and Generics
+### Working with Enhanced Type Declarations and Mixins
 
 ```python
 import apiwx
 from typing import Optional
 
-# Type-aware development with working generics
+# Type-aware development with working mixins
 app: apiwx.WrappedApp = apiwx.WrappedApp[apiwx.Singleton]("MyApp")
 window: apiwx.WrappedWindow = apiwx.WrappedWindow[apiwx.DetectPanel](app, title="Type Demo")
 
@@ -357,8 +369,8 @@ def create_smart_button(parent: apiwx.WrappedPanel,
     if callback:
         button.slots_on_click += callback
     
-    # Check generics at runtime (Fixed in v0.3.2)
-    if button.hasgenerics(apiwx.SingleClickDisable):
+    # Check mixins at runtime (Redesigned in v0.5.2)
+    if button.hasmixins(apiwx.SingleClickDisable):
         print(f"Button '{label}' has single-click disable protection")
     
     return button
@@ -371,12 +383,12 @@ def toggle_button_state(button: apiwx.WrappedButton):
         button.enable()
 ```
 
-### Using Enhanced Generics for Advanced Functionality
+### Using Enhanced Mixins for Advanced Functionality
 
 ```python
 import apiwx
 
-app = apiwx.WrappedApp[apiwx.Singleton]("Generics Demo")
+app = apiwx.WrappedApp[apiwx.Singleton]("Mixins Demo")
 window = apiwx.WrappedWindow[apiwx.DetectPanel]("Advanced Buttons")
 panel = apiwx.WrappedPanel[apiwx.DetectChildren](window)
 
@@ -405,17 +417,17 @@ reset_btn = apiwx.WrappedButton[apiwx.ClickGuard](
     guard_message="Click again to confirm reset"
 )
 
-# Runtime generics introspection (Fixed in v0.3.2)
+# Runtime mixin introspection (Redesigned in v0.5.2)
 def check_button_behaviors():
     buttons = [submit_btn, delete_btn, reset_btn]
     
     for btn in buttons:
-        print(f"Button '{btn.text}' generics:")
-        if btn.hasgenerics(apiwx.SingleClickDisable):
+        print(f"Button '{btn.text}' mixins:")
+        if btn.hasmixins(apiwx.SingleClickDisable):
             print("  - Has single-click disable")
-        if btn.hasgenerics(apiwx.DoubleClickOnly):
+        if btn.hasmixins(apiwx.DoubleClickOnly):
             print("  - Requires double-click")
-        if btn.hasgenerics(apiwx.ClickGuard):
+        if btn.hasmixins(apiwx.ClickGuard):
             print("  - Has click guard")
 
 # Window with panel transition support (New in v0.3.2)
@@ -472,25 +484,25 @@ app.mainloop()
 
 ### Type Declaration Benefits
 
-apiwx v0.3.2 includes comprehensive type stubs with fixed generics system:
+apiwx v0.5.2 includes comprehensive type stubs with redesigned mixin system:
 
 - **Perfect IDE Integration**: Go to Definition (F12) shows clean type interfaces
 - **Enhanced Development Speed**: Superior autocompletion and parameter hints  
-- **Advanced Error Prevention**: Static type checking with generics support
-- **Runtime Introspection**: Working `hasgenerics()` method for runtime type checking
+- **Advanced Error Prevention**: Static type checking with mixin support
+- **Runtime Introspection**: Working `hasmixins()` method for runtime type checking
 - **Living Documentation**: Type signatures serve as built-in API documentation
 
 ### Module Organization
 
 - **`core.py`** - Main wrapper classes with enhanced UI controls (`enable()`, `disable()`)
 - **`message.py`** - Message boxes and dialogs with comprehensive options
-- **`generics_*.py`** - Generic behaviors for different component types (fixed system)
-- **`generics_core.py`** - Core generics system with working `hasgenerics()` method
-- **`generics_alias.py`** - Convenient aliases like `WindowSizeTransitWithPanel`
+- **`mixins_*.py`** - Mixin behaviors for different component types (fixed system)
+- **`mixins_core.py`** - Core mixins system with working `hasmixins()` method
+- **`mixins_alias.py`** - Convenient aliases like `WindowSizeTransitWithPanel`
 - **`debug.py`** - Advanced logging and debugging utilities
 - **`colors.py`** - Color constants and utilities
 - **`fontmanager.py`** - Font management system
-- **`paneltransmodel.py`** - Panel transition management (fixed `hasgenerics` calls)
+- **`paneltransmodel.py`** - Panel transition management (updated with `hasmixins` calls)
 - **`stubs/`** - Type declaration files (.pyi) for superior IDE support
 
 ### Documentation
@@ -507,12 +519,12 @@ apiwx v0.3.2 includes comprehensive type stubs with fixed generics system:
 - **Beginner-Friendly** - Simplified API that's easy to learn
 - **Highly Productive** - Write less code, get more done with smart defaults
 - **Professional Code Quality** - 100% PEP 8/257 compliant for enterprise standards (v0.5.0)
-- **Robustly Type-Safe** - Comprehensive type declarations with working generics system
-- **Extremely Flexible** - Use simple wrappers or advanced generic behaviors
+- **Robustly Type-Safe** - Comprehensive type declarations with working mixin system
+- **Extremely Flexible** - Use simple wrappers or advanced mixin behaviors
 - **Thoroughly Modern** - Contemporary Python patterns and superior IDE support
 - **Rock-Solid Reliable** - Built on the mature wxPython framework with extensive testing
 - **Desktop-Focused** - Designed specifically for desktop GUI applications
-- **Runtime Introspection** - Full generics support with `hasgenerics()` method
+- **Runtime Introspection** - Full mixin support with `hasmixins()` method
 - **Python 3.12 Ready** - Fully tested and optimized for the latest Python versions
 - **Internationally Accessible** - Complete documentation available in multiple languages
 - **Enterprise Ready** - Professional coding standards and comprehensive quality assurance
@@ -520,13 +532,13 @@ apiwx v0.3.2 includes comprehensive type stubs with fixed generics system:
 ## Advanced Usage
 
 For complex applications, explore:
-- **Enhanced Generics System** for component behavior customization with runtime introspection
+- **Enhanced Mixin System** for component behavior customization with runtime introspection
 - **Professional Type Declarations** for superior IDE support and development experience
 - **Panel Transition Management** for multi-view applications with smooth transitions
 - **Advanced Debug Logging** for development and troubleshooting with multiple log levels
 - **Smart Font Management** for consistent typography across components
 - **Rich Message Dialogs** for comprehensive user interaction and feedback
-- **Component Introspection** using `hasgenerics()` for runtime behavior detection
+- **Component Introspection** using `hasmixins()` for runtime behavior detection
 - **Convenient UI Controls** with `enable()` and `disable()` methods
 - **Python 3.12 Features** including typing.override decorator and modern type syntax
 - **Comprehensive Testing Framework** with 9-category test coverage for reliability assurance
@@ -537,10 +549,10 @@ Check the project repository for complete examples and tutorials showing:
 - Simple desktop applications with enhanced controls
 - Form handling and validation with smart behaviors
 - Multi-panel applications with transition management
-- Advanced component behaviors using the fixed generics system
+- Advanced component behaviors using the redesigned mixin system
 - Type-safe development patterns with runtime introspection
 - Integration with other Python libraries
-- Real-world usage of `hasgenerics()` method for dynamic behavior detection
+- Real-world usage of `hasmixins()` method for dynamic behavior detection
 - Python 3.12 compatibility examples with modern language features
 - Comprehensive testing patterns for GUI applications
 
@@ -565,7 +577,7 @@ apiwx v0.5.0 achieves the highest code quality standards:
 apiwx includes a comprehensive testing framework with 9 major test categories:
 
 1. **Core Components Testing** - Basic GUI component functionality
-2. **Generics System Testing** - Advanced behavior system validation
+2. **Mixin System Testing** - Advanced behavior system validation
 3. **Message System Testing** - Dialog and notification functionality
 4. **Event Handling Testing** - User interaction and event processing
 5. **Type System Testing** - Type annotations and IDE support
@@ -603,12 +615,12 @@ All tests maintain 100% pass rate across supported Python versions, ensuring rel
 - **STABILITY**: Improved package reliability and installation process
 
 ### Version 0.3.2
-- **CRITICAL FIX**: Fixed generics system - `hasgenerics()` method now works correctly
-- **CRITICAL FIX**: Fixed `__generic_classes__` attribute being properly set during creation
+- **CRITICAL REDESIGN**: Redesigned mixin system - `hasmixins()` method with improved architecture
+- **CRITICAL FIX**: Fixed `__mixin_classes__` attribute being properly set during creation
 - **ENHANCEMENT**: Added `enable()` and `disable()` convenience methods to all UI components
 - **IMPROVEMENT**: Reorganized import structure for better reliability and error handling
 - **NEW ALIAS**: Added `WindowSizeTransitWithPanel` for combined window behaviors
-- **CLEANUP**: Removed deprecated `DetectButton` and cleaned up generics aliases
+- **CLEANUP**: Removed deprecated `DetectButton` and cleaned up mixin aliases
 - **TESTING**: Added comprehensive test suite with 100% pass rate
 - **COMPATIBILITY**: Maintained full backward compatibility while fixing core issues
 

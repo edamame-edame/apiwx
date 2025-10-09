@@ -1,14 +1,14 @@
-"""Common generic type definitions for wxPython components.
+"""Common mixin type definitions for wxPython components.
 
-This module provides shared generic classes and mixins that can be used
+This module provides shared mixin classes and utilities that can be used
 across different wxPython UI components. It includes utilities for size
 management, automatic component detection, and dynamic type creation.
 
 Key classes:
     - FixSize: Mixin to prevent component resizing
-    - AutoDetect: Generic type for automatic UI component detection
+    - AutoDetect: Mixin type for automatic UI component detection
 
-These generics enable flexible composition patterns and automatic component
+These mixins enable flexible composition patterns and automatic component
 management in wxPython applications.
 """
 import typing
@@ -18,12 +18,12 @@ import types
 try:
     from . import core
     from . import debug
-    from . import generics_core
+    from . import mixins_core
 
 except ImportError:
     import core
     import debug
-    import generics_core
+    import mixins_core
 
 
 class FixSize:
@@ -56,14 +56,14 @@ class FixSize:
 
 
 class AutoDetect:
-    """Generic type for automatic detection of UI components.
+    """Mixin type for automatic detection of UI components.
 
     AutoDetect provides automatic detection and management of UI components
     based on specified target types. It scans object attributes to identify
     instances or classes that match the detection criteria and maintains
     a registry of child components.
 
-    The class supports generic syntax for specifying detection targets:
+    The class supports mixin syntax for specifying detection targets:
     AutoDetect[TargetType] creates a specialized detector for TargetType.
 
     Attributes:
@@ -81,7 +81,7 @@ class AutoDetect:
         ...     core.WrappedTextBox
         ... ]
         >>> 
-        >>> # Use in a class with generics
+        >>> # Use in a class with mixins
         >>> class MyApp(core.WrappedApp[DetectWindow]):
         ...     def __init__(self):
         ...         super().__init__()
@@ -233,8 +233,8 @@ class AutoDetect:
     @classmethod
     def get_all_members(cls) -> dict[str, typing.Any]:
         return (
-            generics_core
-             .GenericsType
+            mixins_core
+             .MixinsType
               .get_all_members(cls)
         )
 

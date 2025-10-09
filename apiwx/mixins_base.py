@@ -1,7 +1,7 @@
-"""Advanced generics type system for apiwx with metaclass management.
+"""Advanced mixins type system for apiwx with metaclass management.
 
-This module provides BaseGenerics classes (Singleton, Multiton) that function
-as metaclass replacements rather than inheritance mixins. These generics
+This module provides BaseMixins classes (Singleton, Multiton) that function
+as metaclass replacements rather than inheritance mixins. These mixins
 enable dynamic class creation with sophisticated instance lifecycle management
 for wxPython components.
 
@@ -9,7 +9,7 @@ Key classes:
     - Singleton: Ensures only one instance per class
     - Multiton: Manages multiple tracked instances per class
 
-The generics operate by replacing the target class's metaclass, allowing
+The mixins operate by replacing the target class's metaclass, allowing
 fundamental control over instance creation and behavior while maintaining
 clean separation from the inheritance hierarchy.
 """
@@ -19,16 +19,16 @@ import typing
 try:
     from . import debug
     from . import core
-    from .generics_core import BaseGenerics, GenericsType
+    from .mixins_core import BaseMixins, MixinsType
 
 except ImportError:
     import debug
     import core
-    from generics_core import BaseGenerics, GenericsType
+    from mixins_core import BaseMixins, MixinsType
 
 
-class Singleton(BaseGenerics):
-    """Singleton Pattern - Metaclass-Replacing Generic.
+class Singleton(BaseMixins):
+    """Singleton Pattern - Metaclass-Replacing Mixin.
 
     Implements the Singleton design pattern by replacing the target 
     class's metaclass to ensure only one instance is ever created.
@@ -71,8 +71,8 @@ class Singleton(BaseGenerics):
         return cls._instance
 
 
-class Multiton(BaseGenerics):
-    """Multiton Pattern - Metaclass-Replacing Generic.
+class Multiton(BaseMixins):
+    """Multiton Pattern - Metaclass-Replacing Mixin.
 
     Implements the Multiton design pattern by replacing the target 
     class's metaclass to manage multiple instances with custom lifecycle 

@@ -1,22 +1,22 @@
-"""Generic type definitions for wxPython Button components.
+"""Mixin type definitions for wxPython Button components.
 
-This module provides advanced button behavior generics for the apiwx framework.
-These generics add sophisticated click handling, guard mechanisms, and state
+This module provides advanced button behavior mixins for the apiwx framework.
+These mixins add sophisticated click handling, guard mechanisms, and state
 management to button components through mixins rather than inheritance.
 
-Key Generic Classes:
+Key Mixin Classes:
     - SingleClickDisable: Temporarily disables button after clicking
     - DoubleClickOnly: Requires double-click to activate
     - ClickGuard: Combines disable behavior with optional double-click 
       protection
 
-All generics are designed to work with WrappedButton and provide enhanced
+All mixins are designed to work with WrappedButton and provide enhanced
 user interaction patterns for preventing accidental clicks, implementing
 confirmation workflows, and managing button state during processing.
 
 Example:
     from apiwx.core import WrappedButton
-    from apiwx.generics_button import SingleClickDisable, ClickGuard
+    from apiwx.mixins_button import SingleClickDisable, ClickGuard
     
     # Button that disables after click
     button1 = WrappedButton[SingleClickDisable](

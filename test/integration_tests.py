@@ -24,10 +24,10 @@ def test_debug_with_patterns():
     
     try:
         from apiwx import debug
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
-        class LoggedClass(metaclass=GenericsType):
+        class LoggedClass(metaclass=MixinsType):
             def __init__(self, name):
                 self.name = name
                 # Use debug convenience functions instead of get_logger
@@ -110,13 +110,13 @@ def test_core_component_availability():
         print(f"[FAIL] Core component test failed: {e}")
         return False
 
-def test_generics_with_inheritance():
+def test_mixins_with_inheritance():
     """Test generics system with inheritance"""
     print("Testing generics with inheritance...")
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
         class BaseComponent:
             def __init__(self, name):
@@ -126,7 +126,7 @@ def test_generics_with_inheritance():
             def base_method(self):
                 return f"base_{self.name}"
         
-        class DerivedComponent(BaseComponent, metaclass=GenericsType):
+        class DerivedComponent(BaseComponent, metaclass=MixinsType):
             def __init__(self, name, extra_param="default"):
                 super().__init__(name)
                 self.extra_param = extra_param
@@ -167,10 +167,10 @@ def test_mixed_pattern_usage():
     print("Testing mixed pattern usage...")
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
-        class SharedBase(metaclass=GenericsType):
+        class SharedBase(metaclass=MixinsType):
             instances_created = 0
             
             def __init__(self, identifier):
@@ -216,13 +216,13 @@ def test_mixed_pattern_usage():
         print(f"[FAIL] Mixed pattern usage failed: {e}")
         return False
 
-def test_generics_system_integrity():
+def test_mixins_system_integrity():
     """Test generics system internal integrity"""
     print("Testing generics system integrity...")
     
     try:
-        from apiwx.generics_core import GenericsType, BaseGenerics
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType, BaseGenerics
+        from apiwx.mixins_base import Singleton, Multiton
         
         # Test BaseGenerics is properly configured as a metaclass
         assert issubclass(BaseGenerics, type), "BaseGenerics should be a metaclass type"
@@ -232,10 +232,10 @@ def test_generics_system_integrity():
         assert isinstance(Multiton, type), "Multiton should be a metaclass"
         
         # Test that generics work with various class configurations
-        class MinimalClass(metaclass=GenericsType):
+        class MinimalClass(metaclass=MixinsType):
             pass
         
-        class ComplexClass(metaclass=GenericsType):
+        class ComplexClass(metaclass=MixinsType):
             def __init__(self, a, b=None, *args, **kwargs):
                 self.a = a
                 self.b = b
@@ -275,9 +275,9 @@ def run_integration_tests():
         test_debug_with_patterns,
         test_message_system_availability,
         test_core_component_availability,
-        test_generics_with_inheritance,
+        test_mixins_with_inheritance,
         test_mixed_pattern_usage,
-        test_generics_system_integrity,
+        test_mixins_system_integrity,
     ]
     
     passed = 0

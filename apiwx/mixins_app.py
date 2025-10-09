@@ -1,20 +1,20 @@
-"""Generic type definitions for wxPython wx.App.
+"""Mixin type definitions for wxPython wx.App.
 
-This module provides generic type definitions and type variables for
+This module provides mixin type definitions and type variables for
 wxPython application objects. It includes auto-detection types for
 window classes that can be used with type checkers and IDEs to provide
 better type safety and code completion.
 """
 try:
     from . import core
-    from . import generics_common
+    from . import mixins_common
 
 except ImportError:
     import core
-    import generics_common
+    import mixins_common
 
 
-DetectWindow = generics_common.AutoDetect[
+DetectWindow = mixins_common.AutoDetect[
     core.WrappedWindow
 ]
 """Type variable for auto-detecting window class.

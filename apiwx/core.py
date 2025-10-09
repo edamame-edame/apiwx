@@ -73,11 +73,11 @@ except ImportError:
     import framestyle
 
 try:
-    from .generics_core import GenericsType
+    from .mixins_core import MixinsType
     from .fontmanager import FontManager
 
 except ImportError:
-    from generics_core import GenericsType
+    from mixins_core import MixinsType
     from fontmanager import FontManager
 
 
@@ -560,7 +560,7 @@ class UIIndexor(int, UIAttributes):
 class WrappedApp(
     _wx.App,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.App wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.App class,
@@ -659,7 +659,7 @@ class WrappedApp(
 class WrappedWindow(
     _wx.Frame,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Frame wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Frame class,
@@ -818,7 +818,7 @@ class WrappedWindow(
 class WrappedPanel(
     _wx.Panel,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Panel wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Panel class,
@@ -930,7 +930,7 @@ class WrappedPanel(
 class WrappedStaticText(
     _wx.StaticText,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.StaticText wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.StaticText 
@@ -1050,7 +1050,7 @@ class AsLink():
 class WrappedTextBox(
     _wx.TextCtrl,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.TextCtrl wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.TextCtrl 
@@ -1135,7 +1135,7 @@ class WrappedTextBox(
 class WrappedButton(
     _wx.Button,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Button wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Button class,
@@ -1231,7 +1231,7 @@ class WrappedButton(
 class WrappedCheckBox(
     _wx.CheckBox,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.CheckBox wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.CheckBox 
@@ -1325,7 +1325,7 @@ class WrappedCheckBox(
 class WrappedRadioBox(
     _wx.RadioBox,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.RadioBox wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.RadioBox 
@@ -1400,7 +1400,7 @@ class WrappedRadioBox(
 class WrappedListBox(
     _wx.ListBox,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.ListBox wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.ListBox 
@@ -1479,7 +1479,7 @@ class WrappedListBox(
 class WrappedComboBox(
     _wx.ComboBox,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.ComboBox wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.ComboBox 
@@ -1553,7 +1553,7 @@ class WrappedComboBox(
 class WrappedSlider(
     _wx.Slider,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Slider wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Slider 
@@ -1631,7 +1631,7 @@ class WrappedSlider(
 class WrappedGauge(
     _wx.Gauge,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Gauge wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Gauge 
@@ -1709,7 +1709,7 @@ class WrappedGauge(
 class WrappedListCtrl(
     _wx.ListCtrl,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.ListCtrl wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.ListCtrl 
@@ -1779,7 +1779,7 @@ class WrappedListCtrl(
 class WrappedScrolledWindow(
     _wx.ScrolledWindow,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.ScrolledWindow wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's 
@@ -1860,7 +1860,7 @@ class WrappedScrolledWindow(
 class WrappedChoice(
     _wx.Choice,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.Choice wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Choice 
@@ -1939,7 +1939,7 @@ class WrappedChoice(
 class WrappedImage(
     _wx.StaticBitmap,
     UIAttributes, UIInitializeComponent,
-    metaclass = GenericsType):
+    metaclass = MixinsType):
     """Enhanced wx.StaticBitmap wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's 

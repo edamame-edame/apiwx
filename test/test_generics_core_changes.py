@@ -1,5 +1,5 @@
 """
-Test suite for recent changes to generics_core.py
+Test suite for recent changes to mixins_core.py
 
 Tests new functionality:
 1. hasgenerics() method - check if specific generics are applied
@@ -17,23 +17,23 @@ from contextlib import redirect_stdout
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 try:
-    import apiwx.generics_core as generics_core
-    import apiwx.generics_base as generics_base
-    import apiwx.generics_common as generics_common
+    import apiwx.mixins_core as mixins_core
+    import apiwx.mixins_base as mixins_base
+    import apiwx.mixins_common as mixins_common
     import apiwx.debug as debug
     
-    GenericsType = generics_core.GenericsType
-    BaseGenerics = generics_core.BaseGenerics
-    Singleton = generics_base.Singleton
-    Multiton = generics_base.Multiton
-    AutoDetect = generics_common.AutoDetect
-    FixSize = generics_common.FixSize
+    MixinsType = mixins_core.MixinsType
+    BaseGenerics = mixins_core.BaseGenerics
+    Singleton = mixins_base.Singleton
+    Multiton = mixins_base.Multiton
+    AutoDetect = mixins_common.AutoDetect
+    FixSize = mixins_common.FixSize
 except ImportError as e:
     print(f"Import error: {e}")
     sys.exit(1)
 
 
-class TestBase(metaclass=GenericsType):
+class TestBase(metaclass=MixinsType):
     """Test base class for generics testing"""
     
     def __init__(self, name="test"):
@@ -56,7 +56,7 @@ class MockGeneric:
     mock_class_attr = "mock_class_value"
 
 
-def test_hasgenerics_method():
+def test_hasmixins_method():
     """Test the hasgenerics() method functionality"""
     print("\n" + "="*50)
     print("Testing hasgenerics() method")
@@ -161,7 +161,7 @@ def test_debug_output():
         print("[PASS] Debug output test completed (no output captured)")
 
 
-def test_base_generics_behavior():
+def test_base_mixins_behavior():
     """Test BaseGenerics metaclass behavior"""
     print("\n" + "="*50)
     print("Testing BaseGenerics behavior")
@@ -177,7 +177,7 @@ def test_base_generics_behavior():
     try:
         SingletonClass = TestBase[Singleton]
         
-        # The metaclass should be Singleton, not GenericsType
+        # The metaclass should be Singleton, not MixinsType
         metaclass_type = type(SingletonClass)
         print(f"[INFO] SingletonClass metaclass: {metaclass_type}")
         print(f"[INFO] SingletonClass MRO: {[cls.__name__ for cls in SingletonClass.__mro__]}")
@@ -271,10 +271,10 @@ def run_all_tests():
     print("="*70)
     
     tests = [
-        test_hasgenerics_method,
+        test_hasmixins_method,
         test_get_all_members_method, 
         test_debug_output,
-        test_base_generics_behavior,
+        test_base_mixins_behavior,
         test_generic_classes_attribute,
         test_namespace_integration
     ]

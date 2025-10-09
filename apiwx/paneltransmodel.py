@@ -19,14 +19,14 @@ all panels for quick switching operations.
 try:
     from . import core
     from . import debug
-    from .generics_core import GenericsType
-    from . import generics_window
+    from .mixins_core import MixinsType
+    from . import mixins_window
 
 except ImportError:
     import core
     import debug
-    from generics_core import GenericsType
-    import generics_window
+    from mixins_core import MixinsType
+    import mixins_window
 
 
 class NotTransition:
@@ -44,7 +44,7 @@ class NotTransition:
     pass
 
 
-class SupportTransit(generics_window.DetectPanel):
+class SupportTransit(mixins_window.DetectPanel):
     """Mixin class to add transition support to panels.
 
     This class provides panel transition functionality by automatically
@@ -77,7 +77,7 @@ class SupportTransit(generics_window.DetectPanel):
         Returns:
             The enhanced instance with transition support.
         """
-        instance = generics_window.DetectPanel.__new__(
+        instance = mixins_window.DetectPanel.__new__(
             cls, instance, *args, **kwds
         )
 
@@ -90,14 +90,14 @@ class SupportTransit(generics_window.DetectPanel):
             *args: Variable length argument list.
             **kwds: Arbitrary keyword arguments.
         """
-        generics_window.DetectPanel.__init__(self, *args, **kwds)
+        mixins_window.DetectPanel.__init__(self, *args, **kwds)
 
         self._panel_trans = PanelTransModel()
 
         for child_id in self.children:
             child: core.WrappedPanel = self.children[child_id]
 
-            if not GenericsType.hasgenerics(child, NotTransition):
+            if not MixinsType.hasgenerics(child, NotTransition):
                 self.panel_trans.add(child_id, child)
 
         debug.internaldebug_log("TRANSIT",
@@ -135,7 +135,7 @@ class TransitPanelContainer:
         for child_id in self.children:
             child: core.WrappedPanel = self.children[child_id]
 
-            if not GenericsType.hasgenerics(child, NotTransition):
+            if not MixinsType.hasgenerics(child, NotTransition):
                 self.panel_trans.add(child_id, child)
 
 
@@ -222,7 +222,7 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         if indexor in self:
             raise KeyError('indexor already exists')
 
-        if GenericsType.hasgenerics(panel.__class__, NotTransition):
+        if MixinsType.hasgenerics(panel.__class__, NotTransition):
             return  # Do nothing for NotTransition panels
 
         if len(self) == 0:

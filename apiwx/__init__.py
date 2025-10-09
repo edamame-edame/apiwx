@@ -1,4 +1,4 @@
-"""apiwx - A comprehensive wxPython wrapper library v0.5.0.
+"""apiwx - A comprehensive wxPython wrapper library v0.5.2.
 
 This package provides a simplified, type-safe interface to wxPython with
 advanced features including generic type support, automatic component
@@ -41,7 +41,7 @@ Main Export Categories:
     Core Wrappers: WrappedApp, WrappedWindow, WrappedPanel, WrappedButton, etc.
     Constants & Flags: ALIGN_*, WindowStyle, ControlStyle, BorderStyle, etc.
     Colors: Colors class with predefined color constants
-    Generics: Singleton, Multiton, AutoDetect, DetectChildren, etc.
+    Mixins: Singleton, Multiton, AutoDetect, DetectChildren, etc.
     Type Aliases: AppBase, WindowWithPanel, PanelDetectChildren, etc.
     UI Utilities: FontManager, MessageBox, Options, logging functions
     Event System: Signals, slots, and event handling utilities
@@ -66,6 +66,7 @@ except ImportError:
 # Core Wrappers and UI Components
 try:
     from .core import (
+        Slots,
         WrappedApp,
         WrappedWindow,
         WrappedPanel,
@@ -86,6 +87,7 @@ try:
 
 except ImportError:
     from core import (
+        Slots,
         WrappedApp,
         WrappedWindow,
         WrappedPanel,
@@ -205,81 +207,81 @@ except ImportError:
     )
 
 
-# Generic Type System Exports
+# Mixin Type System Exports
 try:
-    from .generics_common import (
+    from .mixins_common import (
         AutoDetect,
         FixSize,
     )
 
 except ImportError:
-    from generics_common import (
+    from mixins_common import (
         AutoDetect,
         FixSize,
     )
 
 try:
-    from .generics_base import (
+    from .mixins_base import (
         Singleton,
         Multiton,
     )
 
 except ImportError:
-    from generics_base import (
+    from mixins_base import (
         Singleton,
         Multiton,
     )
 
 try:
-    from .generics_app import (
+    from .mixins_app import (
         DetectWindow,
     )
 
 except ImportError:
-    from generics_app import (
+    from mixins_app import (
         DetectWindow,
     )
 
 try:
-    from .generics_window import (
+    from .mixins_window import (
         ByPanelSize,
         DetectPanel,
     )
 
 except ImportError:
-    from generics_window import (
+    from mixins_window import (
         ByPanelSize,
         DetectPanel,
     )
 
 try:
-    from .generics_panel import (
+    from .mixins_panel import (
         WithBoarder,
         DetectChildren,
     )
 
 except ImportError:
-    from generics_panel import (
+    from mixins_panel import (
         WithBoarder,
         DetectChildren,
     )
 
 try:
-    from .generics_button import (
+    from .mixins_button import (
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
     )
 
 except ImportError:
-    from generics_button import (
+    from mixins_button import (
         SingleClickDisable,
         DoubleClickOnly,
         ClickGuard,
     )
 
 try:
-    from .generics_alias import (
+    from .mixins_alias import (
         AppBase,
         AppDetectWindow,
         WindowWithPanel,
@@ -295,7 +297,7 @@ try:
     )
 
 except ImportError:
-    from generics_alias import (
+    from mixins_alias import (
         AppBase,
         AppDetectWindow,
         WindowWithPanel,
@@ -351,6 +353,7 @@ except ImportError:
 
 __all__ = [
     # Core Wrappers
+    "Slots",
     "WrappedApp", "WrappedWindow", "WrappedPanel", "WrappedStaticText",
     "WrappedTextBox", "WrappedButton", "WrappedCheckBox", "WrappedRadioBox",
     "WrappedListBox", "WrappedComboBox", "WrappedSlider", "WrappedGauge",
@@ -374,17 +377,17 @@ __all__ = [
     # Colors
     "Colors",
     
-    # Generics
+    # Mixins
     "AutoDetect", "FixSize",
     
-    # Base Generics
+    # Base Mixins
     "Singleton", "Multiton",
     
-    # App, Window, Panel Generics
+    # App, Window, Panel Mixins
     "DetectWindow", "ByPanelSize", "DetectPanel", "WithBoarder", 
     "DetectChildren", "NotTransition",
     
-    # Button Generics
+    # Button Mixins
     "SingleClickDisable", "DoubleClickOnly", "ClickGuard",
     
     # Application Aliases
@@ -420,7 +423,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage

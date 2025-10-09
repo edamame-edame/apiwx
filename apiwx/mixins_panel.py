@@ -1,6 +1,6 @@
-"""Generic type definitions for wxPython wx.Panel components.
+"""Mixin type definitions for wxPython wx.Panel components.
 
-This module provides generic type definitions, mixins, and type variables
+This module provides mixin type definitions, mixins, and type variables
 for wxPython panel objects and their child components. It includes border
 drawing functionality and auto-detection types for panel children that
 can be used with type checkers and IDEs to provide better type safety
@@ -16,13 +16,13 @@ development experience and type safety.
 """
 try:
     from . import core
-    from . import generics_common
+    from . import mixins_common
     from . import painttool
     from . import debug
 
 except ImportError:
     import core
-    import generics_common
+    import mixins_common
     import painttool
     import debug
 
@@ -255,7 +255,7 @@ class WithBoarder():
         )
 
 
-DetectChildren = generics_common.AutoDetect[
+DetectChildren = mixins_common.AutoDetect[
     core.WrappedPanel,
     core.WrappedTextBox,
     core.WrappedButton,

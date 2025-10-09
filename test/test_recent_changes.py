@@ -59,14 +59,14 @@ class TestRecentChanges(unittest.TestCase):
         except Exception as e:
             self.fail(f"Failed to test version: {e}")
 
-    def test_hasgenerics_method_availability(self):
+    def test_hasmixins_method_availability(self):
         """Test that hasgenerics method is available"""
         try:
-            from apiwx.generics_core import GenericsType
+            from apiwx.mixins_core import MixinsType
             
             # Test hasgenerics method exists
-            self.assertTrue(hasattr(GenericsType, 'hasgenerics'))
-            self.assertTrue(callable(getattr(GenericsType, 'hasgenerics')))
+            self.assertTrue(hasattr(MixinsType, 'hasgenerics'))
+            self.assertTrue(callable(getattr(MixinsType, 'hasgenerics')))
             
             print("✓ hasgenerics method is available")
             
@@ -89,22 +89,22 @@ class TestRecentChanges(unittest.TestCase):
         except Exception as e:
             self.fail(f"Failed to test enable/disable methods: {e}")
 
-    def test_generics_alias_updates(self):
+    def test_mixins_alias_updates(self):
         """Test generics alias updates"""
         try:
-            from apiwx import generics_alias
+            from apiwx import mixins_alias
             
             # Test that WindowSizeTransitWithPanel exists
-            self.assertTrue(hasattr(generics_alias, 'WindowSizeTransitWithPanel'))
+            self.assertTrue(hasattr(mixins_alias, 'WindowSizeTransitWithPanel'))
             
             # Test that DetectButton no longer exists (it was removed)
-            self.assertFalse(hasattr(generics_alias, 'DetectButton'))
+            self.assertFalse(hasattr(mixins_alias, 'DetectButton'))
             
             # Test other aliases still exist
-            self.assertTrue(hasattr(generics_alias, 'AppBase'))
-            self.assertTrue(hasattr(generics_alias, 'WindowWithPanel'))
-            self.assertTrue(hasattr(generics_alias, 'PanelDetectChildren'))
-            self.assertTrue(hasattr(generics_alias, 'ButtonClickGuard'))
+            self.assertTrue(hasattr(mixins_alias, 'AppBase'))
+            self.assertTrue(hasattr(mixins_alias, 'WindowWithPanel'))
+            self.assertTrue(hasattr(mixins_alias, 'PanelDetectChildren'))
+            self.assertTrue(hasattr(mixins_alias, 'ButtonClickGuard'))
             
             print("✓ Generics alias updates work correctly")
             
@@ -114,11 +114,11 @@ class TestRecentChanges(unittest.TestCase):
     def test_get_all_members_method(self):
         """Test get_all_members method"""
         try:
-            from apiwx.generics_core import GenericsType
+            from apiwx.mixins_core import MixinsType
             
             # Test get_all_members static method exists
-            self.assertTrue(hasattr(GenericsType, 'get_all_members'))
-            self.assertTrue(callable(getattr(GenericsType, 'get_all_members')))
+            self.assertTrue(hasattr(MixinsType, 'get_all_members'))
+            self.assertTrue(callable(getattr(MixinsType, 'get_all_members')))
             
             # Test it can be called with a class
             class TestClass:
@@ -127,7 +127,7 @@ class TestRecentChanges(unittest.TestCase):
                 def test_method(self):
                     pass
             
-            members = GenericsType.get_all_members(TestClass)
+            members = MixinsType.get_all_members(TestClass)
             self.assertIsInstance(members, dict)
             self.assertIn('test_attr', members)
             self.assertIn('test_method', members)
@@ -235,28 +235,28 @@ class TestBasicFunctionality(unittest.TestCase):
         """Test that basic classes can be created"""
         try:
             from apiwx.core import WrappedApp, WrappedWindow, WrappedPanel, WrappedButton
-            from apiwx.generics_core import GenericsType
+            from apiwx.mixins_core import MixinsType
             
             # Test classes exist
             self.assertTrue(WrappedApp)
             self.assertTrue(WrappedWindow)
             self.assertTrue(WrappedPanel)
             self.assertTrue(WrappedButton)
-            self.assertTrue(GenericsType)
+            self.assertTrue(MixinsType)
             
             print("✓ Basic classes can be created")
             
         except Exception as e:
             self.fail(f"Failed to test basic class creation: {e}")
 
-    def test_generics_functionality_basic(self):
+    def test_mixins_functionality_basic(self):
         """Test basic generics functionality"""
         try:
-            from apiwx.generics_core import GenericsType
-            from apiwx.generics_base import Singleton
+            from apiwx.mixins_core import MixinsType
+            from apiwx.mixins_base import Singleton
             
-            # Create a test class with GenericsType metaclass
-            class TestClass(metaclass=GenericsType):
+            # Create a test class with MixinsType metaclass
+            class TestClass(metaclass=MixinsType):
                 pass
             
             # Test that we can create a generic version
@@ -285,13 +285,13 @@ class TestBasicFunctionality(unittest.TestCase):
         try:
             # Test direct imports work
             from apiwx.core import UIAttributes
-            from apiwx.generics_core import GenericsType
-            from apiwx.generics_base import Singleton, Multiton
-            from apiwx.generics_common import AutoDetect, FixSize
+            from apiwx.mixins_core import MixinsType
+            from apiwx.mixins_base import Singleton, Multiton
+            from apiwx.mixins_common import AutoDetect, FixSize
             
             # Test all imports succeeded
             self.assertTrue(UIAttributes)
-            self.assertTrue(GenericsType)
+            self.assertTrue(MixinsType)
             self.assertTrue(Singleton)
             self.assertTrue(Multiton)
             self.assertTrue(AutoDetect)

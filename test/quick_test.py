@@ -26,8 +26,8 @@ def quick_test():
     # Test 1: Basic imports
     print("1. Testing imports...")
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         print("   [PASS] Imports successful")
     except Exception as e:
         print(f"   [FAIL] Import error: {e}")
@@ -36,7 +36,7 @@ def quick_test():
     # Test 2: Singleton pattern
     print("2. Testing Singleton pattern...")
     try:
-        class TestClass(metaclass=GenericsType):
+        class TestClass(metaclass=MixinsType):
             def __init__(self, value=42):
                 self.value = value
         

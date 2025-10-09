@@ -1,6 +1,6 @@
-"""Generic type definitions for wxPython window components.
+"""Mixin type definitions for wxPython window components.
 
-This module provides generic type definitions and mixin classes for
+This module provides mixin type definitions and mixin classes for
 wxPython window objects, particularly wx.Frame and related window
 components. It includes size management utilities and auto-detection
 types for panel components within windows.
@@ -12,14 +12,14 @@ size including decorations.
 """
 try:
     from . import core
-    from . import generics_common
+    from . import mixins_common
 except ImportError:
     import core
-    import generics_common
+    import mixins_common
 
 
 class ByPanelSize:
-    """Generic mixin to manage window size based on client panel size.
+    """Panel size mixin to manage window size based on client panel size.
 
     ByPanelSize provides size management functionality for wxPython windows
     where the window size is controlled by the internal panel (client area)
@@ -90,7 +90,7 @@ class ByPanelSize:
         return
 
 
-DetectPanel = generics_common.AutoDetect[
+DetectPanel = mixins_common.AutoDetect[
     core.WrappedPanel
 ]
 """Type variable for auto-detecting panel components in windows.

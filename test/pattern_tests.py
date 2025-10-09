@@ -24,10 +24,10 @@ def test_singleton_detailed():
     print("-" * 40)
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton
         
-        class Counter(metaclass=GenericsType):
+        class Counter(metaclass=MixinsType):
             def __init__(self, start=0):
                 self.count = start
             
@@ -74,10 +74,10 @@ def test_multiton_detailed():
     print("-" * 40)
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Multiton
         
-        class NamedCounter(metaclass=GenericsType):
+        class NamedCounter(metaclass=MixinsType):
             def __init__(self, name, start=0):
                 self.name = name
                 self.count = start
@@ -138,10 +138,10 @@ def test_metaclass_behavior():
     print("-" * 40)
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
-        class BaseClass(metaclass=GenericsType):
+        class BaseClass(metaclass=MixinsType):
             def __init__(self, value):
                 self.value = value
         
@@ -187,11 +187,11 @@ def test_edge_cases():
     print("-" * 40)
     
     try:
-        from apiwx.generics_core import GenericsType
-        from apiwx.generics_base import Singleton, Multiton
+        from apiwx.mixins_core import MixinsType
+        from apiwx.mixins_base import Singleton, Multiton
         
         # Test with no-argument constructor
-        class SimpleClass(metaclass=GenericsType):
+        class SimpleClass(metaclass=MixinsType):
             def __init__(self):
                 self.created = True
         
@@ -211,7 +211,7 @@ def test_edge_cases():
         print("No-args constructor tests passed")
         
         # Test with keyword arguments
-        class KeywordClass(metaclass=GenericsType):
+        class KeywordClass(metaclass=MixinsType):
             def __init__(self, name="default", value=0):
                 self.name = name
                 self.value = value
