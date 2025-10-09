@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "apiwx"
 version = "0.5.0"
-description = "wxPython API wrapper with advanced generics system"
+description = "wxPython API wrapper with advanced generics system and integrated type stubs"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -31,10 +31,24 @@ dependencies = [
 
 [tool.setuptools]
 packages = ["apiwx"]
-include-package-data = false
+include-package-data = true
 
 [tool.setuptools.package-data]
-apiwx = ["stubs/*.pyi", "stubs/py.typed", "py.typed"]
+apiwx = ["py.typed", "stubs/*.pyi", "stubs/py.typed", "stubs/README.md"]
+
+# Optional dependencies for type checking
+[project.optional-dependencies]
+typing = []  # No additional dependencies needed, stubs are included
+dev = ["mypy>=1.0", "pylsp-mypy"]
+
+# Type checking configuration
+[tool.mypy]
+packages = ["apiwx"]
+strict = true
+
+[tool.pylsp-mypy]
+enabled = true
+live_mode = true
 
 # Build automation specific configuration
 [tool.build-automation]

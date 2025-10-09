@@ -1,8 +1,19 @@
-"""Type stubs for apiwx.generics_app module."""
+"""Type stubs for apiwx.generics_app module.
 
-from typing import TypeVar, Type
+This module provides type information for generic type definitions and type 
+variables for wxPython application objects, enabling proper type checking 
+and IDE support.
+"""
+
+from typing import Type
 from .core import WrappedWindow
 from .generics_common import AutoDetect
 
-# A type variable for auto detect window class
+# Type alias for auto-detecting window class
 DetectWindow: Type[AutoDetect[WrappedWindow]]
+"""Type variable for auto-detecting window class.
+
+This type alias provides automatic type detection for window classes
+used in wxPython applications. It allows type checkers to infer the
+correct window type based on the usage context.
+"""
