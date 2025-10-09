@@ -2,7 +2,7 @@
 
 # apiwx
 
-**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful generics system, comprehensive message boxes, complete type declaration files for enhanced IDE support, and comprehensive Python version compatibility testing.
+**apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful generics system, comprehensive message boxes, **integrated type stubs**, and comprehensive Python version compatibility testing.
 
 ## Quick Start
 
@@ -12,13 +12,15 @@
 pip install apiwx
 ```
 
+The installation automatically includes complete type stubs for full IDE support - no additional packages needed!
+
 ### Requirements
 
 - Python 3.11 or higher (recommended)
-- Python 3.12 fully supported and tested
+- Python 3.12+ fully supported and tested
 - wxPython 4.2.0 or higher (automatically installed with apiwx)
 
-> **Note**: apiwx uses modern Python type annotations and union operators that require Python 3.11+ for full compatibility. Python 3.10 is not currently supported due to advanced type annotation features used throughout the codebase. Python 3.12 is fully tested and supported with all modern language features.
+> **Note**: apiwx uses modern Python type annotations and union operators that require Python 3.11+ for full compatibility. Python 3.10 is not currently supported due to advanced type annotation features used throughout the codebase.
 
 ### Your First App
 
@@ -42,14 +44,34 @@ app.mainloop()
 
 ## Key Features
 
-### Professional IDE Support (Enhanced in v0.3.2)
-apiwx now includes comprehensive type declaration files (.pyi) and enhanced generics system:
+### 🚀 **Integrated Type Stubs (New in v0.5.1)**
+apiwx now includes **built-in type stubs** that are automatically installed:
 
-- **Superior IntelliSense**: Improved autocompletion and parameter hints in VS Code, PyCharm, etc.
-- **Go to Definition**: F12 in VS Code shows clean type declarations instead of implementation details
-- **Enhanced Type Safety**: Advanced static analysis and error detection with proper generics support
-- **PEP 561 Compliance**: Full compatibility with mypy, pyright, and other type checkers
-- **Robust Generics**: Fixed generics system with proper `hasgenerics()` method and type introspection
+- **Zero Configuration**: Type stubs included in main package - no separate installation needed
+- **Universal VSCode Support**: "Go to Definition" (F12) shows clean type stubs across all environments
+- **PEP 561 Compliance**: Full compatibility with mypy, pylance, pyright, and other type checkers
+- **Complete Coverage**: 21 comprehensive type stub files covering all modules and generics
+- **Intelligent Class Definitions**: Real instantiable classes for generic aliases with full parameter support
+
+```python
+# Full type support out of the box
+app: apiwx.AppBase = apiwx.AppBase("MyApp")
+window: apiwx.WindowWithPanel = apiwx.WindowWithPanel(app, title="Demo")
+panel: apiwx.PanelWithBoarder = apiwx.PanelWithBoarder(
+    window,
+    boarder_color="#FF0000",    # <- Auto-completed with type hints
+    boarder_thickness=2,        # <- Type checked
+    boarder_offset=5            # <- Full IntelliSense support
+)
+```
+
+### Professional IDE Support
+Enhanced development experience with comprehensive type information:
+
+- **Superior IntelliSense**: Advanced autocompletion and parameter hints
+- **Go to Definition**: F12 shows clean type declarations instead of implementation
+- **Enhanced Type Safety**: Static analysis and error detection with proper generics support
+- **Generic System**: Advanced metaclass-based generics with full type introspection
 
 ### Simplified GUI Components
 No more complex wxPython constructors - just simple, intuitive classes:
@@ -219,12 +241,46 @@ Add advanced behaviors to components with the fixed generics system:
 #### App Generics
 - **DetectWindow** - Automatic window detection in applications
 
-#### Generics Aliases (Updated in v0.3.2)
-- **AppBase** - `WrappedApp[Singleton]`
-- **WindowWithPanel** - `WrappedWindow[DetectPanel]`
-- **WindowSizeTransitWithPanel** - `WrappedWindow[SupportTransit, ByPanelSize]` (New)
-- **PanelDetectChildren** - `WrappedPanel[DetectChildren]`
-- **ButtonClickGuard** - `WrappedButton[ClickGuard]`
+#### Generics Aliases (Enhanced in v0.5.1)
+Convenient pre-built classes that combine common generic behaviors:
+
+**Application Classes:**
+- **AppBase** - `WrappedApp[Singleton]` - Single instance applications
+- **AppDetectWindow** - `WrappedApp[Singleton, DetectWindow]` - With automatic window detection
+
+**Window Classes:**
+- **WindowWithPanel** - `WrappedWindow[DetectPanel]` - Auto-detects child panels
+- **WindowByPanelSize** - `WrappedWindow[DetectPanel, ByPanelSize]` - Sizes by panel content
+- **WindowPanelTransit** - `WrappedWindow[SupportTransit]` - Panel transition support
+- **WindowSizeTransitWithPanel** - `WrappedWindow[SupportTransit, ByPanelSize]` - Combined features
+
+**Panel Classes:**
+- **PanelDetectChildren** - `WrappedPanel[DetectChildren]` - Auto-detects child components  
+- **PanelWithBoarder** - `WrappedPanel[WithBoarder]` - Built-in border drawing
+- **PanelNoTransition** - `WrappedPanel[NotTransition]` - Excluded from transitions
+
+**Button Classes:**
+- **ButtonSingleClickDisable** - `WrappedButton[SingleClickDisable]` - Prevents double-clicks
+- **ButtonDoubleClickOnly** - `WrappedButton[DoubleClickOnly]` - Requires double-click
+- **ButtonClickGuard** - `WrappedButton[ClickGuard]` - Click confirmation protection
+
+```python
+# Easy instantiation with full type support
+app = apiwx.AppBase("MyApp")
+window = apiwx.WindowWithPanel(app, title="Demo") 
+panel = apiwx.PanelWithBoarder(
+    window,
+    boarder_color="#FF0000",     # Fully typed parameters
+    boarder_thickness=2,         # IntelliSense support
+    boarder_offset=5             # Auto-completion
+)
+button = apiwx.ButtonClickGuard(
+    panel,
+    label="Delete",
+    require_double_click=True,   # Typed generic parameters
+    guard_message="Click again to confirm"
+)
+```
 
 ### Message Boxes & Dialogs
 - **show_info()** - Information messages

@@ -1,5 +1,87 @@
 # CHANGELOG
 
+## [0.5.1] - 2025.10.09 - Integrated Type Stubs & Enhanced Generic Aliases
+
+### 🚀 Major Features
+
+#### **Integrated Type Stubs System**
+- **Zero-Configuration Type Support** - Type stubs now included in main package installation
+- **Universal VSCode Integration** - "Go to Definition" (F12) correctly shows type stubs across all environments
+- **PEP 561 Compliance** - Full compatibility with mypy, pylance, pyright, and other type checkers
+- **21 Comprehensive Type Stub Files** - Complete coverage of all modules and generic combinations
+- **Automatic Distribution** - Type stubs included in package data and installed automatically
+
+#### **Smart Generic Alias Classes**
+- **Real Instantiable Classes** - Transformed TypeAlias definitions into proper classes with constructors
+- **Full Parameter Support** - All generic-specific parameters now properly typed and supported
+- **Enhanced IntelliSense** - Complete auto-completion for specialized class parameters
+- **Type-Safe Construction** - Static type checking for all generic alias instantiations
+
+### 🎯 New Generic Alias Classes
+
+#### **Application Classes**
+- **AppBase** - `WrappedApp[Singleton]` with full constructor
+- **AppDetectWindow** - `WrappedApp[Singleton, DetectWindow]` with automatic window detection
+
+#### **Window Classes**  
+- **WindowWithPanel** - `WrappedWindow[DetectPanel]` with automatic panel detection
+- **WindowByPanelSize** - `WrappedWindow[DetectPanel, ByPanelSize]` with content-based sizing
+- **WindowPanelTransit** - `WrappedWindow[SupportTransit]` with panel transition support
+- **WindowSizeTransitWithPanel** - Combined panel management features
+
+#### **Panel Classes**
+- **PanelDetectChildren** - `WrappedPanel[DetectChildren]` with automatic child detection  
+- **PanelWithBoarder** - `WrappedPanel[WithBoarder]` with configurable border parameters
+- **PanelNoTransition** - `WrappedPanel[NotTransition]` excluded from transition systems
+
+#### **Button Classes**
+- **ButtonSingleClickDisable** - `WrappedButton[SingleClickDisable]` with timing parameters
+- **ButtonDoubleClickOnly** - `WrappedButton[DoubleClickOnly]` with click detection settings
+- **ButtonClickGuard** - `WrappedButton[ClickGuard]` with comprehensive protection options
+
+### 🛠 Technical Improvements
+
+#### **Package Architecture**
+- **Unified Structure** - Type stubs moved to `apiwx/stubs/` subpackage
+- **Single Installation** - `pip install apiwx` provides complete functionality including type support
+- **Optimized Distribution** - Integrated package data for seamless type stub deployment
+- **Environment Independence** - Consistent behavior across all development environments
+
+#### **Enhanced Developer Experience**
+- **Parameter-Aware Classes** - Generic alias classes support all specialized parameters:
+  ```python
+  panel = apiwx.PanelWithBoarder(
+      parent=window,
+      boarder_color="#FF0000",    # ✨ Typed parameter
+      boarder_thickness=2,        # ✨ Auto-completed
+      boarder_offset=5           # ✨ Type-checked
+  )
+  ```
+
+### 📋 Migration & Compatibility
+
+#### **Backward Compatibility**
+- **Zero Breaking Changes** - All existing code continues to work without modification
+- **Enhanced Capabilities** - Existing functionality improved with better type support
+- **Progressive Enhancement** - New features available without requiring code changes
+
+#### **Installation Updates**
+```bash
+# Single command for complete installation (v0.5.1+)
+pip install apiwx
+
+# No additional packages needed for type support
+```
+
+### 🎯 Impact Summary
+
+1. **🚀 Simplified Installation** - Complete type support with single command
+2. **🔧 Enhanced IDE Integration** - Perfect VSCode/PyCharm experience out of the box
+3. **📋 Complete Type Coverage** - All modules and generics fully typed
+4. **🎨 Smart Class System** - Generic aliases as real, instantiable classes
+5. **🔒 Enhanced Type Safety** - Full parameter typing for all generic behaviors
+6. **🌐 Universal Compatibility** - Consistent behavior across all development environments
+
 ## [0.5.0] - 2025.10.08 - Code Quality Excellence & PEP Compliance Achievement
 
 ### Major Quality Milestone

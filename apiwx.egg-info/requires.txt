@@ -1,1 +1,7 @@
 wxPython>=4.2.0
+
+[dev]
+mypy>=1.0
+pylsp-mypy
+
+[typing]
