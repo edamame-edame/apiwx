@@ -19,6 +19,7 @@ apiwx/colors.py
 apiwx/constants.py
 apiwx/core.py
 apiwx/debug.py
+apiwx/dialogmodel.py
 apiwx/fontmanager.py
 apiwx/framestyle.py
 apiwx/message.py
@@ -51,6 +52,7 @@ apiwx/stubs/colors.pyi
 apiwx/stubs/constants.pyi
 apiwx/stubs/core.pyi
 apiwx/stubs/debug.pyi
+apiwx/stubs/dialogmodel.pyi
 apiwx/stubs/fontmanager.pyi
 apiwx/stubs/framestyle.pyi
 apiwx/stubs/generics_alias.pyi
@@ -78,6 +80,8 @@ apiwx/stubs/styleflags.pyi
 apiwx/stubs/uiarg.pyi
 dist/apiwx-0.5.1-py3-none-any.whl
 dist/apiwx-0.5.1.tar.gz
+dist/apiwx-0.5.2-py3-none-any.whl
+dist/apiwx-0.5.2.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md
@@ -96,6 +100,7 @@ releasenotes/RELEASE_NOTES_v0.3.2.md
 releasenotes/RELEASE_NOTES_v0.4.0.md
 releasenotes/RELEASE_NOTES_v0.5.0.md
 releasenotes/RELEASE_NOTES_v0.5.1.md
+releasenotes/RELEASE_NOTES_v0.5.2.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py

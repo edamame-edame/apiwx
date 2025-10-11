@@ -76,6 +76,13 @@ from .message import (
     get_text_input, get_number_input, get_choice_input
 )
 
+# === File Dialog Functionality ===
+from .dialogmodel import (
+    DialogResult, BaseFileDialog, OpenFileDialog, SaveFileDialog, 
+    FolderBrowserDialog,
+    open_file_dialog, save_file_dialog, folder_browser_dialog
+)
+
 # === Paint Tools ===
 from .painttool import *
 

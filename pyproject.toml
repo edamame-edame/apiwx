@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.5.2"
-description = "wxPython API wrapper with advanced generics system and integrated type stubs"
+version = "0.5.3"
+description = "wxPython API wrapper with advanced mixin system, integrated type stubs, and C#-style file dialogs"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "edamame"}
 ]
-keywords = ["wxpython", "gui", "wrapper", "generics", "metaclass"]
+keywords = ["wxpython", "gui", "wrapper", "mixins", "metaclass", "filedialog"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",

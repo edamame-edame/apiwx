@@ -350,6 +350,31 @@ except ImportError:
         get_choice_input,
     )
 
+# === File Dialog Functionality ===
+try:
+    from .dialogmodel import (
+        DialogResult,
+        BaseFileDialog,
+        OpenFileDialog,
+        SaveFileDialog,
+        FolderBrowserDialog,
+        open_file_dialog,
+        save_file_dialog,
+        folder_browser_dialog,
+    )
+
+except ImportError:
+    from dialogmodel import (
+        DialogResult,
+        BaseFileDialog,
+        OpenFileDialog,
+        SaveFileDialog,
+        FolderBrowserDialog,
+        open_file_dialog,
+        save_file_dialog,
+        folder_browser_dialog,
+    )
+
 
 __all__ = [
     # Core Wrappers
@@ -411,6 +436,13 @@ __all__ = [
     "show_info", "show_warning", "show_error", "ask_question", "show_success",
     "get_text_input", "get_number_input", "get_choice_input",
     
+    # File Dialog Classes
+    "DialogResult", "BaseFileDialog", "OpenFileDialog", "SaveFileDialog", 
+    "FolderBrowserDialog",
+    
+    # File Dialog Functions
+    "open_file_dialog", "save_file_dialog", "folder_browser_dialog",
+    
     # Debug & Logging Functions
     "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", 
     "uiwarning_log", "uierror_log", "uicritical_log", "uidebug_set_level", 
@@ -423,7 +455,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage

@@ -4,13 +4,13 @@
 
 **apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful **mixin system**, comprehensive message boxes, **integrated type stubs**, and comprehensive Python version compatibility testing.
 
-## 🎉 What's New in v0.5.2
+## 🎉 What's New in v0.5.3
 
-- **🔄 Terminology Standardization**: Complete migration from "generics" to "mixins" terminology
-- **📚 Industry Alignment**: Now uses standard Python mixin conventions
-- **🔧 Zero Breaking Changes**: All existing code continues to work unchanged
-- **🎯 Enhanced Documentation**: Clearer examples and better developer experience
-- **🏗️ Improved Type Support**: Comprehensive type stubs with VSCode integration
+- **� C#-Style File Dialogs**: Complete OpenFileDialog, SaveFileDialog, and FolderBrowserDialog implementation
+- **� Familiar APIs**: C# Windows Forms compatible dialog patterns for seamless transition
+- **�️ Comprehensive Features**: Single/multiple file selection, file filters, overwrite protection
+- **📝 Enhanced Documentation**: Complete examples and usage patterns for file dialog functionality
+- **� Developer Experience**: Intuitive property-based configuration matching C# conventions
 
 ## Quick Start
 
@@ -137,6 +137,63 @@ if apiwx.ask_question("Do you want to save changes?"):
     save_changes()
 ```
 
+### C#-Style File Dialogs
+Open, save, and browse files with familiar C# dialog patterns:
+
+```python
+# OpenFileDialog - Single file selection
+open_dialog = apiwx.OpenFileDialog()
+open_dialog.title = "Open Document"
+open_dialog.filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+open_dialog.initial_directory = "/home/user/documents"
+
+if open_dialog.show_dialog() == apiwx.DialogResult.OK:
+    filename = open_dialog.selected_filename
+    print(f"Opening: {filename}")
+
+# OpenFileDialog - Multiple file selection
+open_dialog.multiselect = True
+if open_dialog.show_dialog() == apiwx.DialogResult.OK:
+    for filename in open_dialog.filenames:
+        print(f"Selected: {filename}")
+
+# SaveFileDialog
+save_dialog = apiwx.SaveFileDialog()
+save_dialog.title = "Save Document"
+save_dialog.filter = "Text files (*.txt)|*.txt|Python files (*.py)|*.py"
+save_dialog.filename = "document.txt"
+save_dialog.overwrite_prompt = True
+
+if save_dialog.show_dialog() == apiwx.DialogResult.OK:
+    filename = save_dialog.selected_filename
+    print(f"Saving to: {filename}")
+
+# FolderBrowserDialog
+folder_dialog = apiwx.FolderBrowserDialog()
+folder_dialog.description = "Select output folder"
+folder_dialog.show_new_folder_button = True
+
+if folder_dialog.show_dialog() == apiwx.DialogResult.OK:
+    folder = folder_dialog.selected_path
+    print(f"Selected folder: {folder}")
+
+# Quick convenience functions
+result, filenames = apiwx.open_file_dialog(
+    title="Quick Open", 
+    filter="All files (*.*)|*.*", 
+    multiselect=True
+)
+
+result, filename = apiwx.save_file_dialog(
+    title="Quick Save", 
+    filter="Text files (*.txt)|*.txt"
+)
+
+result, folder = apiwx.folder_browser_dialog(
+    description="Select folder"
+)
+```
+
 ### Smart Button Behaviors with Mixin System
 Add advanced behaviors with the powerful mixin system:
 
@@ -225,6 +282,14 @@ print(f"Applied mixins: {mixins_list}")
 - **WrappedComboBox** - Dropdown selections
 - **WrappedSlider** - Value sliders
 - **And many more...**
+
+### File Dialog Components (New in v0.5.3)
+C#-style file dialogs with familiar APIs:
+- **OpenFileDialog** - File selection for opening (single/multiple)
+- **SaveFileDialog** - File selection for saving with overwrite protection
+- **FolderBrowserDialog** - Folder/directory selection
+- **DialogResult** - Result constants (OK, CANCEL, etc.)
+- **Convenience functions** - `open_file_dialog()`, `save_file_dialog()`, `folder_browser_dialog()`
 
 ### Event System (Enhanced in v0.5.2)
 - **Slots** - Event handling system for connecting callbacks and managing event slots
