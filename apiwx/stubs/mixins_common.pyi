@@ -40,6 +40,45 @@ class AutoDetect(Generic[T]):
     @classmethod
     def __class_getitem__(cls, target: Union[Type[T], Tuple[Type[T], ...]]) -> Type['AutoDetect[T]']: ...
     
+    @classmethod
+    def get_all_members(cls) -> Dict[str, Any]: ...
+    
+    @classmethod
+    def is_detectable_class(cls, classobj: Type) -> bool: ...
+    
+    @classmethod
+    def is_detectable_instance(cls, instance: object) -> bool: ...
+    
+    def get_instance_members(self) -> Dict[str, Any]:
+        """Get all instance members for runtime detection.
+
+        This method retrieves all instance attributes that can be detected
+        at runtime, including those added after __new__ but before or during
+        __init__.
+
+        Returns:
+            Dictionary of instance attribute names and their values.
+        """
+    
     def detect_children(self) -> Dict[core.UIIndexor, core.UIAttributes]: ...
     def get_child(self, index: int) -> core.UIAttributes: ...
     def get_children_by_type(self, target_type: Type[T]) -> Dict[core.UIIndexor, T]: ...
+    def search_child_indexor(self, target_class: Type[core.UIAttributes]) -> Tuple[core.UIIndexor, ...]:
+        """Search and return all child indexors of the specified type.
+
+        This method scans the instance for child components that match the
+        specified target class and returns their indexors as a tuple. It is
+        useful for retrieving all registered child components that have been
+        automatically detected and indexed.
+
+        Args:
+            target_class: The target class type to search for.
+
+        Returns:
+            Tuple containing all child indexors found for the specified type.
+            Returns an empty tuple if no matching children are found.
+            
+            - For singleton mixin: Returns tuple with single indexor
+            - For multiton mixin: Returns tuple with multiple indexors
+            - For empty results: Returns empty tuple
+        """

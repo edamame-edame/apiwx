@@ -286,6 +286,8 @@ class MixinsType(sip.wrappertype):
     def get_all_members(cls) -> dict[str, typing.Any]:
         members = {}
 
+        # Iterate from least specific to most specific (reverse MRO order)
+        # This ensures derived class attributes override base class attributes
         for base in reversed(cls.__mro__):
             if base is object:
                 continue # Skip object class.

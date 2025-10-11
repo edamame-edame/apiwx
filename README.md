@@ -1,7 +1,20 @@
 
 
-# apiwx
+# ## 🎉 What's New in v0.5.4
 
+- **🔍 Child Indexor Search**: New `search_child_indexor()` method for AutoDetect mixin
+- **📦 Singleton/Multiton Support**: Retrieve UI object indexors for both single and multiple components
+- **🔧 Enhanced Instance Detection**: Improved runtime detection of instance attributes in addition to class attributes  
+- **💡 Developer Flexibility**: Easy access to dynamically created UI components through indexor tuples
+- **📝 Comprehensive Type Support**: Full type stubs for enhanced IDE integration and autocomplete
+
+### Previous in v0.5.3
+
+- **🗃️ C#-Style File Dialogs**: Complete OpenFileDialog, SaveFileDialog, and FolderBrowserDialog implementation
+- **🔄 Familiar APIs**: C# Windows Forms compatible dialog patterns for seamless transition
+- **⚙️ Comprehensive Features**: Single/multiple file selection, file filters, overwrite protection
+- **📝 Enhanced Documentation**: Complete examples and usage patterns for file dialog functionality
+- **🚀 Developer Experience**: Intuitive property-based configuration matching C# conventions
 **apiwx** is a modern, user-friendly wrapper for wxPython that makes GUI development easier and more intuitive. It provides simplified APIs, automatic component management, powerful **mixin system**, comprehensive message boxes, **integrated type stubs**, and comprehensive Python version compatibility testing.
 
 ## 🎉 What's New in v0.5.3
@@ -220,7 +233,7 @@ if MixinsType.hasmixins(type(button), apiwx.SingleClickDisable):
 ```
 
 ### Advanced Component Detection
-Automatic component detection and management:
+Automatic component detection and management with enhanced indexor search (v0.5.4):
 
 ```python
 # App with automatic window detection
@@ -236,6 +249,65 @@ panel = apiwx.WrappedPanel[apiwx.DetectChildren](window)
 
 # Window with panel transition support (New alias in v0.3.2)
 transit_window = apiwx.WindowSizeTransitWithPanel(app, title="Transition Window")
+```
+
+#### New in v0.5.4: Child Indexor Search
+Easily find and access dynamically created UI components:
+
+```python
+import apiwx
+
+# Define app with multiple component types detection
+DetectComponents = apiwx.AutoDetect[apiwx.WrappedWindow, apiwx.WrappedButton]
+
+class MyApp(apiwx.WrappedApp[DetectComponents]):
+    # Class-level components (detected automatically)
+    main_window = apiwx.WrappedWindow
+    help_window = apiwx.WrappedWindow
+    
+    def __init__(self):
+        # Instance-level components (also detected)
+        self.dialog_window = apiwx.WrappedWindow
+        super().__init__("Component Detection Demo")
+        
+        # Search for specific component types
+        window_indexors = self.search_child_indexor(apiwx.WrappedWindow)
+        button_indexors = self.search_child_indexor(apiwx.WrappedButton)
+        
+        print(f"Found {len(window_indexors)} windows")  # 3 windows
+        print(f"Found {len(button_indexors)} buttons")  # 0 buttons
+        
+        # Access specific components by indexor
+        for indexor in window_indexors:
+            window = self.children[indexor]
+            print(f"Window: {window}")
+
+# Singleton mixin example (returns tuple with single indexor)
+DetectSinglePanel = apiwx.AutoDetect[apiwx.WrappedPanel]
+class SinglePanelApp(apiwx.WrappedApp[DetectSinglePanel]):
+    main_panel = apiwx.WrappedPanel
+    
+    def __init__(self):
+        super().__init__("Single Panel App")
+        panels = self.search_child_indexor(apiwx.WrappedPanel)
+        assert len(panels) == 1  # Singleton - exactly one panel
+
+# Multiton mixin example (returns tuple with multiple indexors)  
+DetectMultipleButtons = apiwx.AutoDetect[apiwx.WrappedButton]
+class MultiButtonApp(apiwx.WrappedApp[DetectMultipleButtons]):
+    ok_button = apiwx.WrappedButton
+    cancel_button = apiwx.WrappedButton
+    help_button = apiwx.WrappedButton
+    
+    def __init__(self):
+        super().__init__("Multi Button App")
+        buttons = self.search_child_indexor(apiwx.WrappedButton)
+        assert len(buttons) == 3  # Multiton - three buttons
+        
+        # Process all buttons
+        for indexor in buttons:
+            button = self.children[indexor]
+            print(f"Button found: {button}")
 ```
 
 ### Enhanced Type Support with Mixin System

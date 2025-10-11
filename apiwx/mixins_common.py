@@ -102,24 +102,26 @@ class AutoDetect:
 
         # Below code was called after super class init.
 
-        # Init children namelist.
+        # Init children namelist for class-level detection.
         instance._children_namelist = []
 
-        members = cls.get_all_members()
+        # Scan class-level attributes using get_all_members from the instance's actual class
+        actual_class = instance.__class__
+        class_members = actual_class.get_all_members()
+        debug.internaldebug_log("CHILDREN", f"Class scanning {cls.__name__}, actual class: {actual_class.__name__}")
+        debug.internaldebug_log("CHILDREN", f"Class members = {class_members}")
 
-        debug.internaldebug_log("CHILDREN", f"__dict__ = {members}")
-
-        # Scan attributes.
-        for attr_name in members:
+        # Scan class attributes.
+        for attr_name in class_members:
             # Check target instance.
-            if (cls.is_detectable_class(members[attr_name])
-             or cls.is_detectable_instance(members[attr_name])):
+            if (cls.is_detectable_class(class_members[attr_name])
+             or cls.is_detectable_instance(class_members[attr_name])):
                 # Add to children namelist.
                 instance._children_namelist.append(attr_name)
 
         debug.internaldebug_log(
             "CHILDREN", 
-            f"__children_namelist__ = {instance._children_namelist}"
+            f"Class-level __children_namelist__ = {instance._children_namelist}"
         )
 
         # End of __new__.
@@ -135,6 +137,24 @@ class AutoDetect:
 
         # Init children counter.
         self._children_counter = 0
+
+        # Add instance-level detection for attributes that might be added after __new__
+        instance_members = self.get_instance_members()
+        debug.internaldebug_log("CHILDREN", f"Instance members = {instance_members}")
+
+        # Scan instance attributes that weren't found in class-level scan
+        for attr_name in instance_members:
+            if attr_name not in self._children_namelist:
+                # Check target instance.
+                if (self.is_detectable_class(instance_members[attr_name])
+                 or self.is_detectable_instance(instance_members[attr_name])):
+                    # Add to children namelist.
+                    self._children_namelist.append(attr_name)
+
+        debug.internaldebug_log(
+            "CHILDREN", 
+            f"Final __children_namelist__ = {self._children_namelist}"
+        )
 
         # Scan children namelist.
         for child_name in self._children_namelist:
@@ -238,3 +258,49 @@ class AutoDetect:
               .get_all_members(cls)
         )
 
+    def get_instance_members(self) -> dict[str, typing.Any]:
+        """Get all instance members for runtime detection.
+
+        This method retrieves all instance attributes that can be detected
+        at runtime, including those added after __new__ but before or during
+        __init__.
+
+        Returns:
+            dict[str, typing.Any]: Dictionary of instance attribute names
+            and their values.
+        """
+        instance_members = {}
+        
+        # Get instance __dict__ if available
+        if hasattr(self, '__dict__'):
+            instance_members.update(self.__dict__)
+        
+        debug.internaldebug_log(
+            "MEMBERS",
+            f"Instance members of {self.__class__.__name__}: {instance_members}"
+        )
+        
+        return instance_members
+
+
+    def search_child_indexor(self, target_class: typing.Type[core.UIAttributes]) -> tuple[core.UIIndexor, ...]:
+        """Search and return all child indexors.
+
+        This method scans the instance for attributes that are of type
+        core.UIIndexor and returns them as a tuple. It is useful for
+        retrieving all registered child components that have been
+        automatically detected and indexed.
+
+        Returns:
+            tuple[core.UIIndexor, ...]: A tuple containing all child
+            indexors found in the instance.
+        """
+        indexors = []
+
+        for indexor in self.children:
+            child = self.children[indexor]
+
+            if isinstance(child, target_class):
+                indexors.append(indexor)
+
+        return tuple(indexors)
