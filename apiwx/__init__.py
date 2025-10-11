@@ -174,12 +174,12 @@ except ImportError:
 
 try:
     from .paneltransmodel import (
-        PanelTransModel, NotTransition
+        PanelTransModel, NotTransition, SupportTransit
     )
 
 except ImportError:
     from paneltransmodel import (
-        PanelTransModel, NotTransition
+        PanelTransModel, NotTransition, SupportTransit
     )
 
 try:
@@ -386,7 +386,7 @@ __all__ = [
     "WrappedImage",
     
     # Font, Debug, Panel Transform, Events
-    "FontManager", "PanelTransModel",
+    "FontManager", "PanelTransModel", "NotTransition", "SupportTransit",
     
     # UI Arguments
     "Options", "exist_option", "get_option", "get_var",

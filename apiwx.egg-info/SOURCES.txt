@@ -82,6 +82,8 @@ dist/apiwx-0.5.1-py3-none-any.whl
 dist/apiwx-0.5.1.tar.gz
 dist/apiwx-0.5.2-py3-none-any.whl
 dist/apiwx-0.5.2.tar.gz
+dist/apiwx-0.5.3-py3-none-any.whl
+dist/apiwx-0.5.3.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md
