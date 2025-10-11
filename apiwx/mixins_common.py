@@ -106,10 +106,14 @@ class AutoDetect:
         instance._children_namelist = []
 
         # Scan class-level attributes using get_all_members from the instance's actual class
-        actual_class = instance.__class__
-        class_members = actual_class.get_all_members()
-        debug.internaldebug_log("CHILDREN", f"Class scanning {cls.__name__}, actual class: {actual_class.__name__}")
+        class_members = mixins_core.MixinsType.get_all_members(cls)
+        debug.internaldebug_log("CHILDREN", f"Class scanning {cls.__name__}, actual class: {cls.__name__}")
         debug.internaldebug_log("CHILDREN", f"Class members = {class_members}")
+
+        debug.internaldebug_log(
+            "CHILDREN", 
+            f"Target is = {instance.detect_target}"
+        )
 
         # Scan class attributes.
         for attr_name in class_members:
@@ -161,10 +165,20 @@ class AutoDetect:
             # Get child window.
             child = getattr(self, child_name)
 
+            debug.internaldebug_log(
+                "CHILDREN", 
+                f"Item found, {child_name} = {child}"
+            )
+
             # Check detectable subclass.
             if self.is_detectable_class(child):
                 # Create instance.
                 child = child(self)
+
+                debug.uilog(
+                    "CHILDREN", 
+                    f"Constructed, {child_name} = {child}"
+                )
 
             if self.is_detectable_instance(child):
                 # Increase counter.

@@ -1,7 +1,7 @@
 Metadata-Version: 2.4
 Name: apiwx
-Version: 0.5.4
-Summary: wxPython API wrapper with advanced mixin system, integrated type stubs, AutoDetect child indexor search, and C#-style file dialogs
+Version: 0.5.5
+Summary: wxPython API wrapper with comprehensive type aliases, enhanced panel transitions, AutoDetect indexor search, and integrated development tools
 Author: edamame
 License: MIT
 Keywords: wxpython,gui,wrapper,mixins,metaclass,filedialog
@@ -27,7 +27,15 @@ Dynamic: license-file
 
 
 
-# ## 🎉 What's New in v0.5.4
+# ## 🎉 What's New in v0.5.5
+
+- **🏷️ Comprehensive Type Aliases**: New `mixins_alias.py` module with 12 convenient type aliases for common mixin combinations
+- **📚 Complete Documentation**: All type aliases include detailed docstrings, usage examples, and parameter documentation
+- **🎯 Development Efficiency**: Pre-configured classes like `AppBase`, `WindowWithPanel`, `PanelDetectChildren` for rapid development
+- **🔧 Enhanced Panel Transitions**: Improved `paneltransmodel.py` with better documentation and cleaner API patterns
+- **💡 Better Developer Experience**: IntelliSense support for mixin parameters with real instantiable classes
+
+### Previous in v0.5.4
 
 - **🔍 Child Indexor Search**: New `search_child_indexor()` method for AutoDetect mixin
 - **📦 Singleton/Multiton Support**: Retrieve UI object indexors for both single and multiple components
@@ -102,14 +110,16 @@ apiwx now includes **built-in type stubs** that are automatically installed:
 - **Intelligent Class Definitions**: Real instantiable classes for mixin aliases with full parameter support
 
 ```python
-# Full type support out of the box
-app: apiwx.AppBase = apiwx.AppBase("MyApp")
-window: apiwx.WindowWithPanel = apiwx.WindowWithPanel(app, title="Demo")
-panel: apiwx.PanelWithBoarder = apiwx.PanelWithBoarder(
+# Full type support with new convenient aliases (v0.5.5)
+from apiwx.mixins_alias import AppBase, WindowWithPanel, PanelDetectChildren
+
+app: AppBase = AppBase("MyApp")
+window: WindowWithPanel = WindowWithPanel(app, title="Demo")
+panel: PanelDetectChildren = PanelDetectChildren(
     window,
-    boarder_color="#FF0000",    # <- Auto-completed with type hints
-    boarder_thickness=2,        # <- Type checked
-    boarder_offset=5            # <- Full IntelliSense support
+    size=(400, 300),    # <- Auto-completed with type hints
+    color=(255, 255, 255),  # <- Type checked
+    style=0             # <- Full IntelliSense support
 )
 ```
 
@@ -417,8 +427,8 @@ Add advanced behaviors to components with the comprehensive mixin system:
 #### App Mixins
 - **DetectWindow** - Automatic window detection in applications
 
-#### Mixin Aliases (Enhanced in v0.5.2)
-Convenient pre-built classes that combine common mixin behaviors:
+#### Mixin Aliases (Enhanced in v0.5.5)
+Comprehensive pre-built classes that combine common mixin behaviors with complete documentation:
 
 **Application Classes:**
 - **AppBase** - `WrappedApp[Singleton]` - Single instance applications
@@ -441,20 +451,16 @@ Convenient pre-built classes that combine common mixin behaviors:
 - **ButtonClickGuard** - `WrappedButton[ClickGuard]` - Click confirmation protection
 
 ```python
-# Easy instantiation with full type support
-app = apiwx.AppBase("MyApp")
-window = apiwx.WindowWithPanel(app, title="Demo") 
-panel = apiwx.PanelWithBoarder(
+# Easy instantiation with full type support and IntelliSense (v0.5.5)
+from apiwx.mixins_alias import AppBase, WindowByPanelSize, PanelWithBoarder
+
+app = AppBase("MyApp")
+window = WindowByPanelSize(app, title="Auto-Sized Window") 
+panel = PanelWithBoarder(
     window,
-    boarder_color="#FF0000",     # Fully typed parameters
-    boarder_thickness=2,         # IntelliSense support
-    boarder_offset=5             # Auto-completion
-)
-button = apiwx.ButtonClickGuard(
-    panel,
-    label="Delete",
-    require_double_click=True,   # Typed mixin parameters
-    guard_message="Click again to confirm"
+    boarder_color=(255, 0, 0),   # RGB tuple - fully typed parameters
+    boarder_thickness=2,         # Integer - IntelliSense support
+    boarder_offset=5             # Integer - Auto-completion
 )
 ```
 
@@ -511,35 +517,37 @@ submit_button.slots_on_click += submit_form
 app.mainloop()
 ```
 
-### Working with Enhanced Type Declarations and Mixins
+### Working with Enhanced Type Declarations and Mixins (v0.5.5)
 
 ```python
-import apiwx
+from apiwx.mixins_alias import AppBase, WindowWithPanel, PanelDetectChildren
 from typing import Optional
 
-# Type-aware development with working mixins
-app: apiwx.WrappedApp = apiwx.WrappedApp[apiwx.Singleton]("MyApp")
-window: apiwx.WrappedWindow = apiwx.WrappedWindow[apiwx.DetectPanel](app, title="Type Demo")
+# Type-aware development with convenient aliases
+app: AppBase = AppBase("MyApp")
+window: WindowWithPanel = WindowWithPanel(app, title="Type Demo")
 
 # IDE provides full IntelliSense and error checking
-def create_smart_button(parent: apiwx.WrappedPanel, 
+def create_smart_button(parent: PanelDetectChildren, 
                        label: str,
                        callback: Optional[callable] = None) -> apiwx.WrappedButton:
-    # Button with single-click disable behavior
-    button = apiwx.WrappedButton[apiwx.SingleClickDisable](
+    # Use alias for enhanced button behavior
+    from apiwx.mixins_alias import ButtonSingleClickDisable
+    
+    button = ButtonSingleClickDisable(
         parent, label=label, pos=(10, 10), disable_duration=2.0
     )
     
     if callback:
         button.slots_on_click += callback
     
-    # Check mixins at runtime (Redesigned in v0.5.2)
+    # Check mixins at runtime
     if button.hasmixins(apiwx.SingleClickDisable):
         print(f"Button '{label}' has single-click disable protection")
     
     return button
 
-# Use convenience methods (New in v0.3.2)
+# Use convenience methods
 def toggle_button_state(button: apiwx.WrappedButton):
     if button.is_enabled():
         button.disable()
@@ -547,17 +555,18 @@ def toggle_button_state(button: apiwx.WrappedButton):
         button.enable()
 ```
 
-### Using Enhanced Mixins for Advanced Functionality
+### Using Enhanced Mixins for Advanced Functionality (v0.5.5)
 
 ```python
-import apiwx
+from apiwx.mixins_alias import AppBase, WindowWithPanel, PanelDetectChildren
+from apiwx.mixins_alias import ButtonSingleClickDisable, ButtonDoubleClickOnly, ButtonClickGuard
 
-app = apiwx.WrappedApp[apiwx.Singleton]("Mixins Demo")
-window = apiwx.WrappedWindow[apiwx.DetectPanel]("Advanced Buttons")
-panel = apiwx.WrappedPanel[apiwx.DetectChildren](window)
+app = AppBase("Mixins Demo")
+window = WindowWithPanel(app, title="Advanced Buttons")
+panel = PanelDetectChildren(window)
 
 # Button that disables after click to prevent double-submission
-submit_btn = apiwx.WrappedButton[apiwx.SingleClickDisable](
+submit_btn = ButtonSingleClickDisable(
     panel, 
     label="Submit Form", 
     pos=(10, 10),
@@ -566,7 +575,7 @@ submit_btn = apiwx.WrappedButton[apiwx.SingleClickDisable](
 )
 
 # Button requiring double-click for dangerous operations
-delete_btn = apiwx.WrappedButton[apiwx.DoubleClickOnly](
+delete_btn = ButtonDoubleClickOnly(
     panel, 
     label="Delete All", 
     pos=(10, 50),
@@ -574,14 +583,14 @@ delete_btn = apiwx.WrappedButton[apiwx.DoubleClickOnly](
 )
 
 # Button with confirmation guard
-reset_btn = apiwx.WrappedButton[apiwx.ClickGuard](
+reset_btn = ButtonClickGuard(
     panel, 
     label="Reset Data", 
     pos=(10, 90),
     guard_message="Click again to confirm reset"
 )
 
-# Runtime mixin introspection (Redesigned in v0.5.2)
+# Runtime mixin introspection
 def check_button_behaviors():
     buttons = [submit_btn, delete_btn, reset_btn]
     
@@ -594,8 +603,9 @@ def check_button_behaviors():
         if btn.hasmixins(apiwx.ClickGuard):
             print("  - Has click guard")
 
-# Window with panel transition support (New in v0.3.2)
-transit_window = apiwx.WindowSizeTransitWithPanel(
+# Window with panel transition support
+from apiwx.mixins_alias import WindowSizeTransitWithPanel
+transit_window = WindowSizeTransitWithPanel(
     app, title="Transition Demo", size=(400, 300)
 )
 
@@ -662,11 +672,11 @@ apiwx v0.5.2 includes comprehensive type stubs with redesigned mixin system:
 - **`message.py`** - Message boxes and dialogs with comprehensive options
 - **`mixins_*.py`** - Mixin behaviors for different component types (fixed system)
 - **`mixins_core.py`** - Core mixins system with working `hasmixins()` method
-- **`mixins_alias.py`** - Convenient aliases like `WindowSizeTransitWithPanel`
+- **`mixins_alias.py`** - Convenient type aliases for rapid development (New in v0.5.5)
 - **`debug.py`** - Advanced logging and debugging utilities
 - **`colors.py`** - Color constants and utilities
 - **`fontmanager.py`** - Font management system
-- **`paneltransmodel.py`** - Panel transition management (updated with `hasmixins` calls)
+- **`paneltransmodel.py`** - Panel transition management (updated with enhanced documentation)
 - **`stubs/`** - Type declaration files (.pyi) for superior IDE support
 
 ### Documentation
@@ -754,7 +764,21 @@ All tests maintain 100% pass rate across supported Python versions, ensuring rel
 
 ## Latest Updates
 
-### Version 0.5.0 (Current) - October 8, 2025
+### Version 0.5.5 (Current) - October 11, 2025
+- **COMPREHENSIVE TYPE ALIASES**: New `mixins_alias.py` module with 12 convenient type aliases (AppBase, WindowWithPanel, etc.)
+- **COMPLETE DOCUMENTATION**: All type aliases include detailed docstrings, usage examples, and parameter documentation
+- **DEVELOPMENT EFFICIENCY**: Pre-configured classes eliminate repetitive mixin syntax for common patterns
+- **ENHANCED PANEL TRANSITIONS**: Improved `paneltransmodel.py` with better documentation and cleaner API patterns
+- **BETTER DEVELOPER EXPERIENCE**: IntelliSense support for mixin parameters with real instantiable classes
+- **RAPID PROTOTYPING**: Quick access to sophisticated UI patterns through simple imports
+
+### Version 0.5.4
+- **CHILD INDEXOR SEARCH**: New `search_child_indexor()` method for AutoDetect mixin with singleton/multiton support
+- **ENHANCED INSTANCE DETECTION**: Improved runtime detection of instance attributes in addition to class attributes
+- **DEVELOPER FLEXIBILITY**: Easy access to dynamically created UI components through indexor tuples
+- **COMPREHENSIVE TYPE SUPPORT**: Full type stubs for enhanced IDE integration and autocomplete
+
+### Version 0.5.0
 - **CODE QUALITY EXCELLENCE**: Achieved 100% PEP 8 and PEP 257 compliance across all source files
 - **COMPREHENSIVE PEP COMPLIANCE**: Fixed 25 PEP 8 violations (E501 line length) in 18 core modules
 - **ENHANCED DOCUMENTATION**: Improved docstring quality and code readability throughout

@@ -2,7 +2,7 @@
 Test cases for recent changes in apiwx v0.3.2+
 Testing Git changes including:
 - Import structure reorganization
-- Method name corrections (hasgeneric -> hasgenerics)
+- Method name corrections (hasgeneric -> hasmixins)
 - New UI methods (enable/disable)
 - Generics alias updates
 - Core functionality improvements
@@ -60,18 +60,18 @@ class TestRecentChanges(unittest.TestCase):
             self.fail(f"Failed to test version: {e}")
 
     def test_hasmixins_method_availability(self):
-        """Test that hasgenerics method is available"""
+        """Test that hasmixins method is available"""
         try:
             from apiwx.mixins_core import MixinsType
             
-            # Test hasgenerics method exists
-            self.assertTrue(hasattr(MixinsType, 'hasgenerics'))
-            self.assertTrue(callable(getattr(MixinsType, 'hasgenerics')))
+            # Test hasmixins method exists
+            self.assertTrue(hasattr(MixinsType, 'hasmixins'))
+            self.assertTrue(callable(getattr(MixinsType, 'hasmixins')))
             
-            print("✓ hasgenerics method is available")
+            print("✓ hasmixins method is available")
             
         except Exception as e:
-            self.fail(f"Failed to test hasgenerics method: {e}")
+            self.fail(f"Failed to test hasmixins method: {e}")
 
     def test_ui_enable_disable_methods(self):
         """Test new enable/disable methods in UIAttributes"""
@@ -268,9 +268,9 @@ class TestBasicFunctionality(unittest.TestCase):
             print(f"Singleton type: {Singleton}")
             print(f"Checking if Singleton in __generic_classes__: {Singleton in getattr(TestSingleton, '__generic_classes__', ())}")
             
-            # Test hasgenerics works
-            has_generics = TestSingleton.hasgenerics(Singleton)
-            print(f"TestSingleton.hasgenerics(Singleton): {has_generics}")
+            # Test hasmixins works
+            has_generics = TestSingleton.hasmixins(Singleton)
+            print(f"TestSingleton.hasmixins(Singleton): {has_generics}")
             
             # This might fail due to implementation details, so let's just check the class was created
             self.assertTrue(TestSingleton)  # Class creation should work

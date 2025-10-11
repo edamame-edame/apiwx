@@ -2,7 +2,7 @@
 Test suite for recent changes to mixins_core.py
 
 Tests new functionality:
-1. hasgenerics() method - check if specific generics are applied
+1. hasmixins() method - check if specific generics are applied
 2. get_all_members() method - retrieve all class members from MRO
 3. Debug output verification (print statements)
 4. BaseGenerics documentation and behavior
@@ -57,46 +57,46 @@ class MockGeneric:
 
 
 def test_hasmixins_method():
-    """Test the hasgenerics() method functionality"""
+    """Test the hasmixins() method functionality"""
     print("\n" + "="*50)
-    print("Testing hasgenerics() method")
+    print("Testing hasmixins() method")
     print("="*50)
     
     # Test with non-BaseGenerics first (these work without metaclass issues)
     MultiGenericClass = TestBase[AutoDetect, FixSize]
     
     # Should return True for each applied generic
-    assert MultiGenericClass.hasgenerics(AutoDetect), "hasgenerics(AutoDetect) should return True"
-    assert MultiGenericClass.hasgenerics(FixSize), "hasgenerics(FixSize) should return True"
+    assert MultiGenericClass.hasmixins(AutoDetect), "hasmixins(AutoDetect) should return True"
+    assert MultiGenericClass.hasmixins(FixSize), "hasmixins(FixSize) should return True"
     
     # Should return True for tuple of applied generics
-    assert MultiGenericClass.hasgenerics((AutoDetect, FixSize)), "hasgenerics((AutoDetect, FixSize)) should return True"
+    assert MultiGenericClass.hasmixins((AutoDetect, FixSize)), "hasmixins((AutoDetect, FixSize)) should return True"
     
     # Should return False for non-applied generic
-    assert not MultiGenericClass.hasgenerics(MockGeneric), "hasgenerics(MockGeneric) should return False"
+    assert not MultiGenericClass.hasmixins(MockGeneric), "hasmixins(MockGeneric) should return False"
     
-    print("[PASS] Multiple non-BaseGenerics hasgenerics() test")
+    print("[PASS] Multiple non-BaseGenerics hasmixins() test")
     
     # Test with BaseGenerics (these might have metaclass complications)
     try:
         SingletonClass = TestBase[Singleton]
         
         # Should return True for applied generic
-        has_singleton = SingletonClass.hasgenerics(Singleton)
-        print(f"[INFO] SingletonClass.hasgenerics(Singleton) = {has_singleton}")
+        has_singleton = SingletonClass.hasmixins(Singleton)
+        print(f"[INFO] SingletonClass.hasmixins(Singleton) = {has_singleton}")
         
         # Should return False for non-applied generic
-        has_multiton = SingletonClass.hasgenerics(Multiton)
-        print(f"[INFO] SingletonClass.hasgenerics(Multiton) = {has_multiton}")
+        has_multiton = SingletonClass.hasmixins(Multiton)
+        print(f"[INFO] SingletonClass.hasmixins(Multiton) = {has_multiton}")
         
-        print("[PASS] BaseGenerics hasgenerics() test (basic functionality)")
+        print("[PASS] BaseGenerics hasmixins() test (basic functionality)")
         
     except Exception as e:
-        print(f"[INFO] BaseGenerics hasgenerics() test skipped due to: {e}")
-        print("[PASS] hasgenerics() method test completed (with BaseGenerics limitation noted)")
+        print(f"[INFO] BaseGenerics hasmixins() test skipped due to: {e}")
+        print("[PASS] hasmixins() method test completed (with BaseGenerics limitation noted)")
         return
     
-    print("[PASS] hasgenerics() method test completed successfully")
+    print("[PASS] hasmixins() method test completed successfully")
 
 
 def test_get_all_members_method():
@@ -254,8 +254,8 @@ def test_namespace_integration():
     if hasattr(MockGenericClass, 'mock_method'):
         print("[PASS] Mock method integration")
     
-    # Test hasgenerics with mock generic
-    assert MockGenericClass.hasgenerics(MockGeneric), "hasgenerics should work with mock generic"
+    # Test hasmixins with mock generic
+    assert MockGenericClass.hasmixins(MockGeneric), "hasmixins should work with mock generic"
     
     # Test get_all_members includes mock attributes
     members = MockGenericClass.get_all_members()

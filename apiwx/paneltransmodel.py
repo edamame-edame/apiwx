@@ -97,7 +97,7 @@ class SupportTransit(mixins_window.DetectPanel):
         for child_id in self.children:
             child: core.WrappedPanel = self.children[child_id]
 
-            if not MixinsType.hasgenerics(child, NotTransition):
+            if not MixinsType.hasmixins(child, NotTransition):
                 self.panel_trans.add(child_id, child)
 
         debug.internaldebug_log("TRANSIT",
@@ -135,7 +135,7 @@ class TransitPanelContainer:
         for child_id in self.children:
             child: core.WrappedPanel = self.children[child_id]
 
-            if not MixinsType.hasgenerics(child, NotTransition):
+            if not MixinsType.hasmixins(child, NotTransition):
                 self.panel_trans.add(child_id, child)
 
 
@@ -222,7 +222,7 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         if indexor in self:
             raise KeyError('indexor already exists')
 
-        if MixinsType.hasgenerics(panel.__class__, NotTransition):
+        if MixinsType.hasmixins(panel.__class__, NotTransition):
             return  # Do nothing for NotTransition panels
 
         if len(self) == 0:

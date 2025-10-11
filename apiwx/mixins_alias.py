@@ -170,333 +170,331 @@ except ImportError:
 
 
 # Application type aliases (PEP 613 compliant)
-AppBase: TypeAlias = WrappedApp[Singleton]
-"""Singleton application instance.
+class AppBase(WrappedApp[Singleton]):
+    """Singleton application instance.
 
-This type alias creates a WrappedApp with Singleton behavior, ensuring
-only one application instance can exist at a time.
+    This type alias creates a WrappedApp with Singleton behavior, ensuring
+    only one application instance can exist at a time.
 
-Type: WrappedApp[Singleton]
+    Type: WrappedApp[Singleton]
 
-Args:
-    name (str): The application name
+    Args:
+        name (str): The application name
 
-Example:
-    >>> app = AppBase("MyApp")
-    >>> # Only one instance will exist, subsequent calls return same instance
-"""
+    Example:
+        >>> app = AppBase("MyApp")
+        >>> # Only one instance will exist, subsequent calls return same instance
+    """
 
-AppDetectWindow: TypeAlias = WrappedApp[Singleton, DetectWindow]
-"""Singleton application with window detection.
+class AppDetectWindow(AppBase[DetectWindow]):
+    """Singleton application with window detection.
 
-This type alias creates a WrappedApp with both Singleton behavior and
-automatic window detection capabilities.
+    This type alias creates a WrappedApp with both Singleton behavior and
+    automatic window detection capabilities.
 
-Type: WrappedApp[Singleton, DetectWindow]
+    Type: WrappedApp[Singleton, DetectWindow]
 
-Args:
-    name (str): The application name
+    Args:
+        name (str): The application name
 
-Features:
-    - Singleton pattern: Only one instance can exist
-    - Window detection: Automatically detects and manages child windows
+    Features:
+        - Singleton pattern: Only one instance can exist
+        - Window detection: Automatically detects and manages child windows
 
-Example:
-    >>> app = AppDetectWindow("MyApp")
-    >>> # Application with automatic window management
-"""
+    Example:
+        >>> app = AppDetectWindow("MyApp")
+        >>> # Application with automatic window management
+    """
 
 
 # Window aliases
-WindowWithPanel: TypeAlias = WrappedWindow[DetectPanel]
-"""Window with automatic panel detection.
+class WindowWithPanel(WrappedWindow[DetectPanel]):
+    """Window with automatic panel detection.
 
-This type alias creates a WrappedWindow that automatically detects
-and manages child panels.
+    This type alias creates a WrappedWindow that automatically detects
+    and manages child panels.
 
-Type: WrappedWindow[DetectPanel]
+    Type: WrappedWindow[DetectPanel]
 
-Args:
-    app: The parent application instance
-    size (tuple[int, int] | None): Window size as (width, height)
-    pos (tuple[int, int] | None): Window position as (x, y)
-    title (str | None): Window title text
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython window style flags
+    Args:
+        app: The parent application instance
+        size (tuple[int, int] | None): Window size as (width, height)
+        pos (tuple[int, int] | None): Window position as (x, y)
+        title (str | None): Window title text
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython window style flags
 
-Features:
-    - Panel detection: Automatically detects and manages child panels
+    Features:
+        - Panel detection: Automatically detects and manages child panels
 
-Example:
-    >>> window = WindowWithPanel(app, size=(800, 600), title="Main Window")
-"""
+    Example:
+        >>> window = WindowWithPanel(app, size=(800, 600), title="Main Window")
+    """
 
-WindowByPanelSize: TypeAlias = WindowWithPanel[ByPanelSize]
-"""Window with panel detection and size management.
+class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
+    """Window with panel detection and size management.
 
-This type alias creates a WrappedWindow with panel detection and
-size management based on the client panel size.
+    This type alias creates a WrappedWindow with panel detection and
+    size management based on the client panel size.
 
-Type: WrappedWindow[DetectPanel, ByPanelSize]
+    Type: WrappedWindow[DetectPanel, ByPanelSize]
 
-Args:
-    app: The parent application instance
-    size (tuple[int, int] | None): Window size as (width, height)
-    pos (tuple[int, int] | None): Window position as (x, y)
-    title (str | None): Window title text
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython window style flags
+    Args:
+        app: The parent application instance
+        size (tuple[int, int] | None): Window size as (width, height)
+        pos (tuple[int, int] | None): Window position as (x, y)
+        title (str | None): Window title text
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython window style flags
 
-Features:
-    - Panel detection: Automatically detects and manages child panels
-    - Size management: Adjusts window size based on panel content
+    Features:
+        - Panel detection: Automatically detects and manages child panels
+        - Size management: Adjusts window size based on panel content
 
-Example:
-    >>> window = WindowByPanelSize(app, title="Auto-sized Window")
-"""
+    Example:
+        >>> window = WindowByPanelSize(app, title="Auto-sized Window")
+    """
 
-WindowPanelTransit: TypeAlias = WrappedWindow[SupportTransit]
-"""Window with panel transition support.
+class WindowPanelTransit(WrappedWindow[SupportTransit]):
+    """Window with panel transition support.
 
-This type alias creates a WrappedWindow that supports panel
-transitions and visibility management.
+    This type alias creates a WrappedWindow that supports panel
+    transitions and visibility management.
 
-Type: WrappedWindow[SupportTransit]
+    Type: WrappedWindow[SupportTransit]
 
-Args:
-    app: The parent application instance
-    size (tuple[int, int] | None): Window size as (width, height)
-    pos (tuple[int, int] | None): Window position as (x, y)
-    title (str | None): Window title text
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython window style flags
+    Args:
+        app: The parent application instance
+        size (tuple[int, int] | None): Window size as (width, height)
+        pos (tuple[int, int] | None): Window position as (x, y)
+        title (str | None): Window title text
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython window style flags
 
-Features:
-    - Panel transitions: Supports smooth panel switching and visibility 
-      management
+    Features:
+        - Panel transitions: Supports smooth panel switching and visibility 
+          management
 
-Example:
-    >>> window = WindowPanelTransit(app, size=(800, 600), 
-    ...                            title="Transition Window")
-"""
+    Example:
+        >>> window = WindowPanelTransit(app, size=(800, 600), 
+        ...                            title="Transition Window")
+    """
 
-WindowSizeTransitWithPanel: TypeAlias = WrappedWindow[
-    SupportTransit, ByPanelSize
-]
-"""Window with panel transitions and size management.
+class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
+    """Window with panel transitions and size management.
 
-This type alias creates a WrappedWindow with both panel transition
-support and size management based on client panel size.
+    This type alias creates a WrappedWindow with both panel transition
+    support and size management based on client panel size.
 
-Type: WrappedWindow[SupportTransit, ByPanelSize]
+    Type: WrappedWindow[SupportTransit, ByPanelSize]
 
-Args:
-    app: The parent application instance
-    size (tuple[int, int] | None): Window size as (width, height)
-    pos (tuple[int, int] | None): Window position as (x, y)
-    title (str | None): Window title text
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython window style flags
+    Args:
+        app: The parent application instance
+        size (tuple[int, int] | None): Window size as (width, height)
+        pos (tuple[int, int] | None): Window position as (x, y)
+        title (str | None): Window title text
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython window style flags
 
-Features:
-    - Panel transitions: Supports smooth panel switching and visibility 
-      management
-    - Size management: Adjusts window size based on panel content
+    Features:
+        - Panel transitions: Supports smooth panel switching and visibility 
+          management
+        - Size management: Adjusts window size based on panel content
 
-Example:
-    >>> window = WindowSizeTransitWithPanel(app, title="Dynamic Window")
-"""
+    Example:
+        >>> window = WindowSizeTransitWithPanel(app, title="Dynamic Window")
+    """
 
 
 # Panel aliases
-PanelDetectChildren: TypeAlias = WrappedPanel[DetectChildren]
-"""Panel with automatic child component detection.
+class PanelDetectChildren(WrappedPanel[DetectChildren]):
+    """Panel with automatic child component detection.
 
-This type alias creates a WrappedPanel that automatically detects
-and manages child UI components.
+    This type alias creates a WrappedPanel that automatically detects
+    and manages child UI components.
 
-Type: WrappedPanel[DetectChildren]
+    Type: WrappedPanel[DetectChildren]
 
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Panel size as (width, height)
-    pos (tuple[int, int] | None): Panel position as (x, y)
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython panel style flags
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Panel size as (width, height)
+        pos (tuple[int, int] | None): Panel position as (x, y)
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython panel style flags
 
-Features:
-    - Child detection: Automatically detects and manages child UI components
-    - Component indexing: Provides indexed access to child components
+    Features:
+        - Child detection: Automatically detects and manages child UI components
+        - Component indexing: Provides indexed access to child components
 
-Example:
-    >>> panel = PanelDetectChildren(window, size=(400, 300))
-    >>> # Child components will be automatically detected and indexed
-"""
+    Example:
+        >>> panel = PanelDetectChildren(window, size=(400, 300))
+        >>> # Child components will be automatically detected and indexed
+    """
 
-PanelWithBoarder: TypeAlias = WrappedPanel[WithBoarder]
-"""Panel with border drawing functionality.
+class PanelWithBoarder(WrappedPanel[WithBoarder]):
+    """Panel with border drawing functionality.
 
-This type alias creates a WrappedPanel with automatic border
-drawing capabilities around the panel edges.
+    This type alias creates a WrappedPanel with automatic border
+    drawing capabilities around the panel edges.
 
-Type: WrappedPanel[WithBoarder]
+    Type: WrappedPanel[WithBoarder]
 
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Panel size as (width, height)
-    pos (tuple[int, int] | None): Panel position as (x, y)
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython panel style flags
-    boarder_color (tuple[int, int, int] | None): Border color as RGB tuple
-    boarder_thickness (int): Border line thickness in pixels
-    boarder_offset (int): Border offset from panel edges in pixels
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Panel size as (width, height)
+        pos (tuple[int, int] | None): Panel position as (x, y)
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython panel style flags
+        boarder_color (tuple[int, int, int] | None): Border color as RGB tuple
+        boarder_thickness (int): Border line thickness in pixels
+        boarder_offset (int): Border offset from panel edges in pixels
 
-Features:
-    - Border drawing: Automatic border rendering around panel edges
-    - Customizable appearance: Color, thickness, and offset control
+    Features:
+        - Border drawing: Automatic border rendering around panel edges
+        - Customizable appearance: Color, thickness, and offset control
 
-Example:
-    >>> panel = PanelWithBoarder(
-    ...     window, 
-    ...     size=(300, 200),
-    ...     boarder_color=(255, 0, 0),
-    ...     boarder_thickness=2
-    ... )
-"""
+    Example:
+        >>> panel = PanelWithBoarder(
+        ...     window, 
+        ...     size=(300, 200),
+        ...     boarder_color=(255, 0, 0),
+        ...     boarder_thickness=2
+        ... )
+    """
 
-PanelNoTransition: TypeAlias = WrappedPanel[NotTransition]
-"""Panel excluded from transition management.
+class PanelNoTransition(WrappedPanel[NotTransition]):
+    """Panel excluded from transition management.
 
-This type alias creates a WrappedPanel that is excluded from
-automatic panel transition systems.
+    This type alias creates a WrappedPanel that is excluded from
+    automatic panel transition systems.
 
-Type: WrappedPanel[NotTransition]
+    Type: WrappedPanel[NotTransition]
 
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Panel size as (width, height)
-    pos (tuple[int, int] | None): Panel position as (x, y)
-    color (tuple[int, int, int] | None): Background color as RGB tuple
-    style (int | None): wxPython panel style flags
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Panel size as (width, height)
+        pos (tuple[int, int] | None): Panel position as (x, y)
+        color (tuple[int, int, int] | None): Background color as RGB tuple
+        style (int | None): wxPython panel style flags
 
-Features:
-    - Transition exclusion: Panel is excluded from automatic transition 
-      management
-    - Always visible: Remains visible during panel transitions
+    Features:
+        - Transition exclusion: Panel is excluded from automatic transition 
+          management
+        - Always visible: Remains visible during panel transitions
 
-Example:
-    >>> panel = PanelNoTransition(window, size=(200, 100))
-    >>> # Panel will not participate in transition animations
-"""
+    Example:
+        >>> panel = PanelNoTransition(window, size=(200, 100))
+        >>> # Panel will not participate in transition animations
+    """
 
 
 # Button aliases
-ButtonSingleClickDisable: TypeAlias = WrappedButton[SingleClickDisable]
-"""Button that disables after single click.
+class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
+    """Button that disables after single click.
 
-This type alias creates a WrappedButton that automatically disables
-itself after being clicked once to prevent double-clicking.
+    This type alias creates a WrappedButton that automatically disables
+    itself after being clicked once to prevent double-clicking.
 
-Type: WrappedButton[SingleClickDisable]
+    Type: WrappedButton[SingleClickDisable]
 
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Button size as (width, height)
-    pos (tuple[int, int] | None): Button position as (x, y)
-    label (str | None): Button text label
-    font (font object | None): Button text font
-    color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
-    color_background (tuple[int, int, int] | None): Background color as 
-        RGB tuple
-    style (int | None): wxPython button style flags
-    disable_duration (float | None): Duration to disable button (seconds)
-    auto_re_enable (bool): Whether to automatically re-enable button
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Button size as (width, height)
+        pos (tuple[int, int] | None): Button position as (x, y)
+        label (str | None): Button text label
+        font (font object | None): Button text font
+        color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
+        color_background (tuple[int, int, int] | None): Background color as 
+            RGB tuple
+        style (int | None): wxPython button style flags
+        disable_duration (float | None): Duration to disable button (seconds)
+        auto_re_enable (bool): Whether to automatically re-enable button
 
-Features:
-    - Single click disable: Automatically disables after first click
-    - Configurable duration: Set disable duration or manual re-enable
-    - Double-click prevention: Prevents accidental multiple submissions
+    Features:
+        - Single click disable: Automatically disables after first click
+        - Configurable duration: Set disable duration or manual re-enable
+        - Double-click prevention: Prevents accidental multiple submissions
 
-Example:
-    >>> button = ButtonSingleClickDisable(
-    ...     panel,
-    ...     label="Submit",
-    ...     disable_duration=2.0
-    ... )
-"""
+    Example:
+        >>> button = ButtonSingleClickDisable(
+        ...     panel,
+        ...     label="Submit",
+        ...     disable_duration=2.0
+        ... )
+    """
 
-ButtonDoubleClickOnly: TypeAlias = WrappedButton[DoubleClickOnly]
-"""Button that responds only to double-clicks.
+class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
+    """Button that responds only to double-clicks.
+    
+    This type alias creates a WrappedButton that ignores single clicks
+    and only responds to double-click events.
+    
+    Type: WrappedButton[DoubleClickOnly]
+    
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Button size as (width, height)
+        pos (tuple[int, int] | None): Button position as (x, y)
+        label (str | None): Button text label
+        font (font object | None): Button text font
+        color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
+        color_background (tuple[int, int, int] | None): Background color as 
+            RGB tuple
+        style (int | None): wxPython button style flags
+        double_click_timeout (float | None): Maximum time between clicks 
+            (seconds)
+        show_single_click_feedback (bool): Whether to show feedback on single 
+            clicks
+    
+    Features:
+        - Double-click only: Ignores single clicks, requires double-click
+        - Timeout control: Configure maximum time between clicks
+        - Visual feedback: Optional feedback for single click attempts
+    
+    Example:
+        >>> button = ButtonDoubleClickOnly(
+        ...     panel,
+        ...     label="Delete",
+        ...     double_click_timeout=0.5
+        ... )
+    """
 
-This type alias creates a WrappedButton that ignores single clicks
-and only responds to double-click events.
+class ButtonClickGuard(WrappedButton[ClickGuard]):
+    """Button with click protection mechanisms.
 
-Type: WrappedButton[DoubleClickOnly]
+    This type alias creates a WrappedButton with built-in protection
+    against accidental or rapid multiple clicks.
 
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Button size as (width, height)
-    pos (tuple[int, int] | None): Button position as (x, y)
-    label (str | None): Button text label
-    font (font object | None): Button text font
-    color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
-    color_background (tuple[int, int, int] | None): Background color as 
-        RGB tuple
-    style (int | None): wxPython button style flags
-    double_click_timeout (float | None): Maximum time between clicks 
-        (seconds)
-    show_single_click_feedback (bool): Whether to show feedback on single 
-        clicks
+    Type: WrappedButton[ClickGuard]
 
-Features:
-    - Double-click only: Ignores single clicks, requires double-click
-    - Timeout control: Configure maximum time between clicks
-    - Visual feedback: Optional feedback for single click attempts
+    Args:
+        parent: The parent window or panel
+        size (tuple[int, int] | None): Button size as (width, height)
+        pos (tuple[int, int] | None): Button position as (x, y)
+        label (str | None): Button text label
+        font (font object | None): Button text font
+        color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
+        color_background (tuple[int, int, int] | None): Background color as 
+            RGB tuple
+        style (int | None): wxPython button style flags
+        require_double_click (bool): Whether to require double-click confirmation
+        disable_duration (float): Duration to disable after click (seconds)
+        guard_message (str | None): Message to display during guard period
 
-Example:
-    >>> button = ButtonDoubleClickOnly(
-    ...     panel,
-    ...     label="Delete",
-    ...     double_click_timeout=0.5
-    ... )
-"""
+    Features:
+        - Click protection: Guards against accidental or rapid clicks
+        - Optional double-click: Can require double-click for confirmation
+        - Guard messaging: Shows custom message during protection period
+        - Disable duration: Configurable protection time period
 
-ButtonClickGuard: TypeAlias = WrappedButton[ClickGuard]
-"""Button with click protection mechanisms.
-
-This type alias creates a WrappedButton with built-in protection
-against accidental or rapid multiple clicks.
-
-Type: WrappedButton[ClickGuard]
-
-Args:
-    parent: The parent window or panel
-    size (tuple[int, int] | None): Button size as (width, height)
-    pos (tuple[int, int] | None): Button position as (x, y)
-    label (str | None): Button text label
-    font (font object | None): Button text font
-    color_foreground (tuple[int, int, int] | None): Text color as RGB tuple
-    color_background (tuple[int, int, int] | None): Background color as 
-        RGB tuple
-    style (int | None): wxPython button style flags
-    require_double_click (bool): Whether to require double-click confirmation
-    disable_duration (float): Duration to disable after click (seconds)
-    guard_message (str | None): Message to display during guard period
-
-Features:
-    - Click protection: Guards against accidental or rapid clicks
-    - Optional double-click: Can require double-click for confirmation
-    - Guard messaging: Shows custom message during protection period
-    - Disable duration: Configurable protection time period
-
-Example:
-    >>> button = ButtonClickGuard(
-    ...     panel,
-    ...     label="Dangerous Action",
-    ...     require_double_click=True,
-    ...     guard_message="Click again to confirm"
-    ... )
-"""
+    Example:
+        >>> button = ButtonClickGuard(
+        ...     panel,
+        ...     label="Dangerous Action",
+        ...     require_double_click=True,
+        ...     guard_message="Click again to confirm"
+        ... )
+    """
 
 
 # Export all type aliases for convenient access
