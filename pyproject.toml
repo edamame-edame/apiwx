@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.5.5"
-description = "wxPython API wrapper with comprehensive type aliases, enhanced panel transitions, AutoDetect indexor search, and integrated development tools"
+version = "0.5.6"
+description = "wxPython API wrapper with StaticText positioning mixins, comprehensive type aliases, AutoDetect indexor search, and integrated development tools"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [

@@ -31,6 +31,7 @@ apiwx/mixins_button.py
 apiwx/mixins_common.py
 apiwx/mixins_core.py
 apiwx/mixins_panel.py
+apiwx/mixins_statictext.py
 apiwx/mixins_window.py
 apiwx/painttool.py
 apiwx/paneltransmodel.py
@@ -81,6 +82,8 @@ apiwx/stubs/styleflags.pyi
 apiwx/stubs/uiarg.pyi
 dist/apiwx-0.5.4-py3-none-any.whl
 dist/apiwx-0.5.4.tar.gz
+dist/apiwx-0.5.5-py3-none-any.whl
+dist/apiwx-0.5.5.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md
@@ -112,3 +115,4 @@ test/quick_test.py
 test/test_generics_core_changes.py
 test/test_recent_changes.py
 test/test_search_child_indexor.py
+test/test_statictext_mixins.py

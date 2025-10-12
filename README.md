@@ -1,6 +1,14 @@
 
 
-# ## 🎉 What's New in v0.5.5
+# ## 🎉 What's New in v0.5.6
+
+- **📍 StaticText Positioning Mixins**: New `mixins_statictext.py` module with intelligent text positioning capabilities
+- **🎯 Nine Alignment Options**: Complete text alignment system (top-left, center, bottom-right, etc.) with `TextAlign` enum
+- **🔄 Dynamic Positioning**: `LocateByParent` mixin automatically positions text within parent windows
+- **📏 Smart Layout Management**: Automatic text repositioning with parent window resizing support
+- **🎨 Flexible API**: Support both string-based ("c", "tl") and enum-based (TextAlign.CENTER) alignment specification
+
+### Previous in v0.5.5
 
 - **🏷️ Comprehensive Type Aliases**: New `mixins_alias.py` module with 12 convenient type aliases for common mixin combinations
 - **📚 Complete Documentation**: All type aliases include detailed docstrings, usage examples, and parameter documentation
@@ -242,6 +250,41 @@ if MixinsType.hasmixins(type(button), apiwx.SingleClickDisable):
     print("Button has single-click disable behavior")
 ```
 
+### Intelligent Text Positioning with StaticText Mixins (New in v0.5.6)
+Automatically position text within parent windows using alignment mixins:
+
+```python
+# Import StaticText positioning components
+from apiwx.mixins_statictext import LocateByParent, TextAlign
+
+# Create aligned text using mixin
+class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+    pass
+
+app = apiwx.WrappedApp("Text Positioning Demo")
+window = apiwx.WrappedWindow(app, title="Alignment Demo", size=(400, 300))
+
+# Center-aligned text using string shorthand
+center_text = AlignedText(window, label="Centered Text", align="c")
+
+# Top-right aligned text using enum
+top_right_text = AlignedText(window, label="Top Right", align=TextAlign.TOPRIGHT)
+
+# Bottom-left aligned text
+bottom_left_text = AlignedText(window, label="Bottom Left", align="bl")
+
+# Dynamic alignment changes
+center_text.align = TextAlign.BOTTOMRIGHT  # Move to bottom-right
+center_text.align = "tl"  # Move to top-left using string
+
+# All nine alignment options available:
+# "tl" (top-left), "t" (top), "tr" (top-right)
+# "l" (left), "c" (center), "r" (right)  
+# "bl" (bottom-left), "b" (bottom), "br" (bottom-right)
+
+app.mainloop()
+```
+
 ### Advanced Component Detection
 Automatic component detection and management with enhanced indexor search (v0.5.4):
 
@@ -388,6 +431,10 @@ Add advanced behaviors to components with the comprehensive mixin system:
 - **SingleClickDisable** - Prevent double-clicking with auto re-enable
 - **DoubleClickOnly** - Require double-click confirmation
 - **ClickGuard** - Click confirmation prompts with customizable messages
+
+#### StaticText Mixins (New in v0.5.6)
+- **TextAlign** - Enumeration for nine text alignment positions
+- **LocateByParent** - Automatic text positioning within parent window boundaries
 
 #### Window & Panel Mixins
 - **DetectPanel** - Automatic panel detection in windows

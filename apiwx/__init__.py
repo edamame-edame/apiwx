@@ -281,6 +281,18 @@ except ImportError:
     )
 
 try:
+    from .mixins_statictext import (
+        TextAlign,
+        LocateByParent,
+    )
+
+except ImportError:
+    from mixins_statictext import (
+        TextAlign,
+        LocateByParent,
+    )
+
+try:
     from .mixins_alias import (
         AppBase,
         AppDetectWindow,
@@ -415,6 +427,9 @@ __all__ = [
     # Button Mixins
     "SingleClickDisable", "DoubleClickOnly", "ClickGuard",
     
+    # StaticText Mixins
+    "TextAlign", "LocateByParent",
+    
     # Application Aliases
     "AppBase", "AppDetectWindow",
     
@@ -455,7 +470,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.5"
+__version__ = "0.5.6"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage
