@@ -36,6 +36,11 @@ from wx import (
     ALIGN_RIGHT,
     ALIGN_BOTTOM,
     ALIGN_CENTER,
+
+    # Directional constants for composite alignments
+    VERTICAL,
+    HORIZONTAL,
+    BOTH,
 )
 
 
@@ -95,5 +100,10 @@ __all__ = [
     
     # Type hint
     'literal_alignment',
+
+    # Directional constants
+    'VERTICAL',
+    'HORIZONTAL',
+    'BOTH',
 ]
 

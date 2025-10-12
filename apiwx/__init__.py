@@ -106,6 +106,19 @@ except ImportError:
         WrappedImage,
     )
 
+# Mutable List View Components
+try:
+    from .mutablelistview import (
+        AbstractMutableListNode,
+        MutableListView,
+    )
+
+except ImportError:
+    from mutablelistview import (
+        AbstractMutableListNode,
+        MutableListView,
+    )
+
 
 # Font Management, Debug, Panel Transform, and Events
 try:
@@ -397,6 +410,9 @@ __all__ = [
     "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", 
     "WrappedImage",
     
+    # Mutable List View Components
+    "AbstractMutableListNode", "MutableListView",
+    
     # Font, Debug, Panel Transform, Events
     "FontManager", "PanelTransModel", "NotTransition", "SupportTransit",
     
@@ -470,7 +486,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.6"
+__version__ = "0.5.7"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage

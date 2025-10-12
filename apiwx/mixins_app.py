@@ -14,13 +14,13 @@ except ImportError:
     import mixins_common
 
 
-DetectWindow = mixins_common.AutoDetect[
-    core.WrappedWindow
-]
-"""Type variable for auto-detecting window class.
+class DetectWindow(mixins_common.AutoDetect[
+        core.WrappedWindow
+    ]):
+    """Type variable for auto-detecting window class.
 
-This type alias provides automatic type detection for window classes
-used in wxPython applications. It allows type checkers to infer the
-correct window type based on the usage context.
-"""
+    This type alias provides automatic type detection for window classes
+    used in wxPython applications. It allows type checkers to infer the
+    correct window type based on the usage context.
+    """
 

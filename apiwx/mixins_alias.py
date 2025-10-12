@@ -31,7 +31,7 @@ Example Usage:
     >>> panel = PanelDetectChildren(parent=window)
 """
 
-from typing import TypeAlias
+from typing import TypeAlias, overload
 
 try:
     from .core import (
@@ -185,6 +185,9 @@ class AppBase(WrappedApp[Singleton]):
         >>> app = AppBase("MyApp")
         >>> # Only one instance will exist, subsequent calls return same instance
     """
+    @overload
+    def __init__(self, name: str) -> None: ...
+
 
 class AppDetectWindow(AppBase[DetectWindow]):
     """Singleton application with window detection.
@@ -205,6 +208,8 @@ class AppDetectWindow(AppBase[DetectWindow]):
         >>> app = AppDetectWindow("MyApp")
         >>> # Application with automatic window management
     """
+    @overload
+    def __init__(self, name: str) -> None: ...
 
 
 # Window aliases
@@ -230,6 +235,17 @@ class WindowWithPanel(WrappedWindow[DetectPanel]):
     Example:
         >>> window = WindowWithPanel(app, size=(800, 600), title="Main Window")
     """
+    @overload
+    def __init__(
+        self,
+        app: WrappedApp,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        title: str | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
+
 
 class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
     """Window with panel detection and size management.
@@ -254,6 +270,17 @@ class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
     Example:
         >>> window = WindowByPanelSize(app, title="Auto-sized Window")
     """
+    @overload
+    def __init__(
+        self,
+        app: WrappedApp,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        title: str | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
+
 
 class WindowPanelTransit(WrappedWindow[SupportTransit]):
     """Window with panel transition support.
@@ -279,6 +306,17 @@ class WindowPanelTransit(WrappedWindow[SupportTransit]):
         >>> window = WindowPanelTransit(app, size=(800, 600), 
         ...                            title="Transition Window")
     """
+    @overload
+    def __init__(
+        self,
+        app: WrappedApp,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        title: str | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
+
 
 class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
     """Window with panel transitions and size management.
@@ -304,6 +342,16 @@ class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
     Example:
         >>> window = WindowSizeTransitWithPanel(app, title="Dynamic Window")
     """
+    @overload
+    def __init__(
+        self,
+        app: WrappedApp,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        title: str | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
 
 
 # Panel aliases
@@ -330,6 +378,16 @@ class PanelDetectChildren(WrappedPanel[DetectChildren]):
         >>> panel = PanelDetectChildren(window, size=(400, 300))
         >>> # Child components will be automatically detected and indexed
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedWindow | WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
+
 
 class PanelWithBoarder(WrappedPanel[WithBoarder]):
     """Panel with border drawing functionality.
@@ -361,6 +419,19 @@ class PanelWithBoarder(WrappedPanel[WithBoarder]):
         ...     boarder_thickness=2
         ... )
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedWindow | WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+        boarder_color: tuple[int, int, int] | None = None,
+        boarder_thickness: int = 3,
+        boarder_offset: int = 0,
+    ) -> None: ...
+
 
 class PanelNoTransition(WrappedPanel[NotTransition]):
     """Panel excluded from transition management.
@@ -386,6 +457,15 @@ class PanelNoTransition(WrappedPanel[NotTransition]):
         >>> panel = PanelNoTransition(window, size=(200, 100))
         >>> # Panel will not participate in transition animations
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedWindow | WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        color: tuple[int, int, int] | None = None,
+        style: int | None = None,
+    ) -> None: ...
 
 
 # Button aliases
@@ -422,6 +502,21 @@ class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
         ...     disable_duration=2.0
         ... )
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        label: str | None = None,
+        font: object | None = None,
+        color_foreground: tuple[int, int, int] | None = None,
+        color_background: tuple[int, int, int] | None = None,
+        style: int | None = None,
+        disable_duration: float | None = None,
+        auto_re_enable: bool = True,
+    ) -> None: ...
+
 
 class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
     """Button that responds only to double-clicks.
@@ -458,6 +553,21 @@ class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
         ...     double_click_timeout=0.5
         ... )
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        label: str | None = None,
+        font: object | None = None,
+        color_foreground: tuple[int, int, int] | None = None,
+        color_background: tuple[int, int, int] | None = None,
+        style: int | None = None,
+        double_click_timeout: float | None = None,
+        show_single_click_feedback: bool = False,
+    ) -> None: ...
+
 
 class ButtonClickGuard(WrappedButton[ClickGuard]):
     """Button with click protection mechanisms.
@@ -495,6 +605,21 @@ class ButtonClickGuard(WrappedButton[ClickGuard]):
         ...     guard_message="Click again to confirm"
         ... )
     """
+    @overload
+    def __init__(
+        self,
+        parent: WrappedPanel,
+        size: tuple[int, int] | None = None,
+        pos: tuple[int, int] | None = None,
+        label: str | None = None,
+        font: object | None = None,
+        color_foreground: tuple[int, int, int] | None = None,
+        color_background: tuple[int, int, int] | None = None,
+        style: int | None = None,
+        require_double_click: bool = False,
+        disable_duration: float = 1.0,
+        guard_message: str | None = None,
+    ) -> None: ...
 
 
 # Export all type aliases for convenient access

@@ -1,6 +1,15 @@
 
 
-# ## 🎉 What's New in v0.5.6
+# ## 🎉 What's New in v0.5.7
+
+- **📋 MutableListView Component**: New dynamic list management system with panel-based UI components
+- **🔀 AbstractMutableListNode**: Base class for creating dynamic list items with Multiton mixin support
+- **📱 Scrollable List Interface**: Full scrolling support with customizable scroll rates and styling
+- **🔧 Enhanced LocateByParent**: Improved size calculation and automatic text repositioning with SetText method
+- **💡 Better IDE Support**: Enhanced type hints and overload definitions across mixin system for improved development experience
+- **⚙️ Flexible Node Management**: Easy append/remove operations with automatic panel layout and refresh
+
+### Previous in v0.5.6
 
 - **📍 StaticText Positioning Mixins**: New `mixins_statictext.py` module with intelligent text positioning capabilities
 - **🎯 Nine Alignment Options**: Complete text alignment system (top-left, center, bottom-right, etc.) with `TextAlign` enum
@@ -281,6 +290,103 @@ center_text.align = "tl"  # Move to top-left using string
 # "tl" (top-left), "t" (top), "tr" (top-right)
 # "l" (left), "c" (center), "r" (right)  
 # "bl" (bottom-left), "b" (bottom), "br" (bottom-right)
+
+app.mainloop()
+```
+
+### Dynamic List Management with MutableListView (New in v0.5.7)
+Create dynamic, scrollable list interfaces with automatic panel management:
+
+```python
+from apiwx import MutableListView, AbstractMutableListNode
+
+# Create a custom node type for list items
+class TaskNode(AbstractMutableListNode):
+    def __init__(self, parent, task_data):
+        super().__init__(parent)
+        self.task_data = task_data
+        
+        # Create UI components for this task
+        self.label = apiwx.WrappedStaticText(self, label=f"Task: {task_data['name']}")
+        self.status_btn = apiwx.WrappedButton(self, label="Toggle", size=(60, 25))
+        
+        # Connect event
+        self.status_btn.slots_on_click += self.toggle_status
+        
+        # Layout components
+        sizer = apiwx.core._wx.BoxSizer(apiwx.core._wx.HORIZONTAL)
+        sizer.Add(self.label, 1, apiwx.core._wx.EXPAND | apiwx.core._wx.ALL, 5)
+        sizer.Add(self.status_btn, 0, apiwx.core._wx.ALL, 5)
+        self.SetSizer(sizer)
+    
+    def to_node(self):
+        """Return the underlying task data."""
+        return self.task_data
+        
+    @classmethod
+    def from_node(cls, parent, task_data):
+        """Create a TaskNode from task data."""
+        return cls(parent, task_data)
+    
+    def toggle_status(self, event):
+        """Toggle task completion status."""
+        self.task_data['completed'] = not self.task_data.get('completed', False)
+        status = "✓" if self.task_data['completed'] else "○"
+        self.label.SetLabel(f"{status} Task: {self.task_data['name']}")
+
+# Create the application and window
+app = apiwx.WrappedApp("Task Manager")
+window = apiwx.WrappedWindow(app, title="Dynamic Task List", size=(500, 400))
+
+# Create the mutable list view
+task_list = MutableListView(
+    window,
+    size=(450, 300),
+    pos=(25, 25),
+    node_view_type=TaskNode,
+    style=apiwx.styleflags.VSCROLL,  # Enable vertical scrolling
+    scroll_rate=(5, 10)  # Scroll sensitivity
+)
+
+# Add some initial tasks
+tasks = [
+    {"name": "Write documentation", "completed": False},
+    {"name": "Test new features", "completed": True},
+    {"name": "Review code", "completed": False},
+    {"name": "Deploy to production", "completed": False}
+]
+
+for task in tasks:
+    task_list.append(task)
+
+# Add new task button
+add_btn = apiwx.WrappedButton(window, label="Add Task", pos=(25, 340), size=(100, 30))
+
+def add_new_task(event):
+    """Add a new task to the list."""
+    import random
+    new_task = {
+        "name": f"New Task {random.randint(1, 1000)}",
+        "completed": False
+    }
+    task_list.append(new_task)
+
+add_btn.slots_on_click += add_new_task
+
+# Remove completed tasks button
+remove_btn = apiwx.WrappedButton(window, label="Remove Completed", pos=(140, 340), size=(130, 30))
+
+def remove_completed(event):
+    """Remove all completed tasks."""
+    # Get all completed tasks
+    completed_tasks = [node.to_node() for node in task_list.node_view_list 
+                      if node.to_node().get('completed', False)]
+    
+    # Remove them from the list
+    for task in completed_tasks:
+        task_list.remove(task)
+
+remove_btn.slots_on_click += remove_completed
 
 app.mainloop()
 ```

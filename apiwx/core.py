@@ -455,6 +455,10 @@ class UIAttributes:
 
     def is_shown(self: _wx.Window) -> bool:
         return self.IsShown()
+    
+
+    def layout(self: _wx.Window):
+        return self.Layout()
 
 
     @classmethod
@@ -1828,9 +1832,10 @@ class WrappedScrolledWindow(
     def scroll_rate(self, value: tuple[int, int]):
         self._scroll_rate = value
 
-        self.SetScrollRate(
-            self._scroll_rate
-        )
+        if self._scroll_rate is not None:
+            self.SetScrollRate(
+                self._scroll_rate
+            )
 
 
     def __init__(

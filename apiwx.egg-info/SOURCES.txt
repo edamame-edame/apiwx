@@ -33,6 +33,7 @@ apiwx/mixins_core.py
 apiwx/mixins_panel.py
 apiwx/mixins_statictext.py
 apiwx/mixins_window.py
+apiwx/mutablelistview.py
 apiwx/painttool.py
 apiwx/paneltransmodel.py
 apiwx/py.typed
@@ -73,7 +74,9 @@ apiwx/stubs/mixins_button.pyi
 apiwx/stubs/mixins_common.pyi
 apiwx/stubs/mixins_core.pyi
 apiwx/stubs/mixins_panel.pyi
+apiwx/stubs/mixins_statictext.pyi
 apiwx/stubs/mixins_window.pyi
+apiwx/stubs/mutablelistview.pyi
 apiwx/stubs/painttool.pyi
 apiwx/stubs/paneltransmodel.pyi
 apiwx/stubs/py.typed
@@ -84,6 +87,8 @@ dist/apiwx-0.5.4-py3-none-any.whl
 dist/apiwx-0.5.4.tar.gz
 dist/apiwx-0.5.5-py3-none-any.whl
 dist/apiwx-0.5.5.tar.gz
+dist/apiwx-0.5.6-py3-none-any.whl
+dist/apiwx-0.5.6.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md
@@ -103,6 +108,7 @@ releasenotes/RELEASE_NOTES_v0.4.0.md
 releasenotes/RELEASE_NOTES_v0.5.0.md
 releasenotes/RELEASE_NOTES_v0.5.1.md
 releasenotes/RELEASE_NOTES_v0.5.2.md
+releasenotes/RELEASE_NOTES_v0.5.6.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py
@@ -113,6 +119,7 @@ test/master_test.py
 test/pattern_tests.py
 test/quick_test.py
 test/test_generics_core_changes.py
+test/test_mutablelistview_improvements.py
 test/test_recent_changes.py
 test/test_search_child_indexor.py
 test/test_statictext_mixins.py

@@ -1,5 +1,94 @@
 # CHANGELOG
 
+## [0.5.7] - 2024.12.23 - MutableListView & Enhanced IDE Support
+
+### 🎯 Major Features
+
+#### **MutableListView Component System**
+- **NEW: mutablelistview.py** - Dynamic list management with panel-based UI components
+- **AbstractMutableListNode** - Base class with Multiton mixin support for creating custom list items
+- **Scrollable List Interface** - Full horizontal/vertical scrolling with customizable scroll rates
+- **Dynamic Node Management** - Easy append/remove operations with automatic panel layout refresh
+- **Flexible Architecture** - Support for complex UI components within list items
+
+#### **Enhanced LocateByParent Positioning**
+- **Improved Size Calculation** - Fixed sizing issues in text positioning with better dimension handling
+- **SetText Method Enhancement** - Automatic text repositioning when updating content
+- **Better Core Integration** - Enhanced compatibility with text components and layout systems
+- **Robust Update Mechanism** - Reliable position recalculation with text content changes
+
+#### **Enhanced IDE Development Support**
+- **Improved Type Hints** - Enhanced type annotations across the entire mixin system
+- **typing.overload Support** - Better method signature definitions for enhanced IntelliSense
+- **Type Safety Enhancements** - Comprehensive type checking throughout new components
+- **Development Experience** - Improved autocomplete and parameter suggestions in IDEs
+
+### 🔧 Technical Implementation
+
+#### **MutableListView Architecture**
+- **WrappedScrolledWindow Base** - Built on robust scrolling foundation with full styling support
+- **Multiton Pattern Integration** - Efficient instance management for list node components
+- **Panel-Based Layout** - Dynamic panel creation and management for complex list items
+- **Event System Integration** - Full compatibility with apiwx event handling and slots system
+
+#### **AbstractMutableListNode Design**
+- **Abstract Method Pattern** - Clean interface for `to_node()` and `from_node()` implementations
+- **Multiton Mixin Support** - Efficient instance caching and management for list components
+- **Flexible UI Composition** - Support for any UI component composition within list items
+- **Type-Safe Operations** - Comprehensive type checking for node creation and management
+
+### 🚀 API Additions
+
+#### **New Classes**
+```python
+class MutableListView(WrappedScrolledWindow):
+    """Scrollable list view for dynamic panel-based components"""
+    
+class AbstractMutableListNode(Multiton):
+    """Base class for mutable list item components"""
+```
+
+#### **New Methods**
+- `MutableListView.append(node)` - Add new item to list
+- `MutableListView.remove(node)` - Remove item from list  
+- `AbstractMutableListNode.to_node()` - Convert to underlying value
+- `AbstractMutableListNode.from_node(parent, node)` - Create from value
+- `LocateByParent.SetText(label)` - Enhanced text update with repositioning
+
+### 📦 Package Integration
+
+#### **Export Updates**
+- Added `MutableListView` and `AbstractMutableListNode` to main package exports
+- Updated `__all__` list with new component classes
+- Complete type stub integration for new components
+
+#### **Documentation Enhancement**
+- Comprehensive README.md updates with detailed MutableListView examples
+- Complete API documentation with usage patterns and best practices
+- Enhanced type stub documentation for improved IDE experience
+
+### 🧪 Quality Assurance
+
+#### **Comprehensive Testing**
+- **Complete Test Suite** - 20+ test cases covering all new functionality
+- **Integration Testing** - Mixin compatibility and error handling validation
+- **Type Safety Testing** - Verification of enhanced type checking systems
+- **Performance Testing** - Scrolling performance and memory management validation
+
+### 🐛 Fixes & Improvements
+
+#### **LocateByParent Enhancements**
+- **Fixed**: Size calculation problems in text positioning calculations
+- **Enhanced**: SetText method for proper automatic repositioning
+- **Improved**: Integration with parent window resizing events
+
+#### **Type System Improvements**  
+- **Fixed**: `from_node` classmethod signature in AbstractMutableListNode
+- **Enhanced**: Type safety across entire mixin system
+- **Improved**: IDE support with comprehensive type hints and overload definitions
+
+---
+
 ## [0.5.6] - 2025.10.12 - StaticText Positioning Mixins & Intelligent Layout
 
 ### 🎯 Major Features

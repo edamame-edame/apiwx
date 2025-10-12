@@ -255,41 +255,41 @@ class WithBoarder():
         )
 
 
-DetectChildren = mixins_common.AutoDetect[
-    core.WrappedPanel,
-    core.WrappedTextBox,
-    core.WrappedButton,
-    core.WrappedCheckBox,
-    core.WrappedComboBox,
-    core.WrappedChoice,
-    core.WrappedStaticText,
-    core.WrappedImage,
-    core.WrappedListBox,
-    core.WrappedListCtrl,
-    core.WrappedRadioBox,
-    core.WrappedScrolledWindow,
-    core.WrappedSlider,
-]
-"""Type variable for auto-detecting panel child components.
-
-This type alias provides automatic type detection for common UI components
-that are typically used as children within wxPython panels. It enables
-type checkers to properly identify and validate panel child components
-for better type safety and IDE support.
-
-Supported child component types:
-    - WrappedPanel: Nested panel containers
-    - WrappedTextBox: Text input fields
-    - WrappedButton: Clickable buttons
-    - WrappedCheckBox: Checkbox controls
-    - WrappedComboBox: Dropdown combo boxes
-    - WrappedChoice: Choice selection controls
-    - WrappedStaticText: Static text labels
-    - WrappedImage: Image display components
-    - WrappedListBox: List selection boxes
-    - WrappedListCtrl: Advanced list controls
-    - WrappedRadioBox: Radio button groups
-    - WrappedScrolledWindow: Scrollable containers
-    - WrappedSlider: Slider input controls
-"""
+class DetectChildren(mixins_common.AutoDetect[
+        core.WrappedPanel,
+        core.WrappedTextBox,
+        core.WrappedButton,
+        core.WrappedCheckBox,
+        core.WrappedComboBox,
+        core.WrappedChoice,
+        core.WrappedStaticText,
+        core.WrappedImage,
+        core.WrappedListBox,
+        core.WrappedListCtrl,
+        core.WrappedRadioBox,
+        core.WrappedScrolledWindow,
+        core.WrappedSlider,
+    ]):
+    """Type variable for auto-detecting panel child components.
+    
+    This type alias provides automatic type detection for common UI components
+    that are typically used as children within wxPython panels. It enables
+    type checkers to properly identify and validate panel child components
+    for better type safety and IDE support.
+    
+    Supported child component types:
+        - WrappedPanel: Nested panel containers
+        - WrappedTextBox: Text input fields
+        - WrappedButton: Clickable buttons
+        - WrappedCheckBox: Checkbox controls
+        - WrappedComboBox: Dropdown combo boxes
+        - WrappedChoice: Choice selection controls
+        - WrappedStaticText: Static text labels
+        - WrappedImage: Image display components
+        - WrappedListBox: List selection boxes
+        - WrappedListCtrl: Advanced list controls
+        - WrappedRadioBox: Radio button groups
+        - WrappedScrolledWindow: Scrollable containers
+        - WrappedSlider: Slider input controls
+    """
 

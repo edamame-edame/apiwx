@@ -10,7 +10,7 @@ from typing import TypeAlias
 import wx
 
 # Version information
-__version__: str = "0.5.2"
+__version__: str = "0.5.7"
 
 # Type variables
 T = TypeVar('T')
@@ -29,6 +29,9 @@ from .core import (
     WrappedListCtrl, WrappedScrolledWindow, WrappedChoice, WrappedImage,
     UIIndexor
 )
+
+# === Mutable List View Components ===
+from .mutablelistview import AbstractMutableListNode, MutableListView
 
 # === Font Management ===
 from .fontmanager import FontManager
@@ -59,6 +62,7 @@ from .mixins_app import DetectWindow
 from .mixins_window import ByPanelSize, DetectPanel
 from .mixins_panel import WithBoarder, DetectChildren
 from .mixins_button import SingleClickDisable, DoubleClickOnly, ClickGuard
+from .mixins_statictext import TextAlign, LocateByParent
 
 # === Type Aliases ===
 from .mixins_alias import (

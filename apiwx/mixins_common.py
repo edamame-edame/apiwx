@@ -19,11 +19,13 @@ try:
     from . import core
     from . import debug
     from . import mixins_core
+    from . import mixins_base
 
 except ImportError:
     import core
     import debug
     import mixins_core
+    import mixins_base
 
 
 class FixSize:
@@ -93,8 +95,7 @@ class AutoDetect:
         cls: typing.Type['AutoDetect'], 
         instance: 'AutoDetect', 
         *args, 
-        **kwds
-    ):
+        **kwds):
         # Create object.
         # Super class init was called from WrappedApp.__new__.
         # So do nothing here.
@@ -251,6 +252,8 @@ class AutoDetect:
             (isinstance(classobj, type))
             # Check target subclass.
             and (issubclass(classobj, cls.detect_target))
+            and (not mixins_core.MixinsType.hasmixins(
+                        classobj, mixins_base.Multiton))
         )
     
 

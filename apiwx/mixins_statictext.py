@@ -44,6 +44,15 @@ for enhanced IDE support and development experience.
 
 
 import enum
+import typing
+
+try:
+    from . import core
+    from . import debug
+
+except ImportError:
+    import core
+    import debug
 
 
 class TextAlign(enum.Enum):
@@ -116,7 +125,12 @@ class LocateByParent:
         """
         self.update_location(value)
     
-    def __init__(self, *args, align: TextAlign | str, **kwds):
+    def __init__(
+            self: typing.Type[typing.Self] | core.WrappedStaticText,
+            *args,
+            label: str,
+            align: TextAlign | str,
+            **kwds):
         # Super class init was called from WrappedWindow.__init__.
         # So do nothing here.
         ...
@@ -127,6 +141,18 @@ class LocateByParent:
             align = TextAlign.from_value(align)
         
         self._align = align
+
+        self.layout() # Make sure the initial layout is set.
+
+    def SetText(self, label: str):
+        """Set the text label and update its position.
+
+        Args:
+            label (str): The new text label to display.
+        """
+        super().SetLabel(label)
+
+        self.update_location(self._align)
 
     def update_location(self, align: TextAlign | str):
         """Update the location of the text based on alignment.

@@ -90,18 +90,18 @@ class ByPanelSize:
         return
 
 
-DetectPanel = mixins_common.AutoDetect[
-    core.WrappedPanel
-]
-"""Type variable for auto-detecting panel components in windows.
-
-This type alias provides automatic type detection for panel components
-that are used within wxPython window objects. It enables type checkers
-to properly identify and validate panel components for better type safety
-and IDE support in window-based applications.
-
-The type variable is specifically designed for detecting WrappedPanel
-instances within window containers, facilitating automatic component
-discovery and management in window-panel hierarchies.
-"""
+class DetectPanel(mixins_common.AutoDetect[
+        core.WrappedPanel
+    ]):
+    """Type variable for auto-detecting panel components in windows.
+    
+    This type alias provides automatic type detection for panel components
+    that are used within wxPython window objects. It enables type checkers
+    to properly identify and validate panel components for better type safety
+    and IDE support in window-based applications.
+    
+    The type variable is specifically designed for detecting WrappedPanel
+    instances within window containers, facilitating automatic component
+    discovery and management in window-panel hierarchies.
+    """
 
