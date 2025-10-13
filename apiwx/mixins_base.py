@@ -132,7 +132,7 @@ class Multiton(BaseMixins):
             # Create the instance and store it
             instance = super().__call__(*args, **kwds)
 
-            original_del = instance.__del__
+            original_del = instance.__del__ if hasattr(instance, '__del__') else lambda: None
 
             def __del__(self):
                 original_del()
