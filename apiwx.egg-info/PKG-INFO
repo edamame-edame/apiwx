@@ -33,6 +33,8 @@ Dynamic: license-file
 - **🔧 Enhanced Layout Support**: Developers can now import and use WrappedBoxSizer directly from the main package
 - **💡 Better Developer Experience**: Complete layout toolkit with PEP 8 compliant BoxSizer wrapper for intuitive GUI design
 - **⚡ Simplified Imports**: Access all core layout components including sizers through the main apiwx package
+- **🛡️ Robust Multiton Pattern**: Enhanced Multiton mixin with improved `__del__` fallback handling for base UI classes without destructor attributes
+- **🔒 Memory Management**: Added safe destruction handling for Multiton instances with proper cleanup and error prevention
 
 ### Previous in v0.5.8
 
