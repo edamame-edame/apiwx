@@ -168,6 +168,14 @@ except ImportError:
     )
 
 
+try:
+    from . import core
+    from . import framestyle
+
+except ImportError:
+    import core
+    import framestyle
+
 
 # Application type aliases (PEP 613 compliant)
 class AppBase(WrappedApp[Singleton]):
@@ -185,8 +193,8 @@ class AppBase(WrappedApp[Singleton]):
         >>> app = AppBase("MyApp")
         >>> # Only one instance will exist, subsequent calls return same instance
     """
-    @overload
-    def __init__(self, name: str) -> None: ...
+    def __init__(self, name: str) -> None:
+        super().__init__(name)
 
 
 class AppDetectWindow(AppBase[DetectWindow]):
@@ -208,8 +216,8 @@ class AppDetectWindow(AppBase[DetectWindow]):
         >>> app = AppDetectWindow("MyApp")
         >>> # Application with automatic window management
     """
-    @overload
-    def __init__(self, name: str) -> None: ...
+    def __init__(self, name: str) -> None:
+        super().__init__(name)
 
 
 # Window aliases
@@ -235,16 +243,32 @@ class WindowWithPanel(WrappedWindow[DetectPanel]):
     Example:
         >>> window = WindowWithPanel(app, size=(800, 600), title="Main Window")
     """
-    @overload
     def __init__(
         self,
         app: WrappedApp,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
-        title: str | None = None,
+        title: str = "",
         color: tuple[int, int, int] | None = None,
-        style: int | None = None,
-    ) -> None: ...
+        style: int | None = None) -> None:
+
+        if style is None:
+            style = core._wx.DEFAULT_FRAME_STYLE
+
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            app,
+            size=size,
+            pos=pos,
+            title=title,
+            color=color,
+            style=style,
+        )
 
 
 class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
@@ -270,7 +294,6 @@ class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
     Example:
         >>> window = WindowByPanelSize(app, title="Auto-sized Window")
     """
-    @overload
     def __init__(
         self,
         app: WrappedApp,
@@ -279,10 +302,18 @@ class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
         title: str | None = None,
         color: tuple[int, int, int] | None = None,
         style: int | None = None,
-    ) -> None: ...
+    ) -> None:
+        super().__init__(
+            app,
+            size=size,
+            pos=pos,
+            title=title,
+            color=color,
+            style=style,
+        )
 
 
-class WindowPanelTransit(WrappedWindow[SupportTransit]):
+class WindowPanelTransit(WindowWithPanel[SupportTransit]):
     """Window with panel transition support.
 
     This type alias creates a WrappedWindow that supports panel
@@ -306,7 +337,6 @@ class WindowPanelTransit(WrappedWindow[SupportTransit]):
         >>> window = WindowPanelTransit(app, size=(800, 600), 
         ...                            title="Transition Window")
     """
-    @overload
     def __init__(
         self,
         app: WrappedApp,
@@ -315,10 +345,18 @@ class WindowPanelTransit(WrappedWindow[SupportTransit]):
         title: str | None = None,
         color: tuple[int, int, int] | None = None,
         style: int | None = None,
-    ) -> None: ...
+    ) -> None:
+        super().__init__(
+            app,
+            size=size,
+            pos=pos,
+            title=title,
+            color=color,
+            style=style,
+        )
 
 
-class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
+class WindowSizeTransitWithPanel(WindowByPanelSize[SupportTransit]):
     """Window with panel transitions and size management.
 
     This type alias creates a WrappedWindow with both panel transition
@@ -342,7 +380,6 @@ class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
     Example:
         >>> window = WindowSizeTransitWithPanel(app, title="Dynamic Window")
     """
-    @overload
     def __init__(
         self,
         app: WrappedApp,
@@ -351,7 +388,15 @@ class WindowSizeTransitWithPanel(WrappedWindow[SupportTransit, ByPanelSize]):
         title: str | None = None,
         color: tuple[int, int, int] | None = None,
         style: int | None = None,
-    ) -> None: ...
+    ) -> None:
+        super().__init__(
+            app,
+            size=size,
+            pos=pos,
+            title=title,
+            color=color,
+            style=style,
+        )
 
 
 # Panel aliases
@@ -378,7 +423,6 @@ class PanelDetectChildren(WrappedPanel[DetectChildren]):
         >>> panel = PanelDetectChildren(window, size=(400, 300))
         >>> # Child components will be automatically detected and indexed
     """
-    @overload
     def __init__(
         self,
         parent: WrappedWindow | WrappedPanel,
@@ -386,7 +430,23 @@ class PanelDetectChildren(WrappedPanel[DetectChildren]):
         pos: tuple[int, int] | None = None,
         color: tuple[int, int, int] | None = None,
         style: int | None = None,
-    ) -> None: ...
+    ) -> None:
+        if style is None:
+            style = framestyle.TAB_TRAVERSAL
+
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            color=color,
+            style=style,
+        )
 
 
 class PanelWithBoarder(WrappedPanel[WithBoarder]):
@@ -419,7 +479,6 @@ class PanelWithBoarder(WrappedPanel[WithBoarder]):
         ...     boarder_thickness=2
         ... )
     """
-    @overload
     def __init__(
         self,
         parent: WrappedWindow | WrappedPanel,
@@ -430,7 +489,26 @@ class PanelWithBoarder(WrappedPanel[WithBoarder]):
         boarder_color: tuple[int, int, int] | None = None,
         boarder_thickness: int = 3,
         boarder_offset: int = 0,
-    ) -> None: ...
+    ) -> None:
+        if style is None:
+            style = framestyle.TAB_TRAVERSAL
+
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            color=color,
+            style=style,
+            boarder_color=boarder_color,
+            boarder_thickness=boarder_thickness,
+            boarder_offset=boarder_offset,
+        )
 
 
 class PanelNoTransition(WrappedPanel[NotTransition]):
@@ -457,7 +535,6 @@ class PanelNoTransition(WrappedPanel[NotTransition]):
         >>> panel = PanelNoTransition(window, size=(200, 100))
         >>> # Panel will not participate in transition animations
     """
-    @overload
     def __init__(
         self,
         parent: WrappedWindow | WrappedPanel,
@@ -465,7 +542,23 @@ class PanelNoTransition(WrappedPanel[NotTransition]):
         pos: tuple[int, int] | None = None,
         color: tuple[int, int, int] | None = None,
         style: int | None = None,
-    ) -> None: ...
+    ) -> None:
+        if style is None:
+            style = framestyle.TAB_TRAVERSAL
+
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            color=color,
+            style=style,
+        )
 
 
 # Button aliases
@@ -502,7 +595,6 @@ class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
         ...     disable_duration=2.0
         ... )
     """
-    @overload
     def __init__(
         self,
         parent: WrappedPanel,
@@ -512,10 +604,29 @@ class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
         font: object | None = None,
         color_foreground: tuple[int, int, int] | None = None,
         color_background: tuple[int, int, int] | None = None,
-        style: int | None = None,
+        style: int = 0,
         disable_duration: float | None = None,
         auto_re_enable: bool = True,
-    ) -> None: ...
+    ) -> None:
+        
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            label=label,
+            font=font,
+            color_foreground=color_foreground,
+            color_background=color_background,
+            style=style,
+            disable_duration=disable_duration,
+            auto_re_enable=auto_re_enable,
+        )
 
 
 class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
@@ -553,7 +664,6 @@ class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
         ...     double_click_timeout=0.5
         ... )
     """
-    @overload
     def __init__(
         self,
         parent: WrappedPanel,
@@ -563,10 +673,29 @@ class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
         font: object | None = None,
         color_foreground: tuple[int, int, int] | None = None,
         color_background: tuple[int, int, int] | None = None,
-        style: int | None = None,
+        style: int = 0,
         double_click_timeout: float | None = None,
         show_single_click_feedback: bool = False,
-    ) -> None: ...
+    ) -> None:
+        
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            label=label,
+            font=font,
+            color_foreground=color_foreground,
+            color_background=color_background,
+            style=style,
+            double_click_timeout=double_click_timeout,
+            show_single_click_feedback=show_single_click_feedback,
+        )
 
 
 class ButtonClickGuard(WrappedButton[ClickGuard]):
@@ -605,7 +734,6 @@ class ButtonClickGuard(WrappedButton[ClickGuard]):
         ...     guard_message="Click again to confirm"
         ... )
     """
-    @overload
     def __init__(
         self,
         parent: WrappedPanel,
@@ -615,11 +743,31 @@ class ButtonClickGuard(WrappedButton[ClickGuard]):
         font: object | None = None,
         color_foreground: tuple[int, int, int] | None = None,
         color_background: tuple[int, int, int] | None = None,
-        style: int | None = None,
+        style: int = 0,
         require_double_click: bool = False,
         disable_duration: float = 1.0,
         guard_message: str | None = None,
-    ) -> None: ...
+    ) -> None:
+        
+        if size is None:
+            size = core._wx.DefaultSize
+
+        if pos is None:
+            pos = core._wx.DefaultPosition
+            
+        super().__init__(
+            parent,
+            size=size,
+            pos=pos,
+            label=label,
+            font=font,
+            color_foreground=color_foreground,
+            color_background=color_background,
+            style=style,
+            require_double_click=require_double_click,
+            disable_duration=disable_duration,
+            guard_message=guard_message,
+        )
 
 
 # Export all type aliases for convenient access

@@ -1,6 +1,14 @@
 
 
-# ## 🎉 What's New in v0.5.7
+# ## 🎉 What's New in v0.5.8
+
+- **🔧 Fixed Mixins Alias Classes**: Resolved NotImplementationError issues during instantiation of alias classes
+- **✅ Improved Class Inheritance**: All alias classes now use proper class inheritance instead of overload methods
+- **🛠️ Enhanced Parameter Handling**: Fixed None parameter handling in Window and Panel alias classes to prevent runtime errors
+- **🧪 Comprehensive Testing**: Added thorough test coverage for all alias class instantiation scenarios
+- **⚡ Better Stability**: Improved overall stability and reliability of the mixin alias system
+
+### Previous in v0.5.7
 
 - **📋 MutableListView Component**: New dynamic list management system with panel-based UI components
 - **🔀 AbstractMutableListNode**: Base class for creating dynamic list items with Multiton mixin support

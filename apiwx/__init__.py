@@ -486,7 +486,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.7"
+__version__ = "0.5.8"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage

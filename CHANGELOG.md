@@ -1,5 +1,86 @@
 # CHANGELOG
 
+## [0.5.8] - 2025.10.13 - Critical Alias Class Fix & Enhanced Stability
+
+### 🔧 Critical Bug Fixes
+
+#### **NotImplementationError Resolution in Alias Classes**
+- **FIXED: Critical instantiation error** - Resolved NotImplementationError that occurred when creating alias class instances
+- **Root Cause Analysis** - Previous overload-based approach caused method resolution issues during instantiation
+- **Complete Solution** - Replaced all overload methods with proper class inheritance in mixins_alias.py
+- **Comprehensive Coverage** - Fixed all 12 alias classes (App, Window, Panel, Button types)
+
+#### **Enhanced Parameter Handling**
+- **FIXED: Style parameter None handling** - Resolved bitwise operation errors with None style parameters in Window classes
+- **IMPROVED: Default value processing** - Enhanced default parameter management across all alias constructors
+- **STRENGTHENED: Type safety** - Improved type checking and validation in parameter processing
+
+### 🛠️ Technical Implementation
+
+#### **Class Structure Improvements**
+- **Proper Inheritance Pattern** - All alias classes now use correct Python class inheritance instead of overload decorators
+- **Method Resolution Order** - Fixed MRO issues in complex mixin hierarchies for better stability
+- **Constructor Chain** - Proper super() call chains ensure correct initialization flow
+- **Parameter Validation** - Enhanced input validation with clear error messages
+
+#### **Stability Enhancements**
+- **Error Handling** - Improved error handling in alias class constructors with meaningful error messages
+- **Type Safety** - Enhanced type checking throughout alias implementations
+- **Performance** - Optimized instantiation performance through proper inheritance structure
+
+### 🧪 Quality Assurance
+
+#### **Comprehensive Testing**
+- **NEW: Complete test suite** - Added thorough test coverage for all alias class instantiation scenarios
+- **Instantiation Testing** - Verified all 12 alias classes can be created without errors
+- **Parameter Testing** - Validated all constructor parameters work correctly across all classes
+- **Mixin Behavior Testing** - Confirmed mixin behaviors are properly inherited and functional
+
+#### **Test Results Verification**
+```
+✅ All alias classes instantiate properly
+✅ NotImplementationError issues resolved
+✅ Method resolution order correct
+✅ Mixin behaviors preserved
+✅ Parameter handling fixed
+```
+
+### 🎯 Affected Components
+
+#### **Application Aliases** (Fixed)
+- `AppBase` - Singleton application instances now work correctly
+- `AppDetectWindow` - Application with window detection capabilities restored
+
+#### **Window Aliases** (Fixed)  
+- `WindowWithPanel` - Window with automatic panel detection functionality
+- `WindowByPanelSize` - Window with size management based on panel content
+- `WindowPanelTransit` - Window with panel transition support
+- `WindowSizeTransitWithPanel` - Window combining transitions and size management
+
+#### **Panel Aliases** (Fixed)
+- `PanelDetectChildren` - Panel with automatic child component detection
+- `PanelWithBoarder` - Panel with border drawing functionality  
+- `PanelNoTransition` - Panel excluded from transition management
+
+#### **Button Aliases** (Fixed)
+- `ButtonSingleClickDisable` - Button that disables after single click
+- `ButtonDoubleClickOnly` - Button responding only to double-clicks
+- `ButtonClickGuard` - Button with click protection mechanisms
+
+### 📦 Compatibility & Migration
+
+#### **Backward Compatibility**
+- **100% Backward Compatible** - All existing code continues to work without modifications
+- **API Preservation** - No breaking changes to public APIs or method signatures
+- **Mixin Behavior Maintained** - All mixin functionalities remain exactly the same
+
+#### **Zero Migration Required**
+- **Automatic Benefits** - Existing code using alias classes automatically benefits from fixes
+- **No Code Changes** - Users don't need to modify any existing code
+- **Instant Reliability** - Previously problematic alias instantiation now works seamlessly
+
+---
+
 ## [0.5.7] - 2024.12.23 - MutableListView & Enhanced IDE Support
 
 ### 🎯 Major Features

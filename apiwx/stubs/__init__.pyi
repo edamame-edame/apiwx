@@ -10,7 +10,7 @@ from typing import TypeAlias
 import wx
 
 # Version information
-__version__: str = "0.5.7"
+__version__: str = "0.5.8"
 
 # Type variables
 T = TypeVar('T')
