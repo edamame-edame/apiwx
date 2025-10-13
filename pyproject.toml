@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.5.10"
-description = "wxPython API wrapper with enhanced MutableListView scroll handling, WrappedBoxSizer export, fixed mixins_alias classes, and improved IDE support"
+version = "0.5.11"
+description = "wxPython API wrapper with fixed MutableListView virtual scroll sizing, enhanced scroll handling, WrappedBoxSizer export, and improved IDE support"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [

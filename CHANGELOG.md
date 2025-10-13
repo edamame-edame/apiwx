@@ -1,5 +1,72 @@
 # CHANGELOG
 
+## [0.5.11] - 2025.10.13 - Critical MutableListView Virtual Scroll Fix
+
+### 🔧 Critical Bug Fixes
+
+#### **MutableListView Virtual Scroll Sizing Issue**
+- **FIXED: Scroll bars not appearing before mainloop** - Resolved critical issue where MutableListView scroll bars were invisible until UI refresh cycle
+- **ROOT CAUSE: Missing virtual size updates** - ScrolledWindow virtual size wasn't updated when content was dynamically added or removed
+- **SOLUTION: Dynamic virtual size calculation** - Added `SetVirtualSize(self.sizer.GetMinSize())` calls after each content modification
+- **IMMEDIATE BENEFIT: Instant scroll visibility** - Scroll bars now appear immediately upon adding content without requiring mainloop execution
+
+#### **Enhanced Scroll Management Implementation**
+```python
+def append(self, node):
+    node_view = self.node_view_type.from_node(self, node)
+    self.sizer.add(node_view, 0, core._wx.ALL, 5)
+    self.node_view_list.append(node_view)
+    self.layout()
+    # Critical fix: Update virtual size for immediate scroll visibility
+    self.SetVirtualSize(self.sizer.GetMinSize())
+
+def remove(self, node):
+    # ... removal logic ...
+    self.layout()
+    # Critical fix: Update virtual size after content removal
+    self.SetVirtualSize(self.sizer.GetMinSize())
+```
+
+### 🛠️ Technical Implementation
+
+#### **Virtual Size Management**
+- **IMPROVED: Real-time size calculation** - Virtual size now dynamically calculated based on actual sizer content size
+- **ENHANCED: ScrolledWindow integration** - Proper integration with wxPython's ScrolledWindow virtual sizing system
+- **OPTIMIZED: Performance impact** - Minimal performance overhead while providing immediate visual feedback
+
+#### **User Experience Enhancements**
+- **IMMEDIATE: Scroll bar visibility** - Users see scroll indicators as soon as content exceeds visible area
+- **CONSISTENT: Behavior across scenarios** - Scroll behavior now consistent regardless of when content is added
+- **RESPONSIVE: Dynamic updates** - Virtual scroll area adjusts automatically with content modifications
+
+### 🎯 Impact Analysis
+
+#### **Before Fix**
+- Scroll bars invisible until mainloop execution
+- Confusing user experience with hidden scrollable content
+- Required manual UI refresh or resize to show scroll bars
+- Inconsistent scroll behavior across different usage patterns
+
+#### **After Fix**
+- Immediate scroll bar visibility upon content addition
+- Intuitive user experience with instant visual feedback
+- Consistent scroll behavior in all scenarios
+- Professional-grade scrollable list component behavior
+
+### 📋 Version Management
+
+#### **Version Updates**
+- **apiwx/__init__.py**: Updated to v0.5.11
+- **pyproject.toml**: Updated version and description for virtual scroll fix
+- **README.md**: Added v0.5.11 feature highlights with scroll sizing improvements
+
+### 🔄 Migration Path
+
+#### **Automatic Benefits**
+- **No Code Changes Required** - Existing MutableListView implementations automatically gain improved scroll behavior
+- **Backward Compatible** - All existing functionality preserved with enhanced behavior
+- **Immediate Improvement** - Applications using MutableListView will see instant scroll visibility improvements
+
 ## [0.5.10] - 2025.10.13 - Enhanced MutableListView & Scroll Management
 
 ### 🔄 Critical Fixes

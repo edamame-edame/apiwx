@@ -1,6 +1,14 @@
 
 
-# ## 🎉 What's New in v0.5.10
+# ## 🎉 What's New in v0.5.11
+
+- **🔧 Fixed MutableListView Virtual Scroll Sizing**: Resolved critical issue where scroll bars didn't appear before mainloop execution
+- **📏 Dynamic Virtual Size Updates**: Added automatic `SetVirtualSize(self.sizer.GetMinSize())` calls after append and remove operations
+- **⚡ Immediate Scroll Visibility**: Scroll bars now properly display based on content size without requiring UI refresh cycles
+- **🎯 Enhanced User Experience**: Users can now see scroll indicators immediately upon adding content to MutableListView
+- **🛠️ Robust Scroll Management**: Proper virtual size calculation ensures consistent scrolling behavior across all scenarios
+
+### Previous in v0.5.10
 
 - **🔄 Enhanced MutableListView Scroll Handling**: Fixed scroll update issues when adding or removing elements from MutableListView components
 - **⚡ Improved Layout Refresh**: Added automatic layout refresh (`self.layout()`) after append and remove operations for better UI responsiveness

@@ -130,6 +130,10 @@ class MutableListView(core.WrappedScrolledWindow):
 
         self.layout()
 
+        self.SetVirtualSize(
+            self.sizer.GetMinSize()
+        )
+
 
     def remove(self, node: AbstractMutableListNode):
         """Remove a node panel from the list.
@@ -144,6 +148,10 @@ class MutableListView(core.WrappedScrolledWindow):
                 break
 
         self.layout()
+
+        self.SetVirtualSize(
+            self.sizer.GetMinSize()
+        )
 
 
 if __name__ == "__main__":
