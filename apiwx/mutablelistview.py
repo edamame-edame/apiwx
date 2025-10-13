@@ -105,13 +105,13 @@ class MutableListView(core.WrappedScrolledWindow):
 
         if style & styleflags.VSCROLL:
             # Sizer for managing layout
-            self.sizer = core._wx.BoxSizer(constants.VERTICAL)
+            self.sizer = core.WrappedBoxSizer(constants.VERTICAL)
         else:
-            self.sizer = core._wx.BoxSizer(constants.HORIZONTAL)
+            self.sizer = core.WrappedBoxSizer(constants.HORIZONTAL)
 
         self.SetSizer(self.sizer)
 
-        self.SetScrollRate(*scroll_rate)
+        self.scroll_rate = scroll_rate
 
 
     def append(self, node):
@@ -122,11 +122,13 @@ class MutableListView(core.WrappedScrolledWindow):
         """
         node_view = self.node_view_type.from_node(self, node)
         
-        self.sizer.Add(node_view, 0, core._wx.ALL, 5)
+        self.sizer.add(node_view, 0, core._wx.ALL, 5)
 
         self.node_view_list.append(
             node_view
         )
+
+        self.layout()
 
 
     def remove(self, node: AbstractMutableListNode):
@@ -141,6 +143,8 @@ class MutableListView(core.WrappedScrolledWindow):
                 node_view.destroy()
                 break
 
+        self.layout()
+
 
 if __name__ == "__main__":
     import mixins_app, mixins_window
@@ -149,7 +153,16 @@ if __name__ == "__main__":
         def __init__(self, parent, value):
             super().__init__(parent)
             self.value = value
-            self.textfield = core.WrappedStaticText(self, label=str(value))
+            self.button = core.WrappedButton(
+                self, label="Remove",
+                size=(70, 30),
+                pos=(0, 5)
+            )
+            self.textfield = core.WrappedStaticText(
+                self, label=str(value),
+                size=(parent.size[0] - 80, 30),
+                pos=(80, 5)
+            )
 
         def to_node(self):
             return self.value
@@ -174,7 +187,7 @@ if __name__ == "__main__":
                     color=(240, 240, 240)
                 )
 
-                for i in range(15):
+                for i in range(30):
                     self.list_view.append(i)
 
                 self.Show()

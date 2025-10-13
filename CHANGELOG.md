@@ -1,5 +1,72 @@
 # CHANGELOG
 
+## [0.5.10] - 2025.10.13 - Enhanced MutableListView & Scroll Management
+
+### 🔄 Critical Fixes
+
+#### **MutableListView Scroll Update Issues**
+- **FIXED: Layout refresh on element changes** - Added automatic `self.layout()` calls after append and remove operations
+- **IMPROVED: Dynamic list responsiveness** - Elements now properly trigger scroll updates when added or removed
+- **ENHANCED: UI feedback** - Immediate visual updates ensure consistent user experience during list modifications
+
+#### **Scroll Rate Configuration Bug**
+- **FIXED: WrappedScrolledWindow scroll rate setting** - Corrected `SetScrollRate(*self._scroll_rate)` with proper tuple unpacking
+- **RESOLVED: Parameter passing error** - Fixed scroll rate method that was receiving tuple instead of individual values
+- **IMPROVED: Scroll behavior** - Proper scroll rate configuration ensures smooth scrolling experience
+
+### 🛠️ Technical Enhancements
+
+#### **Enhanced MutableListView Implementation**
+```python
+def append(self, node):
+    node_view = self.node_view_type.from_node(self, node)
+    self.sizer.add(node_view, 0, core._wx.ALL, 5)
+    self.node_view_list.append(node_view)
+    self.layout()  # Added for immediate UI update
+
+def remove(self, node):
+    # ... removal logic ...
+    self.layout()  # Added for immediate UI update
+```
+
+#### **Consistent Component Usage**
+- **UPDATED: Sizer implementation** - MutableListView now uses `WrappedBoxSizer` consistently instead of raw `wx.BoxSizer`
+- **IMPROVED: API consistency** - All sizer operations use wrapped methods (`.add()` instead of `.Add()`)
+- **ENHANCED: Type safety** - Better integration with apiwx's wrapped component ecosystem
+
+#### **Corrected Scroll Rate Handling**
+```python
+# Fixed implementation in WrappedScrolledWindow:
+if self._scroll_rate is not None:
+    self.SetScrollRate(*self._scroll_rate)  # Proper tuple unpacking
+```
+
+### 🎯 User Experience Improvements
+
+#### **Dynamic List Management**
+- **Responsive Updates** - List modifications now immediately update scroll bars and content positioning
+- **Seamless Interaction** - Adding/removing elements provides instant visual feedback
+- **Better Performance** - Optimized layout refresh ensures smooth list operations
+
+#### **Enhanced Example Application**
+- **UPDATED: Demo improvements** - Enhanced test application with remove buttons and better layout
+- **INCREASED: Test coverage** - Expanded example from 15 to 30 items for better scroll testing
+- **IMPROVED: Visual design** - Better positioned elements and more realistic usage patterns
+
+### 📋 Version Management
+
+#### **Version Updates**
+- **apiwx/__init__.py**: Updated to v0.5.10
+- **pyproject.toml**: Updated version and description for MutableListView enhancements
+- **README.md**: Added v0.5.10 feature highlights with scroll management improvements
+
+### 🔄 Migration Path
+
+#### **Backward Compatibility**
+- **No Breaking Changes** - All existing MutableListView code continues to work without modification
+- **Automatic Benefits** - Existing applications automatically gain improved scroll behavior
+- **Enhanced Functionality** - Better responsiveness without requiring code changes
+
 ## [0.5.9] - 2025.10.13 - Enhanced Layout Management & WrappedBoxSizer Export
 
 ### 📦 New Features

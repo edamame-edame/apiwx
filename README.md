@@ -1,6 +1,14 @@
 
 
-# ## 🎉 What's New in v0.5.9
+# ## 🎉 What's New in v0.5.10
+
+- **🔄 Enhanced MutableListView Scroll Handling**: Fixed scroll update issues when adding or removing elements from MutableListView components
+- **⚡ Improved Layout Refresh**: Added automatic layout refresh (`self.layout()`) after append and remove operations for better UI responsiveness
+- **🛠️ Fixed Scroll Rate Configuration**: Corrected scroll rate setting method in WrappedScrolledWindow with proper tuple unpacking
+- **🎯 Better Component Integration**: Enhanced MutableListView to use WrappedBoxSizer consistently for improved layout management
+- **📱 Responsive UI Updates**: Ensured proper scroll bar updates and content positioning during dynamic list modifications
+
+### Previous in v0.5.9
 
 - **📦 WrappedBoxSizer Export**: Added WrappedBoxSizer to public API exports in __init__.py for improved layout management
 - **🔧 Enhanced Layout Support**: Developers can now import and use WrappedBoxSizer directly from the main package

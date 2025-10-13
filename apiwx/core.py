@@ -1836,7 +1836,7 @@ class WrappedScrolledWindow(
 
         if self._scroll_rate is not None:
             self.SetScrollRate(
-                self._scroll_rate
+                *self._scroll_rate
             )
 
 
