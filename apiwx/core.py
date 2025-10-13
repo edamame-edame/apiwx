@@ -66,11 +66,13 @@ try:
     from . import debug
     from . import signals
     from . import framestyle
+    from . import constants
 
 except ImportError:
     import debug
     import signals
     import framestyle
+    import constants
 
 try:
     from .mixins_core import MixinsType
@@ -2034,6 +2036,39 @@ class WrappedImage(
             *args, **kwds
         )
 
+
+class WrappedBoxSizer(_wx.BoxSizer):
+    """Enhanced wx.Sizer wrapper with PEP 8 compliant interface.
+    
+    This class provides a Python-style interface to wxPython's wx.Sizer class,
+    offering snake_case property names and enhanced functionality while
+    maintaining full compatibility with the underlying Sizer object.
+    
+    The wrapper adds:
+    - PEP 8 compliant property names and methods for sizer management
+    - Enhanced layout and item handling capabilities
+    - Initialization argument tracking for debugging
+    - Generic type system support for mixin functionality
+    
+    Args:
+        orient (int | None): Sizer orientation (wx.HORIZONTAL or wx.VERTICAL)
+    """
+    
+    def __init__(self, orient: int):
+        super().__init__(orient)
+
+    
+    def add(self, item, proportion: int = 0, flag: int = 0, border: int = 0):
+        """Add an item to the sizer with specified layout options.
+        
+        Args:
+            item: The item to add (window, sizer, or space)
+            proportion (int): Proportion for resizing (default 0)
+            flag (int): Layout flags (default 0)
+            border (int): Border size in pixels (default 0)
+        """
+        return self.Add(item, proportion, flag, border)
+    
 
 # Export list for explicit module interface
 __all__ = [

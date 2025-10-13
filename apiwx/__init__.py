@@ -83,6 +83,7 @@ try:
         WrappedScrolledWindow,
         WrappedChoice,
         WrappedImage,
+        WrappedBoxSizer,
     )
 
 except ImportError:
@@ -104,6 +105,7 @@ except ImportError:
         WrappedScrolledWindow,
         WrappedChoice,
         WrappedImage,
+        WrappedBoxSizer,
     )
 
 # Mutable List View Components
@@ -408,7 +410,7 @@ __all__ = [
     "WrappedTextBox", "WrappedButton", "WrappedCheckBox", "WrappedRadioBox",
     "WrappedListBox", "WrappedComboBox", "WrappedSlider", "WrappedGauge",
     "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", 
-    "WrappedImage",
+    "WrappedImage", "WrappedBoxSizer",
     
     # Mutable List View Components
     "AbstractMutableListNode", "MutableListView",
@@ -486,7 +488,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.5.8"
+__version__ = "0.5.9"
 
 # Type stub information for PEP 561 compliance
 # Type stubs are included in the apiwx.stubs subpackage

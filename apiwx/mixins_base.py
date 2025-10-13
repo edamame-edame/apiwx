@@ -130,9 +130,26 @@ class Multiton(BaseMixins):
                 f"Creating multiton instance for {cls.__name__}[{index}]."
             )
             # Create the instance and store it
-            cls._instances[index] = super().__call__(*args, **kwds)
+            instance = super().__call__(*args, **kwds)
+
+            original_del = instance.__del__
+
+            def __del__(self):
+                original_del()
+
+                debug.internaldebug_log(
+                    "MULTITON", 
+                    f"Deleting multiton instance for {cls.__name__}[{index}]."
+                )
+
+                cls._instances.pop(index, None)
+
+            instance.__del__ = __del__
+
+            cls._instances[index] = instance
+            
             # Also set it as an attribute for easy access
-            setattr(cls, f"instance_{index}", cls._instances[index])
+            setattr(cls, f"instance_{index}", instance)
 
         else:
             debug.internallog(

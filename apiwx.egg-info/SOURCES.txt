@@ -83,14 +83,6 @@ apiwx/stubs/py.typed
 apiwx/stubs/signals.pyi
 apiwx/stubs/styleflags.pyi
 apiwx/stubs/uiarg.pyi
-dist/apiwx-0.5.4-py3-none-any.whl
-dist/apiwx-0.5.4.tar.gz
-dist/apiwx-0.5.5-py3-none-any.whl
-dist/apiwx-0.5.5.tar.gz
-dist/apiwx-0.5.6-py3-none-any.whl
-dist/apiwx-0.5.6.tar.gz
-dist/apiwx-0.5.7-py3-none-any.whl
-dist/apiwx-0.5.7.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md
@@ -112,6 +104,7 @@ releasenotes/RELEASE_NOTES_v0.5.1.md
 releasenotes/RELEASE_NOTES_v0.5.2.md
 releasenotes/RELEASE_NOTES_v0.5.6.md
 releasenotes/RELEASE_NOTES_v0.5.7.md
+releasenotes/RELEASE_NOTES_v0.5.8.md
 test/README.md
 test/basic_test_runner.py
 test/comprehensive_test_runner.py

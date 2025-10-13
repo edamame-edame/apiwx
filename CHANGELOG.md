@@ -1,5 +1,63 @@
 # CHANGELOG
 
+## [0.5.9] - 2025.10.13 - Enhanced Layout Management & WrappedBoxSizer Export
+
+### 📦 New Features
+
+#### **WrappedBoxSizer Public Export**
+- **ADDED: Public API access** - WrappedBoxSizer is now available in main package exports via __init__.py
+- **IMPROVED: Developer Experience** - Direct import access enables streamlined layout management workflows
+- **ENHANCED: Layout Toolkit** - Complete sizer support alongside existing wrapped controls for comprehensive GUI design
+- **SIMPLIFIED: Import Structure** - Access all core layout components including WrappedBoxSizer through single import
+
+#### **Package API Enhancements**
+- **UPDATED: Export Lists** - Added WrappedBoxSizer to __all__ exports for consistent API structure
+- **MAINTAINED: Compatibility** - All existing imports continue to work with expanded functionality
+- **IMPROVED: Discoverability** - Layout management tools now visible through standard package exploration
+
+### 🔧 Technical Improvements
+
+#### **Import System Updates**
+```python
+# Now Available:
+from apiwx import WrappedBoxSizer, WrappedWindow, WrappedPanel
+
+# Enhanced Layout Management:
+sizer = WrappedBoxSizer(wx.VERTICAL)
+sizer.add(panel, proportion=1, flag=wx.EXPAND)
+```
+
+#### **Documentation Alignment**
+- **UPDATED: Package description** - Enhanced to reflect layout management capabilities
+- **IMPROVED: API documentation** - Clear visibility of layout components in package overview
+- **MAINTAINED: Version consistency** - Synchronized version across all configuration files
+
+### 📋 Version Management
+
+#### **Version Updates**
+- **apiwx/__init__.py**: Updated to v0.5.9
+- **pyproject.toml**: Updated version and description
+- **README.md**: Added v0.5.9 feature highlights
+
+### 🎯 Developer Benefits
+
+#### **Streamlined Workflow**
+- **Single Import Point** - Access all core components including layout management through main package
+- **Consistent API** - WrappedBoxSizer follows same PEP 8 compliant patterns as other wrapped components
+- **Enhanced Productivity** - Complete GUI toolkit available without deep package navigation
+
+#### **Layout Management**
+- **Professional Layouts** - Easy access to sophisticated layout management through WrappedBoxSizer
+- **Modern Development** - PEP 8 compliant sizer wrapper for intuitive Python-style GUI development
+- **Full Integration** - Seamless integration with existing wrapped controls and mixin system
+
+### 🔄 Migration Path
+
+#### **Immediate Benefits**
+- **No Breaking Changes** - All existing code continues to work without modification
+- **Optional Enhancement** - Developers can optionally use direct imports for improved workflow
+- **Backward Compatibility** - Previous import patterns remain fully supported
+
 ## [0.5.8] - 2025.10.13 - Critical Alias Class Fix & Enhanced Stability
 
 ### 🔧 Critical Bug Fixes

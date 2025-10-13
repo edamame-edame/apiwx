@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apiwx"
-version = "0.5.8"
-description = "wxPython API wrapper with fixed mixins_alias classes, MutableListView, enhanced LocateByParent positioning, and improved IDE support"
+version = "0.5.9"
+description = "wxPython API wrapper with WrappedBoxSizer export, fixed mixins_alias classes, MutableListView, enhanced LocateByParent positioning, and improved IDE support"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [

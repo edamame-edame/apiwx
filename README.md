@@ -1,6 +1,13 @@
 
 
-# ## 🎉 What's New in v0.5.8
+# ## 🎉 What's New in v0.5.9
+
+- **📦 WrappedBoxSizer Export**: Added WrappedBoxSizer to public API exports in __init__.py for improved layout management
+- **🔧 Enhanced Layout Support**: Developers can now import and use WrappedBoxSizer directly from the main package
+- **💡 Better Developer Experience**: Complete layout toolkit with PEP 8 compliant BoxSizer wrapper for intuitive GUI design
+- **⚡ Simplified Imports**: Access all core layout components including sizers through the main apiwx package
+
+### Previous in v0.5.8
 
 - **🔧 Fixed Mixins Alias Classes**: Resolved NotImplementationError issues during instantiation of alias classes
 - **✅ Improved Class Inheritance**: All alias classes now use proper class inheritance instead of overload methods
