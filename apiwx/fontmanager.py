@@ -385,7 +385,7 @@ class FontManager(dict[str, _Font]):
 
 
     @staticmethod
-    def get_font(*args) -> _Font:
+    def get_font(arg) -> _Font:
         """Retrieve a font from the singleton FontManager instance.
 
         This static method provides a convenient way to access fonts without
@@ -419,7 +419,7 @@ class FontManager(dict[str, _Font]):
             >>> label.SetFont(font)
         """
 
-        return FontManager()[*args]
+        return FontManager()[arg]
 
 
     @classmethod

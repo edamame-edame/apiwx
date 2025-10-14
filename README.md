@@ -1,6 +1,15 @@
 
 
-# ## 🎉 What's New in v0.5.11
+# ## 🎉 What's New in v0.5.12
+
+- **🎨 Enhanced Font Handling**: Improved font property system with more flexible type support and simplified FontManager API
+- **📦 Streamlined FontManager**: Simplified `get_font()` method with single parameter design for better usability
+- **🔧 Improved Panel Mixins**: Enhanced `WithBoarder` mixin with automatic `slots_on_paint` initialization for better reliability
+- **⚡ Flexible Type Support**: Added tuple support to font properties alongside existing string and Font object support
+- **🛠️ Better Integration**: Removed restrictive type checking from UIAttributes font properties for improved compatibility
+- **📐 Robust Border Drawing**: Automatic paint slot initialization ensures consistent border rendering across all scenarios
+
+### Previous in v0.5.11
 
 - **🔧 Fixed MutableListView Virtual Scroll Sizing**: Resolved critical issue where scroll bars didn't appear before mainloop execution
 - **📏 Dynamic Virtual Size Updates**: Added automatic `SetVirtualSize(self.sizer.GetMinSize())` calls after append and remove operations

@@ -83,6 +83,8 @@ apiwx/stubs/py.typed
 apiwx/stubs/signals.pyi
 apiwx/stubs/styleflags.pyi
 apiwx/stubs/uiarg.pyi
+dist/apiwx-0.5.11-py3-none-any.whl
+dist/apiwx-0.5.11.tar.gz
 memo/python311_compatibility_fixes_en.md
 memo/python312_compatibility_results_en.md
 memo/python313_compatibility_results_en.md

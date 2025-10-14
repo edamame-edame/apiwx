@@ -365,25 +365,15 @@ class UIAttributes:
 
     @property
     def font(self: _wx.TextAttr) -> str:
-        if not isinstance(self, _wx.TextAttr):
-            self.raise_attribute_error(
-                "font", "wx.TextAttr"
-            )
-
         return FontManager.getkey_from_font(self.GetFont())
 
     @font.setter
-    def font(self: _wx.TextAttr, value: str | _wx.Font):
-        if not isinstance(self, _wx.TextAttr):
-            self.raise_attribute_error(
-                "font", "wx.TextAttr"
-            )
-
+    def font(self: _wx.TextAttr, value: str | _wx.Font | tuple):
         if isinstance(value, _wx.Font):
             font = value
 
         else:
-            font = FontManager.get(value)
+            font = FontManager.get_font(value)
 
         if font is None:
             raise ValueError(

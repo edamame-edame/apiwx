@@ -1,5 +1,100 @@
 # CHANGELOG
 
+## [0.5.12] - 2025.10.15 - Enhanced Font Handling & Panel Mixin Improvements
+
+### 🎨 Font System Enhancements
+
+#### **Improved Font Property Flexibility**
+- **REMOVED: Restrictive type checking** - Eliminated isinstance() checks from UIAttributes font properties for better compatibility
+- **ENHANCED: Type support** - Added tuple support alongside existing string and wx.Font object support
+- **SIMPLIFIED: Property access** - Font properties now work across all UI component types without strict inheritance requirements
+
+#### **Streamlined FontManager API**
+```python
+# Before: Complex parameter handling
+def get_font(*args) -> _Font:
+    return FontManager()[*args]
+
+# After: Clean single parameter design
+def get_font(arg) -> _Font:
+    return FontManager()[arg]
+```
+
+- **SIMPLIFIED: Method signature** - Single parameter design for cleaner API and better usability
+- **IMPROVED: Parameter handling** - Direct argument passing without tuple unpacking complexity
+- **ENHANCED: Type safety** - Clearer parameter expectations and error handling
+
+### 🔧 Panel Mixin System Improvements
+
+#### **Enhanced WithBoarder Mixin**
+- **ADDED: Automatic slot initialization** - `slots_on_paint` automatically created if not already present
+- **IMPROVED: Reliability** - Prevents AttributeError when paint slots are accessed before manual initialization
+- **ENHANCED: Integration** - Better integration with signals module for event handling
+
+```python
+# Enhanced WithBoarder initialization:
+if not hasattr(self, 'slots_on_paint'):
+    self.slots_on_paint = core.Slots(
+        self, signals.EVT_PAINT, 
+    )
+
+# Connect slots for paint boarder
+self.slots_on_paint += self.draw_boarder
+```
+
+#### **Better Module Dependencies**
+- **ADDED: signals import** - Explicit signals module import in mixins_panel for EVT_PAINT access
+- **IMPROVED: Dependency management** - Clearer module relationships and import structure
+
+### 🛠️ Technical Implementation
+
+#### **Font Property Improvements**
+```python
+# Enhanced font property with flexible typing:
+@font.setter
+def font(self: _wx.TextAttr, value: str | _wx.Font | tuple):
+    if isinstance(value, _wx.Font):
+        font = value
+    else:
+        font = FontManager.get_font(value)  # Simplified call
+    
+    if font is None:
+        raise ValueError(f"Font '{value}' is not found in FontManager.")
+    
+    self.SetFont(font)
+```
+
+#### **Improved Error Handling**
+- **ENHANCED: Font resolution** - Better error messages and fallback handling for font operations
+- **IMPROVED: Type flexibility** - Support for multiple input types without breaking existing code
+- **MAINTAINED: Backward compatibility** - All existing font operations continue to work unchanged
+
+### 🎯 Developer Experience Improvements
+
+#### **Simplified Font Usage**
+- **EASIER: Font assignment** - Direct property assignment works across all component types
+- **FLEXIBLE: Input types** - Accept strings, tuples, or Font objects interchangeably
+- **CONSISTENT: API design** - Uniform font handling across all wrapped components
+
+#### **Robust Panel Development**
+- **AUTOMATIC: Paint handling** - WithBoarder mixin automatically sets up required paint infrastructure
+- **RELIABLE: Border rendering** - Consistent border drawing without manual slot management
+- **INTUITIVE: Development flow** - Less boilerplate code for common panel decoration patterns
+
+### 📋 Version Management
+
+#### **Version Updates**
+- **apiwx/__init__.py**: Updated to v0.5.12
+- **pyproject.toml**: Updated version and description for font and panel improvements
+- **README.md**: Added v0.5.12 feature highlights with font and mixin enhancements
+
+### 🔄 Migration Path
+
+#### **Seamless Upgrades**
+- **No Breaking Changes** - All existing font and panel code continues to work without modification
+- **Enhanced Functionality** - Existing implementations automatically gain improved reliability
+- **Optional Features** - New flexibility available for enhanced usage patterns
+
 ## [0.5.11] - 2025.10.13 - Critical MutableListView Virtual Scroll Fix
 
 ### 🔧 Critical Bug Fixes

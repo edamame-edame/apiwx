@@ -19,12 +19,14 @@ try:
     from . import mixins_common
     from . import painttool
     from . import debug
+    from . import signals
 
 except ImportError:
     import core
     import mixins_common
     import painttool
     import debug
+    import signals
 
 
 class WithBoarder():
@@ -193,6 +195,11 @@ class WithBoarder():
         # Set boarder offset from panel frame.
         self.boarder_offset = boarder_offset
 
+        if not hasattr(self, 'slots_on_paint'):
+            self.slots_on_paint = core.Slots(
+                self, signals.EVT_PAINT, 
+            )
+
         # Connect slots for paint boarder.
         self.slots_on_paint += (
             self.draw_boarder
@@ -271,12 +278,12 @@ class DetectChildren(mixins_common.AutoDetect[
         core.WrappedSlider,
     ]):
     """Type variable for auto-detecting panel child components.
-    
+
     This type alias provides automatic type detection for common UI components
     that are typically used as children within wxPython panels. It enables
     type checkers to properly identify and validate panel child components
     for better type safety and IDE support.
-    
+
     Supported child component types:
         - WrappedPanel: Nested panel containers
         - WrappedTextBox: Text input fields
