@@ -6,20 +6,20 @@ detection, and enhanced UI utilities.
 
 Basic Usage:
     >>> from apiwx import (
-    ...     WrappedApp, WrappedWindow, WrappedPanel, WrappedButton,
+    ...     App, Window, Panel, Button,
     ...     ALIGN_CENTER, Colors, Options, get_option
     ... )
     >>> 
     >>> # Create an application and main window
-    >>> app = WrappedApp("MyApp")
-    >>> frame = WrappedWindow(
+    >>> app = App("MyApp")
+    >>> frame = Window(
     ...     app, size=(800, 600), pos=(100, 100), 
     ...     title="Demo", color=Colors.WHITE
     ... )
     >>> 
     >>> # Add a panel and a button
-    >>> panel = WrappedPanel(frame, size=(800, 600), pos=(0, 0))
-    >>> button = WrappedButton(
+    >>> panel = Panel(frame, size=(800, 600), pos=(0, 0))
+    >>> button = Button(
     ...     panel, size=(120, 40), pos=(20, 20), label="Click Me"
     ... )
     >>> 
@@ -38,7 +38,7 @@ Basic Usage:
     >>> app.mainloop()
 
 Main Export Categories:
-    Core Wrappers: WrappedApp, WrappedWindow, WrappedPanel, WrappedButton, etc.
+    Core Wrappers: App, Window, Panel, Button, etc.
     Constants & Flags: ALIGN_*, WindowStyle, ControlStyle, BorderStyle, etc.
     Colors: Colors class with predefined color constants
     Mixins: Singleton, Multiton, AutoDetect, DetectChildren, etc.
@@ -67,45 +67,45 @@ except ImportError:
 try:
     from .core import (
         Slots,
-        WrappedApp,
-        WrappedWindow,
-        WrappedPanel,
-        WrappedStaticText,
-        WrappedTextBox,
-        WrappedButton,
-        WrappedCheckBox,
-        WrappedRadioBox,
-        WrappedListBox,
-        WrappedComboBox,
-        WrappedSlider,
-        WrappedGauge,
-        WrappedListCtrl,
-        WrappedScrolledWindow,
-        WrappedChoice,
-        WrappedImage,
-        WrappedBoxSizer,
+        App,
+        Window,
+        Panel,
+        StaticText,
+        TextBox,
+        Button,
+        CheckBox,
+        RadioBox,
+        ListBox,
+        ComboBox,
+        Slider,
+        Gauge,
+        ListCtrl,
+        ScrolledWindow,
+        Choice,
+        Image,
+        BoxSizer,
     )
 
 except ImportError:
     from core import (
         Slots,
-        WrappedApp,
-        WrappedWindow,
-        WrappedPanel,
-        WrappedStaticText,
-        WrappedTextBox,
-        WrappedButton,
-        WrappedCheckBox,
-        WrappedRadioBox,
-        WrappedListBox,
-        WrappedComboBox,
-        WrappedSlider,
-        WrappedGauge,
-        WrappedListCtrl,
-        WrappedScrolledWindow,
-        WrappedChoice,
-        WrappedImage,
-        WrappedBoxSizer,
+        App,
+        Window,
+        Panel,
+        StaticText,
+        TextBox,
+        Button,
+        CheckBox,
+        RadioBox,
+        ListBox,
+        ComboBox,
+        Slider,
+        Gauge,
+        ListCtrl,
+        ScrolledWindow,
+        Choice,
+        Image,
+        BoxSizer,
     )
 
 # Mutable List View Components
@@ -406,11 +406,11 @@ except ImportError:
 __all__ = [
     # Core Wrappers
     "Slots",
-    "WrappedApp", "WrappedWindow", "WrappedPanel", "WrappedStaticText",
-    "WrappedTextBox", "WrappedButton", "WrappedCheckBox", "WrappedRadioBox",
-    "WrappedListBox", "WrappedComboBox", "WrappedSlider", "WrappedGauge",
-    "WrappedListCtrl", "WrappedScrolledWindow", "WrappedChoice", 
-    "WrappedImage", "WrappedBoxSizer",
+    "App", "Window", "Panel", "StaticText",
+    "TextBox", "Button", "CheckBox", "RadioBox",
+    "ListBox", "ComboBox", "Slider", "Gauge",
+    "ListCtrl", "ScrolledWindow", "Choice", 
+    "Image", "BoxSizer",
     
     # Mutable List View Components
     "AbstractMutableListNode", "MutableListView",

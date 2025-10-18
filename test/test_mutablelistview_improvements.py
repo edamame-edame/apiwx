@@ -14,7 +14,7 @@ try:
     import apiwx
     from apiwx.mutablelistview import MutableListView, AbstractMutableListNode
     from apiwx.mixins_statictext import TextAlign, LocateByParent
-    from apiwx import WrappedApp, WrappedWindow, WrappedPanel, WrappedStaticText
+    from apiwx import App, Window, Panel, StaticText
 except ImportError as e:
     print(f"Import error: {e}")
     print("Please ensure apiwx is installed or run from the correct directory")
@@ -25,8 +25,8 @@ def test_abstract_mutable_list_node():
     """Test AbstractMutableListNode base functionality."""
     print("Testing AbstractMutableListNode...")
     
-    app = apiwx.WrappedApp("Node Test")
-    window = apiwx.WrappedWindow(app, title="Test Window", size=(400, 300))
+    app = apiwx.App("Node Test")
+    window = apiwx.Window(app, title="Test Window", size=(400, 300))
     
     # Create a concrete implementation
     class TestNode(AbstractMutableListNode):
@@ -65,15 +65,15 @@ def test_mutable_list_view_basic():
     """Test basic MutableListView functionality."""
     print("Testing MutableListView basic functionality...")
     
-    app = apiwx.WrappedApp("ListView Test")
-    window = apiwx.WrappedWindow(app, title="ListView Test", size=(500, 400))
+    app = apiwx.App("ListView Test")
+    window = apiwx.Window(app, title="ListView Test", size=(500, 400))
     
     # Create a simple node type
     class SimpleNode(AbstractMutableListNode):
         def __init__(self, parent, value):
             super().__init__(parent)
             self.value = value
-            self.label = apiwx.WrappedStaticText(self, label=f"Item: {value}")
+            self.label = apiwx.StaticText(self, label=f"Item: {value}")
             
         def to_node(self):
             return self.value
@@ -113,8 +113,8 @@ def test_mutable_list_view_remove():
     """Test MutableListView remove functionality."""
     print("Testing MutableListView remove functionality...")
     
-    app = apiwx.WrappedApp("ListView Remove Test")
-    window = apiwx.WrappedWindow(app, title="Remove Test", size=(500, 400))
+    app = apiwx.App("ListView Remove Test")
+    window = apiwx.Window(app, title="Remove Test", size=(500, 400))
     
     class RemoveTestNode(AbstractMutableListNode):
         def __init__(self, parent, value):
@@ -162,8 +162,8 @@ def test_mutable_list_view_scrolling():
     """Test MutableListView with scrolling."""
     print("Testing MutableListView scrolling functionality...")
     
-    app = apiwx.WrappedApp("Scroll Test")
-    window = apiwx.WrappedWindow(app, title="Scroll Test", size=(400, 300))
+    app = apiwx.App("Scroll Test")
+    window = apiwx.Window(app, title="Scroll Test", size=(400, 300))
     
     class ScrollTestNode(AbstractMutableListNode):
         def __init__(self, parent, value):
@@ -212,10 +212,10 @@ def test_improved_locate_by_parent():
     """Test improved LocateByParent with better size calculations."""
     print("Testing improved LocateByParent functionality...")
     
-    app = apiwx.WrappedApp("LocateByParent Test")
-    window = apiwx.WrappedWindow(app, title="Alignment Test", size=(400, 300))
+    app = apiwx.App("LocateByParent Test")
+    window = apiwx.Window(app, title="Alignment Test", size=(400, 300))
     
-    class ImprovedAlignedText(apiwx.WrappedStaticText[LocateByParent]):
+    class ImprovedAlignedText(apiwx.StaticText[LocateByParent]):
         pass
     
     # Test text with proper initialization
@@ -257,8 +257,8 @@ def test_mixin_integration():
     """Test integration between new features and existing mixins."""
     print("Testing mixin integration...")
     
-    app = apiwx.WrappedApp("Integration Test")
-    window = apiwx.WrappedWindow(app, title="Integration Test", size=(600, 500))
+    app = apiwx.App("Integration Test")
+    window = apiwx.Window(app, title="Integration Test", size=(600, 500))
     
     # Create a node type that uses aligned text
     class AlignedTextNode(AbstractMutableListNode):
@@ -267,7 +267,7 @@ def test_mixin_integration():
             self.value = value
             
             # Use improved LocateByParent mixin
-            class NodeAlignedText(apiwx.WrappedStaticText[LocateByParent]):
+            class NodeAlignedText(apiwx.StaticText[LocateByParent]):
                 pass
             
             self.label = NodeAlignedText(self, label=f"Node: {value}", align="c")
@@ -305,8 +305,8 @@ def test_error_handling():
     """Test error handling in new components."""
     print("Testing error handling...")
     
-    app = apiwx.WrappedApp("Error Test")
-    window = apiwx.WrappedWindow(app, title="Error Test", size=(300, 200))
+    app = apiwx.App("Error Test")
+    window = apiwx.Window(app, title="Error Test", size=(300, 200))
     
     # Test AbstractMutableListNode abstract methods
     try:
@@ -326,7 +326,7 @@ def test_error_handling():
     
     # Test invalid alignment in LocateByParent
     try:
-        class TestAlignedText(apiwx.WrappedStaticText[LocateByParent]):
+        class TestAlignedText(apiwx.StaticText[LocateByParent]):
             pass
         
         invalid_text = TestAlignedText(window, label="Test", align="invalid")

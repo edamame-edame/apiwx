@@ -7,9 +7,9 @@ offers PEP 8 compliant interfaces for wxPython applications. It includes:
 - UIAttributes: Mixin class providing snake_case property aliases
 - UIInitializeComponent: Mixin for tracking initialization arguments
 - UIIndexor: Integer-based indexing with UI object integration
-- WrappedApp: Enhanced wx.App with PEP 8 compliant interface
-- WrappedWindow: Enhanced wx.Frame with improved attribute access
-- WrappedPanel: Enhanced wx.Panel with convenient properties
+- App: Enhanced wx.App with PEP 8 compliant interface
+- Window: Enhanced wx.Frame with improved attribute access
+- Panel: Enhanced wx.Panel with convenient properties
 - Various wrapped controls (StaticText, TextBox, Button, etc.)
 
 The wrapped classes maintain full compatibility with wxPython while providing
@@ -25,11 +25,11 @@ Key Features:
 
 Example:
     import wx
-    from apiwx.core import WrappedApp, WrappedWindow, WrappedButton
-    
-    app = WrappedApp("MyApp")
-    frame = WrappedWindow(app, size=(800, 600), title="Demo")
-    
+    from apiwx.core import App, Window, Button
+
+    app = App("MyApp")
+    frame = Window(app, size=(800, 600), title="Demo")
+
     # Use PEP 8 compliant properties
     frame.color_background = "#FFFFFF"
     frame.pos = (100, 100)
@@ -394,7 +394,7 @@ class UIAttributes:
 
     @property
     def toplevel(self: _wx.Window) -> (
-            typing.Type['WrappedWindow']
+            typing.Type['Window']
             | _wx.TopLevelWindow
         ):
         return self.GetTopLevelParent()
@@ -553,7 +553,7 @@ class UIIndexor(int, UIAttributes):
         return attribute
 
 
-class WrappedApp(
+class App(
     _wx.App,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -577,7 +577,7 @@ class WrappedApp(
         app_displayname (str): Display name (alias for AppDisplayName)
         
     Example:
-        >>> app = WrappedApp("MyApplication")
+        >>> app = App("MyApplication")
         >>> app.app_name = "Updated Name"
         >>> app.mainloop()
         
@@ -628,7 +628,7 @@ class WrappedApp(
 
 
     @property
-    def instance(self) -> 'WrappedApp':
+    def instance(self) -> 'App':
         return _wx.App.GetInstance()
 
 
@@ -652,7 +652,7 @@ class WrappedApp(
         return exit_code
 
 
-class WrappedWindow(
+class Window(
     _wx.Frame,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -681,14 +681,14 @@ class WrappedWindow(
         slots_on_close (Slots): Event slots for window close events
         
     Example:
-        >>> app = WrappedApp("MyApp")
-        >>> window = WrappedWindow(app, size=(800, 600), title="Main Window")
+        >>> app = App("MyApp")
+        >>> window = Window(app, size=(800, 600), title="Main Window")
         >>> window.slots_on_close += lambda evt: print("Closing...")
         >>> window.show()
     """
 
     @property
-    def app(self) -> WrappedApp:
+    def app(self) -> App:
         return self._app
 
 
@@ -777,7 +777,7 @@ class WrappedWindow(
 
     def __init__(
         self,
-        app: WrappedApp,
+        app: App,
         size: tuple[int, int] = _wx.DefaultSize,
         pos: tuple[int, int] = _wx.DefaultPosition,
         title: str | None = None,
@@ -811,7 +811,7 @@ class WrappedWindow(
         )
 
 
-class WrappedPanel(
+class Panel(
     _wx.Panel,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -840,7 +840,7 @@ class WrappedPanel(
         slots_on_paint (Slots): Event slots for panel paint events
         
     Example:
-        >>> panel = WrappedPanel(parent_window, size=(400, 300))
+        >>> panel = Panel(parent_window, size=(400, 300))
         >>> panel.slots_on_paint += lambda evt: print("Panel repainted")
         >>> panel.color_background = (255, 255, 255)
     """
@@ -895,7 +895,7 @@ class WrappedPanel(
 
     def __init__(
         self,
-        parent: WrappedWindow,
+        parent: Window,
         size: tuple[int, int] = _wx.DefaultSize,
         pos: tuple[int, int] = _wx.DefaultPosition,
         color: str | None = None,
@@ -923,7 +923,7 @@ class WrappedPanel(
         )
 
 
-class WrappedStaticText(
+class StaticText(
     _wx.StaticText,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -947,7 +947,7 @@ class WrappedStaticText(
         style (int | None): wxPython StaticText style flags
         
     Example:
-        >>> label = WrappedStaticText(panel, label="Hello World")
+        >>> label = StaticText(panel, label="Hello World")
         >>> label.text = "Updated text"
         >>> label.color_foreground = (255, 0, 0)
     """
@@ -1014,7 +1014,7 @@ class AsLink():
 
     def __init__(self, *args, **kwds):
 
-        # super class init was called from WrappedWindow.__init__
+        # super class init was called from Window.__init__
         # so do nothing here
         ...
 
@@ -1043,7 +1043,7 @@ class AsLink():
             webbrowser.open(self.text)
 
 
-class WrappedTextBox(
+class TextBox(
     _wx.TextCtrl,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1070,7 +1070,7 @@ class WrappedTextBox(
         value (str): Text content (alias for GetValue/SetValue)
         
     Example:
-        >>> textbox = WrappedTextBox(panel, value="Initial text")
+        >>> textbox = TextBox(panel, value="Initial text")
         >>> textbox.value = "Updated text"
         >>> print(textbox.value)
     """
@@ -1128,7 +1128,7 @@ class WrappedTextBox(
         )
 
 
-class WrappedButton(
+class Button(
     _wx.Button,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1159,7 +1159,7 @@ class WrappedButton(
         slots_on_click (Slots): Event slots for button click events
         
     Example:
-        >>> button = WrappedButton(panel, label="Click Me", size=(100, 30))
+        >>> button = Button(panel, label="Click Me", size=(100, 30))
         >>> button.slots_on_click += lambda evt: print("Button clicked!")
         >>> button.color_background = (200, 200, 200)
     """
@@ -1224,7 +1224,7 @@ class WrappedButton(
         )
 
 
-class WrappedCheckBox(
+class CheckBox(
     _wx.CheckBox,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1251,7 +1251,7 @@ class WrappedCheckBox(
         value (bool): Checked state (alias for GetValue/SetValue)
         
     Example:
-        >>> checkbox = WrappedCheckBox(panel, label="Enable feature")
+        >>> checkbox = CheckBox(panel, label="Enable feature")
         >>> checkbox.value = True
         >>> if checkbox.value:
         ...     print("Feature enabled")
@@ -1318,7 +1318,7 @@ class WrappedCheckBox(
         )
 
 
-class WrappedRadioBox(
+class RadioBox(
     _wx.RadioBox,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1347,7 +1347,7 @@ class WrappedRadioBox(
         
     Example:
         >>> choices = ["Option 1", "Option 2", "Option 3"]
-        >>> radiobox = WrappedRadioBox(panel, label="Choose:", choices=choices)
+        >>> radiobox = RadioBox(panel, label="Choose:", choices=choices)
         >>> radiobox.selection = 1  # Select "Option 2"
     """
 
@@ -1393,7 +1393,7 @@ class WrappedRadioBox(
         )
 
 
-class WrappedListBox(
+class ListBox(
     _wx.ListBox,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1422,7 +1422,7 @@ class WrappedListBox(
         
     Example:
         >>> items = ["Item 1", "Item 2", "Item 3"]
-        >>> listbox = WrappedListBox(panel, choices=items)
+        >>> listbox = ListBox(panel, choices=items)
         >>> listbox.selection = 0  # Select first item
     """
 
@@ -1472,7 +1472,7 @@ class WrappedListBox(
         )
 
 
-class WrappedComboBox(
+class ComboBox(
     _wx.ComboBox,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1502,7 +1502,7 @@ class WrappedComboBox(
         
     Example:
         >>> choices = ["Choice 1", "Choice 2", "Choice 3"]
-        >>> combo = WrappedComboBox(panel, choices=choices)
+        >>> combo = ComboBox(panel, choices=choices)
         >>> combo.value = "Custom text"
         >>> combo.selection = 1
     """
@@ -1546,7 +1546,7 @@ class WrappedComboBox(
         )
 
 
-class WrappedSlider(
+class Slider(
     _wx.Slider,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1577,7 +1577,7 @@ class WrappedSlider(
         max_value (int): Maximum value range
         
     Example:
-        >>> slider = WrappedSlider(panel, value=50, min_value=0, max_value=100)
+        >>> slider = Slider(panel, value=50, min_value=0, max_value=100)
         >>> slider.value = 75
         >>> print(f"Value: {slider.value}")
     """
@@ -1624,7 +1624,7 @@ class WrappedSlider(
         )
 
 
-class WrappedGauge(
+class Gauge(
     _wx.Gauge,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1652,7 +1652,7 @@ class WrappedGauge(
         range (int): Maximum gauge value
         
     Example:
-        >>> gauge = WrappedGauge(panel, range=100)
+        >>> gauge = Gauge(panel, range=100)
         >>> gauge.value = 50  # Set to 50% progress
         >>> print(f"Progress: {gauge.value}/{gauge.range}")
     """
@@ -1702,7 +1702,7 @@ class WrappedGauge(
         )
 
 
-class WrappedListCtrl(
+class ListCtrl(
     _wx.ListCtrl,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1729,7 +1729,7 @@ class WrappedListCtrl(
         item_count (int): Total number of items
         
     Example:
-        >>> listctrl = WrappedListCtrl(panel, style=wx.LC_REPORT)
+        >>> listctrl = ListCtrl(panel, style=wx.LC_REPORT)
         >>> listctrl.InsertColumn(0, "Name")
         >>> listctrl.selected_item = 0  # Select first item
     """
@@ -1772,7 +1772,7 @@ class WrappedListCtrl(
         )
 
 
-class WrappedScrolledWindow(
+class ScrolledWindow(
     _wx.ScrolledWindow,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1800,7 +1800,7 @@ class WrappedScrolledWindow(
         virtual_size (tuple[int, int]): Virtual canvas size
         
     Example:
-        >>> scrolled = WrappedScrolledWindow(frame)
+        >>> scrolled = ScrolledWindow(frame)
         >>> scrolled.scroll_rate = (10, 10)
         >>> scrolled.virtual_size = (800, 600)
     """
@@ -1854,7 +1854,7 @@ class WrappedScrolledWindow(
         )
 
 
-class WrappedChoice(
+class Choice(
     _wx.Choice,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1883,7 +1883,7 @@ class WrappedChoice(
         
     Example:
         >>> choices = ["Red", "Green", "Blue"]
-        >>> choice = WrappedChoice(panel, choices=choices)
+        >>> choice = Choice(panel, choices=choices)
         >>> choice.selection = 1  # Select "Green"
         >>> print(choice.choices)
     """
@@ -1933,7 +1933,7 @@ class WrappedChoice(
         )
 
 
-class WrappedImage(
+class Image(
     _wx.StaticBitmap,
     UIAttributes, UIInitializeComponent,
     metaclass = MixinsType):
@@ -1963,7 +1963,7 @@ class WrappedImage(
         
     Example:
         >>> bitmap = wx.Bitmap("image.png", wx.BITMAP_TYPE_PNG)
-        >>> image = WrappedImage(panel, bitmap=bitmap)
+        >>> image = Image(panel, bitmap=bitmap)
         >>> image.size = (200, 150)  # Resize display
     """
 
@@ -2027,7 +2027,7 @@ class WrappedImage(
         )
 
 
-class WrappedBoxSizer(_wx.BoxSizer):
+class BoxSizer(_wx.BoxSizer):
     """Enhanced wx.Sizer wrapper with PEP 8 compliant interface.
     
     This class provides a Python-style interface to wxPython's wx.Sizer class,
@@ -2069,31 +2069,31 @@ __all__ = [
     'UIIndexor',
     
     # Main wrapped classes
-    'WrappedApp',
-    'WrappedWindow',
-    'WrappedPanel',
-    'WrappedButton',
+    'App',
+    'Window',
+    'Panel',
+    'Button',
     
     # Text and input controls
-    'WrappedStaticText',
-    'WrappedTextBox',
+    'StaticText',
+    'TextBox',
     
     # Selection controls  
-    'WrappedCheckBox',
-    'WrappedRadioBox',
-    'WrappedListBox',
-    'WrappedComboBox',
-    'WrappedChoice',
+    'CheckBox',
+    'RadioBox',
+    'ListBox',
+    'ComboBox',
+    'Choice',
     
     # Range controls
-    'WrappedSlider',
-    'WrappedGauge',
+    'Slider',
+    'Gauge',
     
     # Container controls
-    'WrappedListCtrl',
-    'WrappedScrolledWindow',
+    'ListCtrl',
+    'ScrolledWindow',
     
     # Media controls
-    'WrappedImage',
+    'Image',
 ]
 

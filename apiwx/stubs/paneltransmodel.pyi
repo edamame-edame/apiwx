@@ -46,19 +46,19 @@ class SupportTransit(generics_window.DetectPanel):
 class TransitPanelContainer:
     """Container class for managing panel transitions.
     
-    This mixin class provides panel transition management for WrappedWindow
-    or WrappedPanel instances by automatically detecting child panels and
+    This mixin class provides panel transition management for Window
+    or Panel instances by automatically detecting child panels and
     setting up a transition model.
     """
     
     panel_trans: 'PanelTransModel'
-    children: dict[core.UIIndexor, core.WrappedPanel]
+    children: dict[core.UIIndexor, core.Panel]
     
     def __init__(self, *args, **kwds) -> None:
         """Initialize the panel container with transition support."""
         ...
 
-class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
+class PanelTransModel(dict[core.UIIndexor, core.Panel]):
     """Panel transition model for managing panel visibility.
     
     This class extends dict to provide a mapping between UI indexors and
@@ -102,7 +102,7 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         """Initialize the panel transition model."""
         ...
     
-    def add(self, indexor: core.UIIndexor, panel: core.WrappedPanel) -> None:
+    def add(self, indexor: core.UIIndexor, panel: core.Panel) -> None:
         """Add a panel with the given indexor.
         
         Args:
@@ -115,7 +115,7 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         """
         ...
     
-    def __setitem__(self, indexor: core.UIIndexor, panel: core.WrappedPanel) -> None:
+    def __setitem__(self, indexor: core.UIIndexor, panel: core.Panel) -> None:
         """Add a panel using dictionary syntax."""
         ...
     

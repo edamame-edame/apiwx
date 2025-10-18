@@ -33,8 +33,8 @@ def test_basic_instantiation():
         app = AppBase("TestApp")
         print("✅ AppBase instantiation successful")
         
-        # Test that it's actually a WrappedApp instance
-        assert isinstance(app, apiwx.WrappedApp), "AppBase should be a WrappedApp instance"
+        # Test that it's actually a App instance
+        assert isinstance(app, apiwx.App), "AppBase should be a App instance"
         print("✅ AppBase type verification successful")
         
     except Exception as e:
@@ -84,7 +84,7 @@ def test_method_resolution():
         
         # Check that it includes expected base classes
         base_names = [cls.__name__ for cls in mro]
-        assert 'WrappedApp' in base_names, "AppBase should inherit from WrappedApp"
+        assert 'App' in base_names, "AppBase should inherit from App"
         print("✅ AppBase MRO verification successful")
         
         # Check MRO for WindowWithPanel
@@ -92,7 +92,7 @@ def test_method_resolution():
         print(f"WindowWithPanel MRO: {[cls.__name__ for cls in mro]}")
         
         base_names = [cls.__name__ for cls in mro]
-        assert 'WrappedWindow' in base_names, "WindowWithPanel should inherit from WrappedWindow"
+        assert 'Window' in base_names, "WindowWithPanel should inherit from Window"
         print("✅ WindowWithPanel MRO verification successful")
         
     except Exception as e:

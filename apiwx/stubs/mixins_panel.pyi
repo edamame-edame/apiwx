@@ -6,7 +6,7 @@ enabling proper type checking and IDE support.
 """
 
 from typing import Type, Optional, Any
-from .core import WrappedPanel, WrappedButton, WrappedTextBox, WrappedStaticText, UIAttributes
+from .core import Panel, Button, TextBox, StaticText, UIAttributes
 from .generics_common import AutoDetect
 
 class WithBoarder:

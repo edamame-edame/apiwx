@@ -32,10 +32,10 @@ class TestRecentChanges(unittest.TestCase):
         try:
             import apiwx
             # Test that main classes are still accessible
-            self.assertTrue(hasattr(apiwx, 'WrappedApp'))
-            self.assertTrue(hasattr(apiwx, 'WrappedWindow'))
-            self.assertTrue(hasattr(apiwx, 'WrappedPanel'))
-            self.assertTrue(hasattr(apiwx, 'WrappedButton'))
+            self.assertTrue(hasattr(apiwx, 'App'))
+            self.assertTrue(hasattr(apiwx, 'Window'))
+            self.assertTrue(hasattr(apiwx, 'Panel'))
+            self.assertTrue(hasattr(apiwx, 'Button'))
             
             # Test that FontManager is accessible
             self.assertTrue(hasattr(apiwx, 'FontManager'))
@@ -144,7 +144,7 @@ class TestRecentChanges(unittest.TestCase):
             
             # Test that main exports are still available
             main_exports = [
-                'WrappedApp', 'WrappedWindow', 'WrappedPanel', 'WrappedButton',
+                'App', 'Window', 'Panel', 'Button',
                 'AutoDetect', 'FixSize', 'Singleton', 'Multiton'
             ]
             
@@ -234,14 +234,14 @@ class TestBasicFunctionality(unittest.TestCase):
     def test_basic_class_creation(self):
         """Test that basic classes can be created"""
         try:
-            from apiwx.core import WrappedApp, WrappedWindow, WrappedPanel, WrappedButton
+            from apiwx.core import App, Window, Panel, Button
             from apiwx.mixins_core import MixinsType
             
             # Test classes exist
-            self.assertTrue(WrappedApp)
-            self.assertTrue(WrappedWindow)
-            self.assertTrue(WrappedPanel)
-            self.assertTrue(WrappedButton)
+            self.assertTrue(App)
+            self.assertTrue(Window)
+            self.assertTrue(Panel)
+            self.assertTrue(Button)
             self.assertTrue(MixinsType)
             
             print("✓ Basic classes can be created")

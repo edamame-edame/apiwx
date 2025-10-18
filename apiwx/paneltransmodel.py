@@ -38,7 +38,7 @@ class NotTransition:
     PanelTransModel.
 
     Usage:
-        >>> class MyStaticPanel(WrappedPanel[NotTransition]):
+        >>> class MyStaticPanel(Panel[NotTransition]):
         ...     pass  # This panel won't be hidden during transitions
     """
     pass
@@ -95,7 +95,7 @@ class SupportTransit(mixins_window.DetectPanel):
         self._panel_trans = PanelTransModel()
 
         for child_id in self.children:
-            child: core.WrappedPanel = self.children[child_id]
+            child: core.Panel = self.children[child_id]
 
             if not MixinsType.hasmixins(child, NotTransition):
                 self.panel_trans.add(child_id, child)
@@ -107,12 +107,12 @@ class SupportTransit(mixins_window.DetectPanel):
 class TransitPanelContainer:
     """Container class for managing panel transitions.
 
-    This mixin class provides panel transition management for WrappedWindow
-    or WrappedPanel instances. It automatically detects child panels and
+    This mixin class provides panel transition management for Window
+    or Panel instances. It automatically detects child panels and
     sets up a transition model to manage their visibility.
 
     Example:
-        >>> class MyWindow(WrappedWindow[DetectPanel, TransitPanelContainer]):
+        >>> class MyWindow(Window[DetectPanel, TransitPanelContainer]):
         ...     def __init__(self, parent):
         ...         super().__init__(parent)
         ...         # Panels are automatically managed by transition system
@@ -133,13 +133,13 @@ class TransitPanelContainer:
                                "Panels: {}".format(self.panel_trans))
 
         for child_id in self.children:
-            child: core.WrappedPanel = self.children[child_id]
+            child: core.Panel = self.children[child_id]
 
             if not MixinsType.hasmixins(child, NotTransition):
                 self.panel_trans.add(child_id, child)
 
 
-class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
+class PanelTransModel(dict[core.UIIndexor, core.Panel]):
     """Panel transition model for managing panel visibility.
 
     This class extends dict to provide a mapping between UI indexors and
@@ -201,12 +201,12 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
 
         self._now = None
 
-    def add(self, indexor: core.UIIndexor, panel: core.WrappedPanel) -> None:
+    def add(self, indexor: core.UIIndexor, panel: core.Panel) -> None:
         """Add a panel with the given indexor.
 
         Args:
             indexor (core.UIIndexor): The unique identifier for the panel.
-            panel (core.WrappedPanel): The panel to add to the model.
+            panel (core.Panel): The panel to add to the model.
 
         Raises:
             TypeError: If indexor or panel are not of correct type.
@@ -215,9 +215,9 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         if not isinstance(indexor, core.UIIndexor):
             raise TypeError('indexor must be an instance of core.UIIndexor')
 
-        if not isinstance(panel, core.WrappedPanel):
+        if not isinstance(panel, core.Panel):
             raise TypeError('panel must be an instance of '
-                          'core.WrappedPanel')
+                          'core.Panel')
 
         if indexor in self:
             raise KeyError('indexor already exists')
@@ -236,12 +236,12 @@ class PanelTransModel(dict[core.UIIndexor, core.WrappedPanel]):
         super(PanelTransModel, self).__setitem__(indexor, panel)
 
     def __setitem__(self, indexor: core.UIIndexor,
-                    panel: core.WrappedPanel) -> None:
+                    panel: core.Panel) -> None:
         """Add a panel using dictionary syntax.
 
         Args:
             indexor (core.UIIndexor): The unique identifier for the panel.
-            panel (core.WrappedPanel): The panel to add to the model.
+            panel (core.Panel): The panel to add to the model.
         """
         self.add(indexor, panel)
 

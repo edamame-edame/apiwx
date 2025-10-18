@@ -147,7 +147,7 @@ class UIIndexor(int, UIAttributes):
     def __new__(cls, value: int, index_list: dict['UIIndexor', UIAttributes]) -> 'UIIndexor': ...
     def __getattribute__(self, name: str) -> Any: ...
 
-class WrappedApp(wx.App, UIAttributes, UIInitializeComponent):
+class App(wx.App, UIAttributes, UIInitializeComponent):
     """Enhanced wx.App with PEP 8 compliant interface.
     
     This class provides a Pythonic wrapper around wxPython's App class
@@ -160,7 +160,7 @@ class WrappedApp(wx.App, UIAttributes, UIInitializeComponent):
     def __init__(self, name: str = ..., redirect: bool = ..., **kwargs: Any) -> None: ...
     def mainloop(self) -> None: ...
 
-class WrappedWindow(wx.Frame, UIAttributes, UIInitializeComponent):
+class Window(wx.Frame, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Frame with improved attribute access.
     
     This class provides a Pythonic wrapper around wxPython's Frame class
@@ -178,7 +178,7 @@ class WrappedWindow(wx.Frame, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[Union[WrappedApp, 'WrappedWindow']] = ...,
+        parent: Optional[Union[App, 'Window']] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         title: str = ...,
@@ -186,7 +186,7 @@ class WrappedWindow(wx.Frame, UIAttributes, UIInitializeComponent):
         **kwargs: Any
     ) -> None: ...
 
-class WrappedPanel(wx.Panel, UIAttributes, UIInitializeComponent):
+class Panel(wx.Panel, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Panel with convenient properties.
     
     This class provides a Pythonic wrapper around wxPython's Panel class
@@ -195,25 +195,25 @@ class WrappedPanel(wx.Panel, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedWindow] = ...,
+        parent: Optional[Window] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedStaticText(wx.StaticText, UIAttributes, UIInitializeComponent):
+class StaticText(wx.StaticText, UIAttributes, UIInitializeComponent):
     """Enhanced wx.StaticText with PEP 8 compliant interface."""
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         text: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedTextBox(wx.TextCtrl, UIAttributes, UIInitializeComponent):
+class TextBox(wx.TextCtrl, UIAttributes, UIInitializeComponent):
     """Enhanced wx.TextCtrl with improved attribute access."""
     
     @property
@@ -223,14 +223,14 @@ class WrappedTextBox(wx.TextCtrl, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         value: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedButton(wx.Button, UIAttributes, UIInitializeComponent):
+class Button(wx.Button, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Button with event slot system."""
     
     @property
@@ -238,14 +238,14 @@ class WrappedButton(wx.Button, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedCheckBox(wx.CheckBox, UIAttributes, UIInitializeComponent):
+class CheckBox(wx.CheckBox, UIAttributes, UIInitializeComponent):
     """Enhanced wx.CheckBox with event slot system."""
     
     @property
@@ -253,14 +253,14 @@ class WrappedCheckBox(wx.CheckBox, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedRadioBox(wx.RadioBox, UIAttributes, UIInitializeComponent):
+class RadioBox(wx.RadioBox, UIAttributes, UIInitializeComponent):
     """Enhanced wx.RadioBox with event slot system."""
     
     @property
@@ -268,7 +268,7 @@ class WrappedRadioBox(wx.RadioBox, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,
@@ -276,7 +276,7 @@ class WrappedRadioBox(wx.RadioBox, UIAttributes, UIInitializeComponent):
         **kwargs: Any
     ) -> None: ...
 
-class WrappedListBox(wx.ListBox, UIAttributes, UIInitializeComponent):
+class ListBox(wx.ListBox, UIAttributes, UIInitializeComponent):
     """Enhanced wx.ListBox with event slot system."""
     
     @property
@@ -286,14 +286,14 @@ class WrappedListBox(wx.ListBox, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         choices: list[str] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedComboBox(wx.ComboBox, UIAttributes, UIInitializeComponent):
+class ComboBox(wx.ComboBox, UIAttributes, UIInitializeComponent):
     """Enhanced wx.ComboBox with event slot system."""
     
     @property
@@ -303,7 +303,7 @@ class WrappedComboBox(wx.ComboBox, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         value: str = ...,
@@ -311,7 +311,7 @@ class WrappedComboBox(wx.ComboBox, UIAttributes, UIInitializeComponent):
         **kwargs: Any
     ) -> None: ...
 
-class WrappedSlider(wx.Slider, UIAttributes, UIInitializeComponent):
+class Slider(wx.Slider, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Slider with event slot system."""
     
     @property
@@ -319,7 +319,7 @@ class WrappedSlider(wx.Slider, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         value: int = ...,
@@ -328,19 +328,19 @@ class WrappedSlider(wx.Slider, UIAttributes, UIInitializeComponent):
         **kwargs: Any
     ) -> None: ...
 
-class WrappedGauge(wx.Gauge, UIAttributes, UIInitializeComponent):
+class Gauge(wx.Gauge, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Gauge with improved attribute access."""
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         range: int = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedListCtrl(wx.ListCtrl, UIAttributes, UIInitializeComponent):
+class ListCtrl(wx.ListCtrl, UIAttributes, UIInitializeComponent):
     """Enhanced wx.ListCtrl with event slot system."""
     
     @property
@@ -350,24 +350,24 @@ class WrappedListCtrl(wx.ListCtrl, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedScrolledWindow(wx.ScrolledWindow, UIAttributes, UIInitializeComponent):
+class ScrolledWindow(wx.ScrolledWindow, UIAttributes, UIInitializeComponent):
     """Enhanced wx.ScrolledWindow with improved attribute access."""
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedChoice(wx.Choice, UIAttributes, UIInitializeComponent):
+class Choice(wx.Choice, UIAttributes, UIInitializeComponent):
     """Enhanced wx.Choice with event slot system."""
     
     @property
@@ -375,19 +375,19 @@ class WrappedChoice(wx.Choice, UIAttributes, UIInitializeComponent):
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         choices: list[str] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WrappedImage(wx.StaticBitmap, UIAttributes, UIInitializeComponent):
+class Image(wx.StaticBitmap, UIAttributes, UIInitializeComponent):
     """Enhanced wx.StaticBitmap for image display."""
     
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         bitmap: Optional[wx.Bitmap] = ...,

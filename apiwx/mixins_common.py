@@ -41,12 +41,12 @@ class FixSize:
     constraints during initialization.
 
     Example:
-        >>> class FixedWindow(core.WrappedWindow[FixSize]):
+        >>> class FixedWindow(core.Window[FixSize]):
         ...     def __init__(self):
         ...         super().__init__()
         ...         # Window size is now fixed and cannot be resized
         >>> 
-        >>> class FixedPanel(core.WrappedPanel[FixSize]):
+        >>> class FixedPanel(core.Panel[FixSize]):
         ...     def __init__(self, parent):
         ...         super().__init__(parent)
         ...         # Panel size is now fixed and cannot be resized
@@ -74,17 +74,17 @@ class AutoDetect:
 
     Example:
         >>> # Single target detection - detect window components
-        >>> DetectWindow = AutoDetect[core.WrappedWindow]
+        >>> DetectWindow = AutoDetect[core.Window]
         >>> 
         >>> # Multiple target detection - detect various UI components
         >>> DetectChildren = AutoDetect[
-        ...     core.WrappedPanel,
-        ...     core.WrappedButton,
-        ...     core.WrappedTextBox
+        ...     core.Panel,
+        ...     core.Button,
+        ...     core.TextBox
         ... ]
         >>> 
         >>> # Use in a class with mixins
-        >>> class MyApp(core.WrappedApp[DetectWindow]):
+        >>> class MyApp(core.App[DetectWindow]):
         ...     def __init__(self):
         ...         super().__init__()
         ...         # Windows are automatically detected and managed
@@ -97,7 +97,7 @@ class AutoDetect:
         *args, 
         **kwds):
         # Create object.
-        # Super class init was called from WrappedApp.__new__.
+        # Super class init was called from App.__new__.
         # So do nothing here.
         ...
 
@@ -134,7 +134,7 @@ class AutoDetect:
 
     def __init__(self, *args, **kwds):
         # Create object.
-        # Super class init was called from WrappedApp.__new__.
+        # Super class init was called from App.__new__.
         # So do nothing here.
         ...
 

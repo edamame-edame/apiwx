@@ -107,7 +107,7 @@ apiwx v0.4.0 represents a significant milestone in the project's maturity, intro
 ### Python 3.12 Compatibility Test Results
 All 9 test categories achieved 100% success rate:
 
-1. **Core Components**: All GUI components (WrappedApp, WrappedWindow, WrappedPanel, WrappedButton, etc.) function correctly
+1. **Core Components**: All GUI components (App, Window, Panel, Button, etc.) function correctly
 2. **Generics System**: Advanced behavior system with hasgenerics() method works perfectly
 3. **Message System**: All dialog types (info, warning, error, question, input) operate correctly
 4. **Event Handling**: Complete event system including slots and signal connections function properly

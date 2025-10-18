@@ -34,7 +34,7 @@ class ByPanelSize:
         size: Gets/sets the client area size instead of total window size.
 
     Example:
-        >>> window = WrappedWindow[ByPanelSize](
+        >>> window = Window[ByPanelSize](
         ...     app,
         ...     panel_size=(800, 600)
         ... )
@@ -47,7 +47,7 @@ class ByPanelSize:
 
 
     @property
-    def size(self: core.WrappedWindow) -> tuple[int, int]:
+    def size(self: core.Window) -> tuple[int, int]:
         """Get the client area size of the window.
 
         Returns:
@@ -56,7 +56,7 @@ class ByPanelSize:
         return self.clientsize
 
     @size.setter
-    def size(self: core.WrappedWindow, value: tuple[int, int]):
+    def size(self: core.Window, value: tuple[int, int]):
         """Set the client area size of the window.
 
         Args:
@@ -66,11 +66,11 @@ class ByPanelSize:
         self.clientsize = value
 
 
-    def __init__(self: core.WrappedWindow, *args, **kwds):
+    def __init__(self: core.Window, *args, **kwds):
         """Initialize the ByPanelSize mixin.
 
         This method sets up the window size management based on client area.
-        The actual initialization is handled by WrappedWindow.__init__, so
+        The actual initialization is handled by Window.__init__, so
         this method primarily configures the client size after the parent
         initialization is complete.
 
@@ -78,7 +78,7 @@ class ByPanelSize:
             *args: Variable length argument list passed to parent class.
             **kwds: Arbitrary keyword arguments passed to parent class.
         """
-        # Super class init was called from WrappedWindow.__init__.
+        # Super class init was called from Window.__init__.
         # So do nothing here.
         ...
 
@@ -91,7 +91,7 @@ class ByPanelSize:
 
 
 class DetectPanel(mixins_common.AutoDetect[
-        core.WrappedPanel
+        core.Panel
     ]):
     """Type variable for auto-detecting panel components in windows.
     
@@ -100,7 +100,7 @@ class DetectPanel(mixins_common.AutoDetect[
     to properly identify and validate panel components for better type safety
     and IDE support in window-based applications.
     
-    The type variable is specifically designed for detecting WrappedPanel
+    The type variable is specifically designed for detecting Panel
     instances within window containers, facilitating automatic component
     discovery and management in window-panel hierarchies.
     """

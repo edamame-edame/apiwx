@@ -57,7 +57,7 @@ task_list.remove(completed_task)
 #### Enhanced LocateByParent
 ```python
 # Improved text positioning with automatic updates
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
 text = AlignedText(window, label="Initial Text", align="c")

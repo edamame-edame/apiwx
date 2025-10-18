@@ -24,20 +24,20 @@ def test_search_child_indexor_basic():
     print("=== Testing search_child_indexor - Basic Functionality ===")
     
     try:
-        # Create AutoDetect subclass that detects WrappedWindow and WrappedButton
+        # Create AutoDetect subclass that detects Window and Button
         DetectComponents = mixins_common.AutoDetect[
-            core.WrappedWindow,
-            core.WrappedButton
+            core.Window,
+            core.Button
         ]
         
-        class TestApp(core.WrappedApp[DetectComponents]):
+        class TestApp(core.App[DetectComponents]):
             # Define some child components as class attributes for AutoDetect
-            main_window = core.WrappedWindow
-            dialog_window = core.WrappedWindow
+            main_window = core.Window
+            dialog_window = core.Window
             
             def __init__(self):
                 # Also add some components as instance attributes
-                self.help_window = core.WrappedWindow
+                self.help_window = core.Window
                 
                 super().__init__("TestApp")
         
@@ -49,19 +49,19 @@ def test_search_child_indexor_basic():
         print(f"Children namelist: {getattr(app, '_children_namelist', 'Not found')}")
         print(f"Detect target: {DetectComponents.detect_target}")
         
-        # Test search for WrappedWindow instances
-        window_indexors = app.search_child_indexor(core.WrappedWindow)
+        # Test search for Window instances
+        window_indexors = app.search_child_indexor(core.Window)
         print(f"Found {len(window_indexors)} window indexors: {window_indexors}")
         
-        # Test search for WrappedButton instances (should be empty as none defined)
-        button_indexors = app.search_child_indexor(core.WrappedButton)
+        # Test search for Button instances (should be empty as none defined)
+        button_indexors = app.search_child_indexor(core.Button)
         print(f"Found {len(button_indexors)} button indexors: {button_indexors}")
         
         # Verify indexor types
         for indexor in window_indexors:
             assert isinstance(indexor, core.UIIndexor), f"Expected UIIndexor, got {type(indexor)}"
             assert indexor in app.children, f"Indexor {indexor} not found in children dict"
-            assert isinstance(app.children[indexor], core.WrappedWindow), f"Expected WrappedWindow for indexor {indexor}"
+            assert isinstance(app.children[indexor], core.Window), f"Expected Window for indexor {indexor}"
         
         # Verify we found both class and instance attributes
         # Should have 3 windows (main_window, dialog_window, help_window)
@@ -87,13 +87,13 @@ def test_search_child_indexor_empty():
     print("\n=== Testing search_child_indexor - Empty Results ===")
     
     try:
-        # Create AutoDetect subclass that only detects WrappedWindow
-        DetectWindows = mixins_common.AutoDetect[core.WrappedWindow]
+        # Create AutoDetect subclass that only detects Window
+        DetectWindows = mixins_common.AutoDetect[core.Window]
         
-        class TestApp(core.WrappedApp[DetectWindows]):
+        class TestApp(core.App[DetectWindows]):
             # Only define button components (not detected since not in detect_target)
-            ok_button = core.WrappedButton
-            cancel_button = core.WrappedButton
+            ok_button = core.Button
+            cancel_button = core.Button
             
             def __init__(self):
                 super().__init__("TestApp")
@@ -102,11 +102,11 @@ def test_search_child_indexor_empty():
         app = TestApp()
         
         # Search for windows (should find none)
-        window_indexors = app.search_child_indexor(core.WrappedWindow)
+        window_indexors = app.search_child_indexor(core.Window)
         print(f"Window indexors found: {window_indexors}")
         
         # Search for buttons (should find none since not in detect_target)
-        button_indexors = app.search_child_indexor(core.WrappedButton)
+        button_indexors = app.search_child_indexor(core.Button)
         print(f"Button indexors found: {button_indexors}")
         
         # Verify empty results
@@ -130,12 +130,12 @@ def test_search_child_indexor_singleton():
     print("\n=== Testing search_child_indexor - Singleton Mixin ===")
     
     try:
-        # Create AutoDetect subclass that detects only WrappedWindow
-        DetectWindow = mixins_common.AutoDetect[core.WrappedWindow]
+        # Create AutoDetect subclass that detects only Window
+        DetectWindow = mixins_common.AutoDetect[core.Window]
         
-        class TestApp(core.WrappedApp[DetectWindow]):
+        class TestApp(core.App[DetectWindow]):
             # Define single window component as class attribute
-            main_window = core.WrappedWindow
+            main_window = core.Window
             
             def __init__(self):
                 super().__init__("TestApp")
@@ -144,7 +144,7 @@ def test_search_child_indexor_singleton():
         app = TestApp()
         
         # Search for windows (should find exactly one)
-        window_indexors = app.search_child_indexor(core.WrappedWindow)
+        window_indexors = app.search_child_indexor(core.Window)
         print(f"Window indexors found: {window_indexors}")
         
         # Verify singleton result
@@ -155,7 +155,7 @@ def test_search_child_indexor_singleton():
         indexor = window_indexors[0]
         assert isinstance(indexor, core.UIIndexor), f"Expected UIIndexor, got {type(indexor)}"
         assert indexor in app.children, f"Indexor {indexor} not found in children dict"
-        assert isinstance(app.children[indexor], core.WrappedWindow), f"Expected WrappedWindow for indexor {indexor}"
+        assert isinstance(app.children[indexor], core.Window), f"Expected Window for indexor {indexor}"
         
         print("✓ Singleton mixin test passed")
         return True
@@ -174,19 +174,19 @@ def test_search_child_indexor_multiton():
     try:
         # Create AutoDetect subclass that detects multiple types
         DetectMultiple = mixins_common.AutoDetect[
-            core.WrappedWindow
+            core.Window
         ]
         
-        class TestApp(core.WrappedApp[DetectMultiple]):
+        class TestApp(core.App[DetectMultiple]):
             # Define multiple components as class attributes
-            window1 = core.WrappedWindow
-            window2 = core.WrappedWindow
-            window3 = core.WrappedWindow
+            window1 = core.Window
+            window2 = core.Window
+            window3 = core.Window
             
             def __init__(self):
                 # Add more windows as instance attributes
-                self.window4 = core.WrappedWindow
-                self.window5 = core.WrappedWindow
+                self.window4 = core.Window
+                self.window5 = core.Window
                 
                 super().__init__("TestApp")
         
@@ -194,7 +194,7 @@ def test_search_child_indexor_multiton():
         app = TestApp()
         
         # Search for different component types
-        window_indexors = app.search_child_indexor(core.WrappedWindow)
+        window_indexors = app.search_child_indexor(core.Window)
         
         print(f"Window indexors found: {window_indexors} (count: {len(window_indexors)})")
         

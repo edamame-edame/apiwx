@@ -99,7 +99,7 @@ def test_core_component_availability():
         from apiwx import core
         
         # Check core classes exist
-        core_classes = ['WrappedApp', 'WrappedWindow', 'WrappedPanel']
+        core_classes = ['App', 'Window', 'Panel']
         for cls_name in core_classes:
             assert hasattr(core, cls_name), f"{cls_name} not found in core"
         

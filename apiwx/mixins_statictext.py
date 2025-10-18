@@ -1,6 +1,6 @@
 """StaticText mixin behaviors for apiwx components.
 
-This module provides specialized mixin classes for WrappedStaticText components
+This module provides specialized mixin classes for StaticText components
 that enhance text positioning and alignment capabilities. These mixins enable
 automatic text positioning within parent containers and dynamic layout management.
 
@@ -16,11 +16,11 @@ Usage Example:
     >>> import apiwx
     >>> from apiwx.mixins_statictext import LocateByParent, TextAlign
     >>> 
-    >>> app = apiwx.WrappedApp("Text Alignment Demo")
-    >>> window = apiwx.WrappedWindow(app, title="Demo", size=(400, 300))
+    >>> app = apiwx.App("Text Alignment Demo")
+    >>> window = apiwx.Window(app, title="Demo", size=(400, 300))
     >>> 
     >>> # Create aligned text using mixin
-    >>> class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+    >>> class AlignedText(apiwx.StaticText[LocateByParent]):
     ...     pass
     >>> 
     >>> # Center-aligned text
@@ -97,7 +97,7 @@ class LocateByParent:
         align: Text alignment within the parent window (TextAlign or str)
 
     Example:
-        >>> class AlignedText(core.WrappedStaticText[LocateByParent]):
+        >>> class AlignedText(core.StaticText[LocateByParent]):
         ...     def __init__(self, parent):
         ...         super().__init__(parent, label="Hello", align="c")
         ...         # Text will be centered within the parent window
@@ -126,12 +126,12 @@ class LocateByParent:
         self.update_location(value)
     
     def __init__(
-            self: typing.Type[typing.Self] | core.WrappedStaticText,
+            self: typing.Type[typing.Self] | core.StaticText,
             *args,
             label: str,
             align: TextAlign | str,
             **kwds):
-        # Super class init was called from WrappedWindow.__init__.
+        # Super class init was called from Window.__init__.
         # So do nothing here.
         ...
 

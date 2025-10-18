@@ -5,7 +5,7 @@ classes for wxPython window objects, enabling proper type checking and IDE suppo
 """
 
 from typing import Type, Tuple
-from .core import WrappedWindow, WrappedPanel
+from .core import Window, Panel
 from .generics_common import AutoDetect
 
 class ByPanelSize:
@@ -17,21 +17,21 @@ class ByPanelSize:
     """
     
     @property
-    def size(self: WrappedWindow) -> Tuple[int, int]: 
+    def size(self: Window) -> Tuple[int, int]: 
         """Get the client area size of the window."""
         ...
     
     @size.setter
-    def size(self: WrappedWindow, value: Tuple[int, int]) -> None: 
+    def size(self: Window, value: Tuple[int, int]) -> None: 
         """Set the client area size of the window."""
         ...
     
-    def __init__(self: WrappedWindow, *args, **kwds) -> None: 
+    def __init__(self: Window, *args, **kwds) -> None: 
         """Initialize the ByPanelSize mixin."""
         ...
 
 # Type alias for auto-detecting panel components in windows
-DetectPanel: Type[AutoDetect[WrappedPanel]]
+DetectPanel: Type[AutoDetect[Panel]]
 """Type variable for auto-detecting panel components in windows.
 
 This type alias provides automatic type detection for panel components

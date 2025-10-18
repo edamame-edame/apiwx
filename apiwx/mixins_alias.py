@@ -35,42 +35,42 @@ from typing import TypeAlias, overload
 
 try:
     from .core import (
-        WrappedApp,
-        WrappedWindow,
-        WrappedPanel,
-        WrappedButton,
-        WrappedTextBox,
-        WrappedStaticText,
-        WrappedCheckBox,
-        WrappedRadioBox,
-        WrappedListBox,
-        WrappedComboBox,
-        WrappedSlider,
-        WrappedGauge,
-        WrappedListCtrl,
-        WrappedScrolledWindow,
-        WrappedChoice,
-        WrappedImage,
+        App,
+        Window,
+        Panel,
+        Button,
+        TextBox,
+        StaticText,
+        CheckBox,
+        RadioBox,
+        ListBox,
+        ComboBox,
+        Slider,
+        Gauge,
+        ListCtrl,
+        ScrolledWindow,
+        Choice,
+        Image,
     )
 
 except ImportError:
     from core import (
-        WrappedApp,
-        WrappedWindow,
-        WrappedPanel,
-        WrappedButton,
-        WrappedTextBox,
-        WrappedStaticText,
-        WrappedCheckBox,
-        WrappedRadioBox,
-        WrappedListBox,
-        WrappedComboBox,
-        WrappedSlider,
-        WrappedGauge,
-        WrappedListCtrl,
-        WrappedScrolledWindow,
-        WrappedChoice,
-        WrappedImage,
+        App,
+        Window,
+        Panel,
+        Button,
+        TextBox,
+        StaticText,
+        CheckBox,
+        RadioBox,
+        ListBox,
+        ComboBox,
+        Slider,
+        Gauge,
+        ListCtrl,
+        ScrolledWindow,
+        Choice,
+        Image,
     )
 
 try:
@@ -178,13 +178,13 @@ except ImportError:
 
 
 # Application type aliases (PEP 613 compliant)
-class AppBase(WrappedApp[Singleton]):
+class AppBase(App[Singleton]):
     """Singleton application instance.
 
-    This type alias creates a WrappedApp with Singleton behavior, ensuring
+    This type alias creates a App with Singleton behavior, ensuring
     only one application instance can exist at a time.
 
-    Type: WrappedApp[Singleton]
+    Type: App[Singleton]
 
     Args:
         name (str): The application name
@@ -200,10 +200,10 @@ class AppBase(WrappedApp[Singleton]):
 class AppDetectWindow(AppBase[DetectWindow]):
     """Singleton application with window detection.
 
-    This type alias creates a WrappedApp with both Singleton behavior and
+    This type alias creates a App with both Singleton behavior and
     automatic window detection capabilities.
 
-    Type: WrappedApp[Singleton, DetectWindow]
+    Type: App[Singleton, DetectWindow]
 
     Args:
         name (str): The application name
@@ -221,13 +221,13 @@ class AppDetectWindow(AppBase[DetectWindow]):
 
 
 # Window aliases
-class WindowWithPanel(WrappedWindow[DetectPanel]):
+class WindowWithPanel(Window[DetectPanel]):
     """Window with automatic panel detection.
 
-    This type alias creates a WrappedWindow that automatically detects
+    This type alias creates a Window that automatically detects
     and manages child panels.
 
-    Type: WrappedWindow[DetectPanel]
+    Type: Window[DetectPanel]
 
     Args:
         app: The parent application instance
@@ -245,7 +245,7 @@ class WindowWithPanel(WrappedWindow[DetectPanel]):
     """
     def __init__(
         self,
-        app: WrappedApp,
+        app: App,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         title: str = "",
@@ -274,10 +274,10 @@ class WindowWithPanel(WrappedWindow[DetectPanel]):
 class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
     """Window with panel detection and size management.
 
-    This type alias creates a WrappedWindow with panel detection and
+    This type alias creates a Window with panel detection and
     size management based on the client panel size.
 
-    Type: WrappedWindow[DetectPanel, ByPanelSize]
+    Type: Window[DetectPanel, ByPanelSize]
 
     Args:
         app: The parent application instance
@@ -296,7 +296,7 @@ class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
     """
     def __init__(
         self,
-        app: WrappedApp,
+        app: App,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         title: str | None = None,
@@ -316,10 +316,10 @@ class WindowByPanelSize(WindowWithPanel[ByPanelSize]):
 class WindowPanelTransit(WindowWithPanel[SupportTransit]):
     """Window with panel transition support.
 
-    This type alias creates a WrappedWindow that supports panel
+    This type alias creates a Window that supports panel
     transitions and visibility management.
 
-    Type: WrappedWindow[SupportTransit]
+    Type: Window[SupportTransit]
 
     Args:
         app: The parent application instance
@@ -339,7 +339,7 @@ class WindowPanelTransit(WindowWithPanel[SupportTransit]):
     """
     def __init__(
         self,
-        app: WrappedApp,
+        app: App,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         title: str | None = None,
@@ -359,10 +359,10 @@ class WindowPanelTransit(WindowWithPanel[SupportTransit]):
 class WindowSizeTransitWithPanel(WindowByPanelSize[SupportTransit]):
     """Window with panel transitions and size management.
 
-    This type alias creates a WrappedWindow with both panel transition
+    This type alias creates a Window with both panel transition
     support and size management based on client panel size.
 
-    Type: WrappedWindow[SupportTransit, ByPanelSize]
+    Type: Window[SupportTransit, ByPanelSize]
 
     Args:
         app: The parent application instance
@@ -382,7 +382,7 @@ class WindowSizeTransitWithPanel(WindowByPanelSize[SupportTransit]):
     """
     def __init__(
         self,
-        app: WrappedApp,
+        app: App,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         title: str | None = None,
@@ -400,13 +400,13 @@ class WindowSizeTransitWithPanel(WindowByPanelSize[SupportTransit]):
 
 
 # Panel aliases
-class PanelDetectChildren(WrappedPanel[DetectChildren]):
+class PanelDetectChildren(Panel[DetectChildren]):
     """Panel with automatic child component detection.
 
-    This type alias creates a WrappedPanel that automatically detects
+    This type alias creates a Panel that automatically detects
     and manages child UI components.
 
-    Type: WrappedPanel[DetectChildren]
+    Type: Panel[DetectChildren]
 
     Args:
         parent: The parent window or panel
@@ -425,7 +425,7 @@ class PanelDetectChildren(WrappedPanel[DetectChildren]):
     """
     def __init__(
         self,
-        parent: WrappedWindow | WrappedPanel,
+        parent: Window | Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         color: tuple[int, int, int] | None = None,
@@ -449,13 +449,13 @@ class PanelDetectChildren(WrappedPanel[DetectChildren]):
         )
 
 
-class PanelWithBoarder(WrappedPanel[WithBoarder]):
+class PanelWithBoarder(Panel[WithBoarder]):
     """Panel with border drawing functionality.
 
-    This type alias creates a WrappedPanel with automatic border
+    This type alias creates a Panel with automatic border
     drawing capabilities around the panel edges.
 
-    Type: WrappedPanel[WithBoarder]
+    Type: Panel[WithBoarder]
 
     Args:
         parent: The parent window or panel
@@ -481,7 +481,7 @@ class PanelWithBoarder(WrappedPanel[WithBoarder]):
     """
     def __init__(
         self,
-        parent: WrappedWindow | WrappedPanel,
+        parent: Window | Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         color: tuple[int, int, int] | None = None,
@@ -511,13 +511,13 @@ class PanelWithBoarder(WrappedPanel[WithBoarder]):
         )
 
 
-class PanelNoTransition(WrappedPanel[NotTransition]):
+class PanelNoTransition(Panel[NotTransition]):
     """Panel excluded from transition management.
 
-    This type alias creates a WrappedPanel that is excluded from
+    This type alias creates a Panel that is excluded from
     automatic panel transition systems.
 
-    Type: WrappedPanel[NotTransition]
+    Type: Panel[NotTransition]
 
     Args:
         parent: The parent window or panel
@@ -537,7 +537,7 @@ class PanelNoTransition(WrappedPanel[NotTransition]):
     """
     def __init__(
         self,
-        parent: WrappedWindow | WrappedPanel,
+        parent: Window | Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         color: tuple[int, int, int] | None = None,
@@ -562,13 +562,13 @@ class PanelNoTransition(WrappedPanel[NotTransition]):
 
 
 # Button aliases
-class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
+class ButtonSingleClickDisable(Button[SingleClickDisable]):
     """Button that disables after single click.
 
-    This type alias creates a WrappedButton that automatically disables
+    This type alias creates a Button that automatically disables
     itself after being clicked once to prevent double-clicking.
 
-    Type: WrappedButton[SingleClickDisable]
+    Type: Button[SingleClickDisable]
 
     Args:
         parent: The parent window or panel
@@ -597,7 +597,7 @@ class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
     """
     def __init__(
         self,
-        parent: WrappedPanel,
+        parent: Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         label: str | None = None,
@@ -629,13 +629,13 @@ class ButtonSingleClickDisable(WrappedButton[SingleClickDisable]):
         )
 
 
-class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
+class ButtonDoubleClickOnly(Button[DoubleClickOnly]):
     """Button that responds only to double-clicks.
     
-    This type alias creates a WrappedButton that ignores single clicks
+    This type alias creates a Button that ignores single clicks
     and only responds to double-click events.
     
-    Type: WrappedButton[DoubleClickOnly]
+    Type: Button[DoubleClickOnly]
     
     Args:
         parent: The parent window or panel
@@ -666,7 +666,7 @@ class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
     """
     def __init__(
         self,
-        parent: WrappedPanel,
+        parent: Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         label: str | None = None,
@@ -698,13 +698,13 @@ class ButtonDoubleClickOnly(WrappedButton[DoubleClickOnly]):
         )
 
 
-class ButtonClickGuard(WrappedButton[ClickGuard]):
+class ButtonClickGuard(Button[ClickGuard]):
     """Button with click protection mechanisms.
 
-    This type alias creates a WrappedButton with built-in protection
+    This type alias creates a Button with built-in protection
     against accidental or rapid multiple clicks.
 
-    Type: WrappedButton[ClickGuard]
+    Type: Button[ClickGuard]
 
     Args:
         parent: The parent window or panel
@@ -736,7 +736,7 @@ class ButtonClickGuard(WrappedButton[ClickGuard]):
     """
     def __init__(
         self,
-        parent: WrappedPanel,
+        parent: Panel,
         size: tuple[int, int] | None = None,
         pos: tuple[int, int] | None = None,
         label: str | None = None,

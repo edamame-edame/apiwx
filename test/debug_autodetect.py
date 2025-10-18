@@ -15,12 +15,12 @@ def simple_debug_test():
     print("=== Simple Debug Test ===")
     
     # Create a simple AutoDetect class
-    DetectPanel = mixins_common.AutoDetect[core.WrappedPanel]
+    DetectPanel = mixins_common.AutoDetect[core.Panel]
     
     print(f"DetectPanel.detect_target = {DetectPanel.detect_target}")
     
-    class TestApp(core.WrappedApp[DetectPanel]):
-        main_panel = core.WrappedPanel
+    class TestApp(core.App[DetectPanel]):
+        main_panel = core.Panel
         
         def __init__(self):
             print("TestApp.__init__ started")
@@ -39,7 +39,7 @@ def simple_debug_test():
     
     # Test the method
     print("\nTesting search_child_indexor...")
-    indexors = app.search_child_indexor(core.WrappedPanel)
+    indexors = app.search_child_indexor(core.Panel)
     print(f"Result: {indexors}")
     
     # Manual check of children

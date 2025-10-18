@@ -33,7 +33,7 @@ This release addresses a critical NotImplementationError that occurred during in
 def __init__(self, ...): ...
 
 # After (fixed):
-class WindowWithPanel(WrappedWindow[DetectPanel]):
+class WindowWithPanel(Window[DetectPanel]):
     def __init__(self, ...):
         # Proper parameter handling
         super().__init__(...)

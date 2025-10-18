@@ -10,21 +10,21 @@ Key Mixin Classes:
     - ClickGuard: Combines disable behavior with optional double-click 
       protection
 
-All mixins are designed to work with WrappedButton and provide enhanced
+All mixins are designed to work with Button and provide enhanced
 user interaction patterns for preventing accidental clicks, implementing
 confirmation workflows, and managing button state during processing.
 
 Example:
-    from apiwx.core import WrappedButton
+    from apiwx.core import Button
     from apiwx.mixins_button import SingleClickDisable, ClickGuard
     
     # Button that disables after click
-    button1 = WrappedButton[SingleClickDisable](
+    button1 = Button[SingleClickDisable](
         parent, label="Submit", disable_duration=2.0
     )
     
     # Button with confirmation requirement
-    button2 = WrappedButton[ClickGuard](
+    button2 = Button[ClickGuard](
         parent, label="Delete", require_double_click=True
     )
 """
@@ -47,7 +47,7 @@ class SingleClickDisable:
     
     Usage:
 
-        button = WrappedButton[SingleClickDisable](
+        button = Button[SingleClickDisable](
             panel,
             size=(120, 40),
             pos=(20, 20),
@@ -93,7 +93,7 @@ class SingleClickDisable:
             auto_re_enable: bool = False,
             **kwds
         ):
-        # Super class init was called from WrappedButton.__init__
+        # Super class init was called from Button.__init__
         # so do nothing here
         ...
 
@@ -164,7 +164,7 @@ class DoubleClickOnly:
     actions that need confirmation.
     
     Usage:
-        button = WrappedButton[DoubleClickOnly](
+        button = Button[DoubleClickOnly](
             panel,
             size=(120, 40),
             pos=(20, 20),
@@ -211,7 +211,7 @@ class DoubleClickOnly:
         show_single_click_feedback: bool = True,
         **kwds
         ):
-        # Super class init was called from WrappedButton.__init__
+        # Super class init was called from Button.__init__
         # so do nothing here
         ...
 
@@ -365,7 +365,7 @@ class ClickGuard:
     confirmation-based protection.
     
     Usage:
-        button = WrappedButton[ClickGuard](
+        button = Button[ClickGuard](
             panel,
             size=(120, 40),
             pos=(20, 20),
@@ -400,7 +400,7 @@ class ClickGuard:
         guard_message: str | None = None,
         **kwds
     ):
-        # Super class init was called from WrappedButton.__init__
+        # Super class init was called from Button.__init__
         # so do nothing here
         ...
 

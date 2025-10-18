@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     import apiwx
     from apiwx.mixins_statictext import TextAlign, LocateByParent
-    from apiwx import WrappedApp, WrappedWindow, WrappedPanel, WrappedStaticText
+    from apiwx import App, Window, Panel, StaticText
 except ImportError as e:
     print(f"Import error: {e}")
     print("Please ensure apiwx is installed or run from the correct directory")
@@ -49,11 +49,11 @@ def test_locate_by_parent_mixin():
     print("Testing LocateByParent mixin...")
     
     # Create test application and window
-    app = apiwx.WrappedApp("StaticText Mixin Test")
-    window = apiwx.WrappedWindow(app, title="Test Window", size=(400, 300))
+    app = apiwx.App("StaticText Mixin Test")
+    window = apiwx.Window(app, title="Test Window", size=(400, 300))
     
     # Create StaticText with LocateByParent mixin
-    class AlignedStaticText(WrappedStaticText[LocateByParent]):
+    class AlignedStaticText(StaticText[LocateByParent]):
         pass
     
     # Test center alignment
@@ -75,10 +75,10 @@ def test_position_calculation():
     """Test position calculation logic."""
     print("Testing position calculation...")
     
-    app = apiwx.WrappedApp("Position Test")
-    window = apiwx.WrappedWindow(app, title="Position Test", size=(400, 300))
+    app = apiwx.App("Position Test")
+    window = apiwx.Window(app, title="Position Test", size=(400, 300))
     
-    class AlignedStaticText(WrappedStaticText[LocateByParent]):
+    class AlignedStaticText(StaticText[LocateByParent]):
         pass
     
     # Create text component
@@ -112,11 +112,11 @@ def test_mixin_integration():
     """Test integration with other mixin components."""
     print("Testing mixin integration...")
     
-    app = apiwx.WrappedApp("Integration Test")
-    window = apiwx.WrappedWindow(app, title="Integration Test", size=(500, 400))
+    app = apiwx.App("Integration Test")
+    window = apiwx.Window(app, title="Integration Test", size=(500, 400))
     
     # Test that the mixin works with basic StaticText
-    class AlignedText(WrappedStaticText[LocateByParent]):
+    class AlignedText(StaticText[LocateByParent]):
         pass
     
     text1 = AlignedText(window, label="Top Left", align=TextAlign.TOPLEFT)
@@ -135,10 +135,10 @@ def test_error_handling():
     """Test error handling for invalid inputs."""
     print("Testing error handling...")
     
-    app = apiwx.WrappedApp("Error Test")
-    window = apiwx.WrappedWindow(app, title="Error Test", size=(300, 200))
+    app = apiwx.App("Error Test")
+    window = apiwx.Window(app, title="Error Test", size=(300, 200))
     
-    class AlignedText(WrappedStaticText[LocateByParent]):
+    class AlignedText(StaticText[LocateByParent]):
         pass
     
     # Test with valid string alignment

@@ -15,7 +15,7 @@ except ImportError:
 
 
 class DetectWindow(mixins_common.AutoDetect[
-        core.WrappedWindow
+        core.Window
     ]):
     """Type variable for auto-detecting window class.
 

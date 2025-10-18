@@ -12,11 +12,11 @@
 ### All Test Categories Successful
 
 1. **Core Components** - Core Components
-   - All major classes (WrappedApp, WrappedWindow, WrappedPanel, etc.) work correctly
+   - All major classes (App, Window, Panel, etc.) work correctly
    - No issues with imports and class definitions
 
 2. **Generics System** - Generics System
-   - Generics syntax `WrappedApp[Singleton]` works correctly
+   - Generics syntax `App[Singleton]` works correctly
    - `hasgenerics()` method functions properly
    - Type safety and runtime validation work perfectly
 
@@ -137,21 +137,21 @@ import apiwx
 from typing import override
 
 # Utilizing PEP 695 type parameter syntax
-def create_generic_window[T: apiwx.WrappedWindow](
-    app: apiwx.WrappedApp, 
+def create_generic_window[T: apiwx.Window](
+    app: apiwx.App, 
     window_type: type[T]
 ) -> T:
     return window_type(app)
 
 # Utilizing typing.override
-class CustomWindow(apiwx.WrappedWindow):
+class CustomWindow(apiwx.Window):
     @override
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 # Combining apiwx generics with Python 3.13
-app = apiwx.WrappedApp[apiwx.Singleton]("Python313App")
-window = apiwx.WrappedWindow[apiwx.DetectPanel](app, title="Python 3.13 Ready")
+app = apiwx.App[apiwx.Singleton]("Python313App")
+window = apiwx.Window[apiwx.DetectPanel](app, title="Python 3.13 Ready")
 ```
 
 ## Conclusion

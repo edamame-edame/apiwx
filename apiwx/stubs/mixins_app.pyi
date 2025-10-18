@@ -6,11 +6,11 @@ and IDE support.
 """
 
 from typing import Type
-from .core import WrappedWindow
+from .core import Window
 from .mixins_common import AutoDetect
 
 # Type alias for auto-detecting window class
-DetectWindow: Type[AutoDetect[WrappedWindow]]
+DetectWindow: Type[AutoDetect[Window]]
 """Type variable for auto-detecting window class.
 
 This type alias provides automatic type detection for window classes

@@ -32,7 +32,7 @@ apiwx v0.5.2 introduces a comprehensive terminology update from "generics" to "m
 
 ### 🎯 Backward Compatibility
 - **Zero Breaking Changes**: All existing code continues to work unchanged
-- Main API (`WrappedApp`, `WrappedWindow`, `Singleton`, etc.) remains identical
+- Main API (`App`, `Window`, `Singleton`, etc.) remains identical
 - Import statements unchanged for end users
 - Type aliases (`AppBase`, `WindowWithPanel`, etc.) function identically
 
@@ -57,7 +57,7 @@ The mixin system provides powerful composition patterns:
 app = apiwx.AppBase('MyApp')  # Singleton application
 
 # Multiple mixins
-button = apiwx.WrappedButton[apiwx.SingleClickDisable, apiwx.ClickGuard](
+button = apiwx.Button[apiwx.SingleClickDisable, apiwx.ClickGuard](
     parent, label="Protected Button"
 )
 
@@ -90,20 +90,20 @@ Convenient pre-configured combinations:
 
 ```python
 # Application aliases
-apiwx.AppBase                    # WrappedApp[Singleton]
-apiwx.AppDetectWindow           # WrappedApp[Singleton, DetectWindow]
+apiwx.AppBase                    # App[Singleton]
+apiwx.AppDetectWindow           # App[Singleton, DetectWindow]
 
 # Window aliases  
-apiwx.WindowWithPanel          # WrappedWindow[DetectPanel]
-apiwx.WindowByPanelSize        # WrappedWindow[ByPanelSize]
+apiwx.WindowWithPanel          # Window[DetectPanel]
+apiwx.WindowByPanelSize        # Window[ByPanelSize]
 
 # Panel aliases
-apiwx.PanelDetectChildren      # WrappedPanel[DetectChildren]
-apiwx.PanelWithBoarder         # WrappedPanel[WithBoarder]
+apiwx.PanelDetectChildren      # Panel[DetectChildren]
+apiwx.PanelWithBoarder         # Panel[WithBoarder]
 
 # Button aliases
-apiwx.ButtonClickGuard         # WrappedButton[ClickGuard]
-apiwx.ButtonSingleClickDisable # WrappedButton[SingleClickDisable]
+apiwx.ButtonClickGuard         # Button[ClickGuard]
+apiwx.ButtonSingleClickDisable # Button[SingleClickDisable]
 ```
 
 ## 🔧 Migration Guide

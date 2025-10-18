@@ -22,7 +22,7 @@ Additionally, we confirmed that Python 3.12-specific new features can be used no
 #### 2. Basic Import
 - Normal execution of `import apiwx`
 - Version verification: `apiwx.__version__ = "0.3.3"`
-- Core class (`WrappedWindow`, `WrappedPanel`, `WrappedButton`) access verification
+- Core class (`Window`, `Panel`, `Button`) access verification
 
 #### 3. Generics System
 ```python
@@ -44,9 +44,9 @@ has_generics = SingletonTest.hasgenerics(Singleton)  # True
 ```python
 from apiwx.generics_button import SingleClickDisable, DoubleClickOnly, ClickGuard
 
-ButtonSingle = apiwx.WrappedButton[SingleClickDisable]
-ButtonDouble = apiwx.WrappedButton[DoubleClickOnly]
-ButtonGuard = apiwx.WrappedButton[ClickGuard]
+ButtonSingle = apiwx.Button[SingleClickDisable]
+ButtonDouble = apiwx.Button[DoubleClickOnly]
+ButtonGuard = apiwx.Button[ClickGuard]
 
 # Various generics verification
 single_has = ButtonSingle.hasgenerics(SingleClickDisable)  # True

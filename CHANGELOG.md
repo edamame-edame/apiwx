@@ -172,7 +172,7 @@ def remove(self, node):
 - **ENHANCED: UI feedback** - Immediate visual updates ensure consistent user experience during list modifications
 
 #### **Scroll Rate Configuration Bug**
-- **FIXED: WrappedScrolledWindow scroll rate setting** - Corrected `SetScrollRate(*self._scroll_rate)` with proper tuple unpacking
+- **FIXED: ScrolledWindow scroll rate setting** - Corrected `SetScrollRate(*self._scroll_rate)` with proper tuple unpacking
 - **RESOLVED: Parameter passing error** - Fixed scroll rate method that was receiving tuple instead of individual values
 - **IMPROVED: Scroll behavior** - Proper scroll rate configuration ensures smooth scrolling experience
 
@@ -192,13 +192,13 @@ def remove(self, node):
 ```
 
 #### **Consistent Component Usage**
-- **UPDATED: Sizer implementation** - MutableListView now uses `WrappedBoxSizer` consistently instead of raw `wx.BoxSizer`
+- **UPDATED: Sizer implementation** - MutableListView now uses `BoxSizer` consistently instead of raw `wx.BoxSizer`
 - **IMPROVED: API consistency** - All sizer operations use wrapped methods (`.add()` instead of `.Add()`)
 - **ENHANCED: Type safety** - Better integration with apiwx's wrapped component ecosystem
 
 #### **Corrected Scroll Rate Handling**
 ```python
-# Fixed implementation in WrappedScrolledWindow:
+# Fixed implementation in ScrolledWindow:
 if self._scroll_rate is not None:
     self.SetScrollRate(*self._scroll_rate)  # Proper tuple unpacking
 ```
@@ -229,18 +229,18 @@ if self._scroll_rate is not None:
 - **Automatic Benefits** - Existing applications automatically gain improved scroll behavior
 - **Enhanced Functionality** - Better responsiveness without requiring code changes
 
-## [0.5.9] - 2025.10.13 - Enhanced Layout Management & WrappedBoxSizer Export
+## [0.5.9] - 2025.10.13 - Enhanced Layout Management & BoxSizer Export
 
 ### 📦 New Features
 
-#### **WrappedBoxSizer Public Export**
-- **ADDED: Public API access** - WrappedBoxSizer is now available in main package exports via __init__.py
+#### **BoxSizer Public Export**
+- **ADDED: Public API access** - BoxSizer is now available in main package exports via __init__.py
 - **IMPROVED: Developer Experience** - Direct import access enables streamlined layout management workflows
 - **ENHANCED: Layout Toolkit** - Complete sizer support alongside existing wrapped controls for comprehensive GUI design
-- **SIMPLIFIED: Import Structure** - Access all core layout components including WrappedBoxSizer through single import
+- **SIMPLIFIED: Import Structure** - Access all core layout components including BoxSizer through single import
 
 #### **Package API Enhancements**
-- **UPDATED: Export Lists** - Added WrappedBoxSizer to __all__ exports for consistent API structure
+- **UPDATED: Export Lists** - Added BoxSizer to __all__ exports for consistent API structure
 - **MAINTAINED: Compatibility** - All existing imports continue to work with expanded functionality
 - **IMPROVED: Discoverability** - Layout management tools now visible through standard package exploration
 
@@ -265,10 +265,10 @@ def __del__(self):
 #### **Import System Updates**
 ```python
 # Now Available:
-from apiwx import WrappedBoxSizer, WrappedWindow, WrappedPanel
+from apiwx import BoxSizer, Window, Panel
 
 # Enhanced Layout Management:
-sizer = WrappedBoxSizer(wx.VERTICAL)
+sizer = BoxSizer(wx.VERTICAL)
 sizer.add(panel, proportion=1, flag=wx.EXPAND)
 ```
 
@@ -288,11 +288,11 @@ sizer.add(panel, proportion=1, flag=wx.EXPAND)
 
 #### **Streamlined Workflow**
 - **Single Import Point** - Access all core components including layout management through main package
-- **Consistent API** - WrappedBoxSizer follows same PEP 8 compliant patterns as other wrapped components
+- **Consistent API** - BoxSizer follows same PEP 8 compliant patterns as other wrapped components
 - **Enhanced Productivity** - Complete GUI toolkit available without deep package navigation
 
 #### **Layout Management**
-- **Professional Layouts** - Easy access to sophisticated layout management through WrappedBoxSizer
+- **Professional Layouts** - Easy access to sophisticated layout management through BoxSizer
 - **Modern Development** - PEP 8 compliant sizer wrapper for intuitive Python-style GUI development
 - **Full Integration** - Seamless integration with existing wrapped controls and mixin system
 
@@ -410,7 +410,7 @@ sizer.add(panel, proportion=1, flag=wx.EXPAND)
 ### 🔧 Technical Implementation
 
 #### **MutableListView Architecture**
-- **WrappedScrolledWindow Base** - Built on robust scrolling foundation with full styling support
+- **ScrolledWindow Base** - Built on robust scrolling foundation with full styling support
 - **Multiton Pattern Integration** - Efficient instance management for list node components
 - **Panel-Based Layout** - Dynamic panel creation and management for complex list items
 - **Event System Integration** - Full compatibility with apiwx event handling and slots system
@@ -425,7 +425,7 @@ sizer.add(panel, proportion=1, flag=wx.EXPAND)
 
 #### **New Classes**
 ```python
-class MutableListView(WrappedScrolledWindow):
+class MutableListView(ScrolledWindow):
     """Scrollable list view for dynamic panel-based components"""
     
 class AbstractMutableListNode(Multiton):
@@ -560,11 +560,11 @@ from apiwx.mixins_statictext import TextAlign, LocateByParent
 import apiwx
 from apiwx.mixins_statictext import LocateByParent, TextAlign
 
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
-app = apiwx.WrappedApp("Alignment Demo")
-window = apiwx.WrappedWindow(app, size=(400, 300))
+app = apiwx.App("Alignment Demo")
+window = apiwx.Window(app, size=(400, 300))
 
 # Create aligned text with string shortcuts
 center_text = AlignedText(window, label="Centered", align="c")
@@ -577,7 +577,7 @@ center_text.align = "bl"  # Move to bottom-left
 
 #### **Advanced Layout Management**
 ```python
-class SmartLayoutWindow(apiwx.WrappedWindow):
+class SmartLayoutWindow(apiwx.Window):
     def __init__(self, app):
         super().__init__(app, title="Smart Layout", size=(500, 400))
         
@@ -657,24 +657,24 @@ from apiwx.mixins_statictext import LocateByParent
 ### 🎯 New Generic Alias Classes
 
 #### **Application Classes**
-- **AppBase** - `WrappedApp[Singleton]` with full constructor
-- **AppDetectWindow** - `WrappedApp[Singleton, DetectWindow]` with automatic window detection
+- **AppBase** - `App[Singleton]` with full constructor
+- **AppDetectWindow** - `App[Singleton, DetectWindow]` with automatic window detection
 
 #### **Window Classes**  
-- **WindowWithPanel** - `WrappedWindow[DetectPanel]` with automatic panel detection
-- **WindowByPanelSize** - `WrappedWindow[DetectPanel, ByPanelSize]` with content-based sizing
-- **WindowPanelTransit** - `WrappedWindow[SupportTransit]` with panel transition support
+- **WindowWithPanel** - `Window[DetectPanel]` with automatic panel detection
+- **WindowByPanelSize** - `Window[DetectPanel, ByPanelSize]` with content-based sizing
+- **WindowPanelTransit** - `Window[SupportTransit]` with panel transition support
 - **WindowSizeTransitWithPanel** - Combined panel management features
 
 #### **Panel Classes**
-- **PanelDetectChildren** - `WrappedPanel[DetectChildren]` with automatic child detection  
-- **PanelWithBoarder** - `WrappedPanel[WithBoarder]` with configurable border parameters
-- **PanelNoTransition** - `WrappedPanel[NotTransition]` excluded from transition systems
+- **PanelDetectChildren** - `Panel[DetectChildren]` with automatic child detection  
+- **PanelWithBoarder** - `Panel[WithBoarder]` with configurable border parameters
+- **PanelNoTransition** - `Panel[NotTransition]` excluded from transition systems
 
 #### **Button Classes**
-- **ButtonSingleClickDisable** - `WrappedButton[SingleClickDisable]` with timing parameters
-- **ButtonDoubleClickOnly** - `WrappedButton[DoubleClickOnly]` with click detection settings
-- **ButtonClickGuard** - `WrappedButton[ClickGuard]` with comprehensive protection options
+- **ButtonSingleClickDisable** - `Button[SingleClickDisable]` with timing parameters
+- **ButtonDoubleClickOnly** - `Button[DoubleClickOnly]` with click detection settings
+- **ButtonClickGuard** - `Button[ClickGuard]` with comprehensive protection options
 
 ### 🛠 Technical Improvements
 
@@ -1207,7 +1207,7 @@ Total: 29 tests, 100% success rate
 - **Impact**: Singleton pattern now works correctly, returning the same instance
 
 #### 2. Button Generics Attribute Initialization Issue Fix
-- **Issue**: `WrappedButton[SingleClickDisable]()` did not initialize attributes like `_disable_duration`
+- **Issue**: `Button[SingleClickDisable]()` did not initialize attributes like `_disable_duration`
 - **Cause**: GenericsType metaclass was not calling generics type `__init__` methods
 - **Fix**:
   - Extended `GenericsType.__call__()` method to implement MRO (Method Resolution Order) based initialization

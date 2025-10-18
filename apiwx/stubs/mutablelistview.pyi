@@ -4,7 +4,7 @@ from typing import Any, Optional
 from typing_extensions import Self
 import wx
 
-from .core import WrappedScrolledWindow
+from .core import ScrolledWindow
 from .mixins_base import Multiton
 
 
@@ -25,7 +25,7 @@ class AbstractMutableListNode(Multiton):
         ...
 
 
-class MutableListView(WrappedScrolledWindow):
+class MutableListView(ScrolledWindow):
     """A scrollable list view that manages mutable list nodes."""
     
     node_view_type: type[AbstractMutableListNode]

@@ -12,7 +12,7 @@ Key Features:
     - Multiple file selection support
     - File type filters with wildcards
     - Default directory and filename settings
-    - Consistent API with other apiwx Wrapped classes
+    - Consistent API with other apiwx  classes
 
 Classes:
     BaseFileDialog: Base functionality for all file dialogs

@@ -266,7 +266,7 @@ def test_core_components():
         from apiwx import core
         
         # Test that core classes are importable
-        components = ['WrappedApp', 'WrappedWindow', 'WrappedPanel']
+        components = ['App', 'Window', 'Panel']
         for component in components:
             if not hasattr(core, component):
                 print(f"Core test failed: {component} not found in core module")

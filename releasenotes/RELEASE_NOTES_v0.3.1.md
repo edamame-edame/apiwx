@@ -12,7 +12,7 @@ This release introduces comprehensive type declaration files (.pyi) to improve I
 - Added comprehensive type stubs for all major modules
 - Introduced dedicated `stubs/` directory structure within the apiwx package
 - Created type declarations for:
-  - Core wrapper classes (WrappedApp, WrappedWindow, WrappedPanel, etc.)
+  - Core wrapper classes (App, Window, Panel, etc.)
   - Generics system (AutoDetect, FixSize, Singleton, Multiton)
   - UI utilities (FontManager, Logger, Options)
   - Constants and enums (Colour, WindowStyle, BorderStyle, etc.)

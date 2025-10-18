@@ -15,10 +15,10 @@ def debug_get_all_members():
     print("=== Debug get_all_members ===")
     
     # Create a simple AutoDetect class
-    DetectPanel = mixins_common.AutoDetect[core.WrappedPanel]
+    DetectPanel = mixins_common.AutoDetect[core.Panel]
     
-    class TestApp(core.WrappedApp[DetectPanel]):
-        main_panel = core.WrappedPanel
+    class TestApp(core.App[DetectPanel]):
+        main_panel = core.Panel
         some_other_attr = "hello"
         
         def __init__(self):
@@ -75,7 +75,7 @@ def debug_get_all_members():
         print(f"Children namelist: {getattr(app, '_children_namelist', 'Not found')}")
         
         # Test search
-        panel_indexors = app.search_child_indexor(core.WrappedPanel)
+        panel_indexors = app.search_child_indexor(core.Panel)
         print(f"Panel indexors found: {panel_indexors}")
         
         return len(panel_indexors) > 0

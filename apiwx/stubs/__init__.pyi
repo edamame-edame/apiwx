@@ -23,10 +23,10 @@ from .framestyle import *
 
 # === Core Wrappers and UI Components ===
 from .core import (
-    WrappedApp, WrappedWindow, WrappedPanel, WrappedStaticText,
-    WrappedTextBox, WrappedButton, WrappedCheckBox, WrappedRadioBox,
-    WrappedListBox, WrappedComboBox, WrappedSlider, WrappedGauge,
-    WrappedListCtrl, WrappedScrolledWindow, WrappedChoice, WrappedImage,
+    App, Window, Panel, StaticText,
+    TextBox, Button, CheckBox, RadioBox,
+    ListBox, ComboBox, Slider, Gauge,
+    ListCtrl, ScrolledWindow, Choice, Image,
     UIIndexor
 )
 

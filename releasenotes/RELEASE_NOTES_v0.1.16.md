@@ -112,23 +112,23 @@ user_name = get_text_input("Enter your name:", "User Input")
 
 ### Button Generics
 ```python
-from apiwx import WrappedButton
+from apiwx import Button
 from apiwx.generics_button import SingleClickDisable, DoubleClickOnly, ClickGuard
 
 # Auto-disable button
-button = WrappedButton[SingleClickDisable](
+button = Button[SingleClickDisable](
     panel, size=(120, 40), pos=(20, 20), 
     label="Click Me", disable_duration=2.0
 )
 
 # Double-click required button
-button = WrappedButton[DoubleClickOnly](
+button = Button[DoubleClickOnly](
     panel, size=(120, 40), pos=(20, 20),
     label="Double Click", double_click_timeout=0.5
 )
 
 # Confirmation button
-button = WrappedButton[ClickGuard](
+button = Button[ClickGuard](
     panel, size=(120, 40), pos=(20, 20),
     label="Delete", guard_message="Click again to confirm"
 )

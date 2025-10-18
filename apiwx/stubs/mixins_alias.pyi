@@ -7,10 +7,10 @@ checking and IDE support.
 
 from typing import TypeAlias, Type, Any, Optional, Union
 from .core import (
-    WrappedApp, WrappedWindow, WrappedPanel, WrappedButton,
-    WrappedTextBox, WrappedStaticText, WrappedCheckBox, WrappedRadioBox,
-    WrappedListBox, WrappedComboBox, WrappedSlider, WrappedGauge,
-    WrappedListCtrl, WrappedScrolledWindow, WrappedChoice, WrappedImage
+    App, Window, Panel, Button,
+    TextBox, StaticText, CheckBox, RadioBox,
+    ListBox, ComboBox, Slider, Gauge,
+    ListCtrl, ScrolledWindow, Choice, Image
 )
 from .mixins_app import DetectWindow
 from .mixins_window import DetectPanel, ByPanelSize
@@ -22,89 +22,89 @@ from .mixins_button import SingleClickDisable, DoubleClickOnly, ClickGuard
 from .paneltransmodel import NotTransition, SupportTransit
 
 # Application classes with mixin combinations
-class AppBase(WrappedApp):
+class AppBase(App):
     """Singleton application instance.
     
-    This class creates a WrappedApp with Singleton behavior, ensuring
+    This class creates a App with Singleton behavior, ensuring
     only one application instance can exist at a time.
     
-    Equivalent to: WrappedApp[Singleton]
+    Equivalent to: App[Singleton]
     """
     def __init__(self, name: str = ..., redirect: bool = ...) -> None: ...
 
-class AppDetectWindow(WrappedApp):
+class AppDetectWindow(App):
     """Singleton application with window detection.
     
-    This class creates a WrappedApp with both Singleton behavior and
+    This class creates a App with both Singleton behavior and
     automatic window detection capabilities.
     
-    Equivalent to: WrappedApp[Singleton, DetectWindow]
+    Equivalent to: App[Singleton, DetectWindow]
     """
     def __init__(self, name: str = ..., redirect: bool = ...) -> None: ...
 
 # Window classes with mixin combinations
-class WindowWithPanel(WrappedWindow):
+class WindowWithPanel(Window):
     """Window with automatic panel detection.
     
-    This class creates a WrappedWindow that automatically detects
+    This class creates a Window that automatically detects
     and manages child panels.
     
-    Equivalent to: WrappedWindow[DetectPanel]
+    Equivalent to: Window[DetectPanel]
     """
     def __init__(
         self,
-        parent: Optional[Union[WrappedApp, WrappedWindow]] = ...,
+        parent: Optional[Union[App, Window]] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         title: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WindowByPanelSize(WrappedWindow):
+class WindowByPanelSize(Window):
     """Window with panel detection and size management.
     
-    This class creates a WrappedWindow with panel detection and
+    This class creates a Window with panel detection and
     size management based on the client panel size.
     
-    Equivalent to: WrappedWindow[DetectPanel, ByPanelSize]
+    Equivalent to: Window[DetectPanel, ByPanelSize]
     """
     def __init__(
         self,
-        parent: Optional[Union[WrappedApp, WrappedWindow]] = ...,
+        parent: Optional[Union[App, Window]] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         title: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WindowPanelTransit(WrappedWindow):
+class WindowPanelTransit(Window):
     """Window with panel transition support.
     
-    This class creates a WrappedWindow that supports panel transitions
+    This class creates a Window that supports panel transitions
     and multi-panel management.
     
-    Equivalent to: WrappedWindow[SupportTransit]
+    Equivalent to: Window[SupportTransit]
     """
     def __init__(
         self,
-        parent: Optional[Union[WrappedApp, WrappedWindow]] = ...,
+        parent: Optional[Union[App, Window]] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         title: str = ...,
         **kwargs: Any
     ) -> None: ...
 
-class WindowSizeTransitWithPanel(WrappedWindow):
+class WindowSizeTransitWithPanel(Window):
     """Window with combined panel detection, sizing, and transitions.
     
-    This class creates a WrappedWindow with comprehensive panel management
+    This class creates a Window with comprehensive panel management
     including detection, sizing, and transition support.
     
-    Equivalent to: WrappedWindow[SupportTransit, ByPanelSize]
+    Equivalent to: Window[SupportTransit, ByPanelSize]
     """
     def __init__(
         self,
-        parent: Optional[Union[WrappedApp, WrappedWindow]] = ...,
+        parent: Optional[Union[App, Window]] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         title: str = ...,
@@ -112,33 +112,33 @@ class WindowSizeTransitWithPanel(WrappedWindow):
     ) -> None: ...
 
 # Panel classes with generic combinations
-class PanelDetectChildren(WrappedPanel):
+class PanelDetectChildren(Panel):
     """Panel with automatic child component detection.
     
-    This class creates a WrappedPanel that automatically detects
+    This class creates a Panel that automatically detects
     and manages child UI components.
     
-    Equivalent to: WrappedPanel[DetectChildren]
+    Equivalent to: Panel[DetectChildren]
     """
     def __init__(
         self,
-        parent: Optional[WrappedWindow] = ...,
+        parent: Optional[Window] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class PanelWithBoarder(WrappedPanel):
+class PanelWithBoarder(Panel):
     """Panel with border drawing functionality.
     
-    This class creates a WrappedPanel with configurable border
+    This class creates a Panel with configurable border
     drawing capabilities.
     
-    Equivalent to: WrappedPanel[WithBoarder]
+    Equivalent to: Panel[WithBoarder]
     """
     def __init__(
         self,
-        parent: Optional[WrappedWindow] = ...,
+        parent: Optional[Window] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         boarder_color: Optional[str] = ...,
@@ -147,33 +147,33 @@ class PanelWithBoarder(WrappedPanel):
         **kwargs: Any
     ) -> None: ...
 
-class PanelNoTransition(WrappedPanel):
+class PanelNoTransition(Panel):
     """Panel excluded from transition management.
     
-    This class creates a WrappedPanel that is explicitly excluded
+    This class creates a Panel that is explicitly excluded
     from panel transition systems.
     
-    Equivalent to: WrappedPanel[NotTransition]
+    Equivalent to: Panel[NotTransition]
     """
     def __init__(
         self,
-        parent: Optional[WrappedWindow] = ...,
+        parent: Optional[Window] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         **kwargs: Any
     ) -> None: ...
 
-class ButtonSingleClickDisable(WrappedButton):
+class ButtonSingleClickDisable(Button):
     """Button that disables after single click.
     
-    This class creates a WrappedButton that automatically disables
+    This class creates a Button that automatically disables
     itself after being clicked to prevent double-clicks.
     
-    Equivalent to: WrappedButton[SingleClickDisable]
+    Equivalent to: Button[SingleClickDisable]
     """
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,
@@ -182,17 +182,17 @@ class ButtonSingleClickDisable(WrappedButton):
         **kwargs: Any
     ) -> None: ...
 
-class ButtonDoubleClickOnly(WrappedButton):
+class ButtonDoubleClickOnly(Button):
     """Button that requires double-click to activate.
     
-    This class creates a WrappedButton that only responds to
+    This class creates a Button that only responds to
     double-clicks, ignoring single clicks.
     
-    Equivalent to: WrappedButton[DoubleClickOnly]
+    Equivalent to: Button[DoubleClickOnly]
     """
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,
@@ -201,17 +201,17 @@ class ButtonDoubleClickOnly(WrappedButton):
         **kwargs: Any
     ) -> None: ...
 
-class ButtonClickGuard(WrappedButton):
+class ButtonClickGuard(Button):
     """Button with comprehensive click protection.
     
-    This class creates a WrappedButton with multiple click protection
+    This class creates a Button with multiple click protection
     mechanisms including guards and confirmations.
     
-    Equivalent to: WrappedButton[ClickGuard]
+    Equivalent to: Button[ClickGuard]
     """
     def __init__(
         self,
-        parent: Optional[WrappedPanel] = ...,
+        parent: Optional[Panel] = ...,
         size: tuple[int, int] = ...,
         pos: tuple[int, int] = ...,
         label: str = ...,

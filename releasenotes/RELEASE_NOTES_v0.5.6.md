@@ -44,7 +44,7 @@ class TextAlign(enum.Enum):
 
 #### LocateByParent Mixin
 ```python
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
 # Create center-aligned text
@@ -62,10 +62,10 @@ center_text.align = "bl"                # Move to bottom-left
 import apiwx
 from apiwx.mixins_statictext import LocateByParent, TextAlign
 
-app = apiwx.WrappedApp("Text Demo")
-window = apiwx.WrappedWindow(app, title="Alignment Demo", size=(400, 300))
+app = apiwx.App("Text Demo")
+window = apiwx.Window(app, title="Alignment Demo", size=(400, 300))
 
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
 # Create aligned text components
@@ -79,7 +79,7 @@ app.mainloop()
 #### Advanced Layout Management
 ```python
 # Create multiple text elements with different alignments
-class SmartWindow(apiwx.WrappedWindow):
+class SmartWindow(apiwx.Window):
     def __init__(self, app):
         super().__init__(app, title="Smart Layout", size=(500, 400))
         
@@ -201,7 +201,7 @@ To start using the new StaticText positioning features:
 from apiwx.mixins_statictext import LocateByParent, TextAlign
 
 # Create aligned text components
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
 # Use with your existing code

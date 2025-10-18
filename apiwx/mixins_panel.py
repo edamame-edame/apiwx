@@ -47,7 +47,7 @@ class WithBoarder():
         boarder_offset: Offset from component edges in pixels (default: 0)
 
     Example:
-        >>> class BorderedPanel(core.WrappedPanel[WithBoarder]):
+        >>> class BorderedPanel(core.Panel[WithBoarder]):
         ...     def __init__(self, parent):
         ...         super().__init__(parent, boarder_color="#FF0000", 
         ...                         boarder_thickness=5)
@@ -180,7 +180,7 @@ class WithBoarder():
             boarder_offset (int | None): Border offset or None for default.
             **kwds: Arbitrary keyword arguments passed to parent class.
         """
-        # Super class init was called from WrappedWindow.__init__.
+        # Super class init was called from Window.__init__.
         # So do nothing here.
         ...
 
@@ -263,19 +263,19 @@ class WithBoarder():
 
 
 class DetectChildren(mixins_common.AutoDetect[
-        core.WrappedPanel,
-        core.WrappedTextBox,
-        core.WrappedButton,
-        core.WrappedCheckBox,
-        core.WrappedComboBox,
-        core.WrappedChoice,
-        core.WrappedStaticText,
-        core.WrappedImage,
-        core.WrappedListBox,
-        core.WrappedListCtrl,
-        core.WrappedRadioBox,
-        core.WrappedScrolledWindow,
-        core.WrappedSlider,
+        core.Panel,
+        core.TextBox,
+        core.Button,
+        core.CheckBox,
+        core.ComboBox,
+        core.Choice,
+        core.StaticText,
+        core.Image,
+        core.ListBox,
+        core.ListCtrl,
+        core.RadioBox,
+        core.ScrolledWindow,
+        core.Slider,
     ]):
     """Type variable for auto-detecting panel child components.
 
@@ -285,18 +285,18 @@ class DetectChildren(mixins_common.AutoDetect[
     for better type safety and IDE support.
 
     Supported child component types:
-        - WrappedPanel: Nested panel containers
-        - WrappedTextBox: Text input fields
-        - WrappedButton: Clickable buttons
-        - WrappedCheckBox: Checkbox controls
-        - WrappedComboBox: Dropdown combo boxes
-        - WrappedChoice: Choice selection controls
-        - WrappedStaticText: Static text labels
-        - WrappedImage: Image display components
-        - WrappedListBox: List selection boxes
-        - WrappedListCtrl: Advanced list controls
-        - WrappedRadioBox: Radio button groups
-        - WrappedScrolledWindow: Scrollable containers
-        - WrappedSlider: Slider input controls
+        - Panel: Nested panel containers
+        - TextBox: Text input fields
+        - Button: Clickable buttons
+        - CheckBox: Checkbox controls
+        - ComboBox: Dropdown combo boxes
+        - Choice: Choice selection controls
+        - StaticText: Static text labels
+        - Image: Image display components
+        - ListBox: List selection boxes
+        - ListCtrl: Advanced list controls
+        - RadioBox: Radio button groups
+        - ScrolledWindow: Scrollable containers
+        - Slider: Slider input controls
     """
 

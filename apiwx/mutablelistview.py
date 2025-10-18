@@ -29,7 +29,7 @@ except ImportError:
     import constants
 
 
-class AbstractMutableListNode(core.WrappedPanel[mixins_base.Multiton]):
+class AbstractMutableListNode(core.Panel[mixins_base.Multiton]):
     """A panel representing a single node in a mutable list view.
 
     This class is designed to be used as a child panel within a
@@ -60,14 +60,14 @@ class AbstractMutableListNode(core.WrappedPanel[mixins_base.Multiton]):
         )
 
 
-class MutableListView(core.WrappedScrolledWindow):
+class MutableListView(core.ScrolledWindow):
     node_view_type: type[AbstractMutableListNode]
     """Node view panel type (need Multiton mixin)"""
 
 
     def __init__(
             self,
-            parent: core.WrappedWindow | core.WrappedPanel,
+            parent: core.Window | core.Panel,
             size: tuple[int, int] | None = None,
             pos: tuple[int, int] | None = None,
             color: tuple[int, int, int] | None = None,
@@ -80,12 +80,12 @@ class MutableListView(core.WrappedScrolledWindow):
         This panel automatically detects and manages child panels of a
         specified type, allowing dynamic addition and removal of items.
         Args:
-            parent (WrappedWindow | WrappedPanel): Parent window or panel.
+            parent (Window | Panel): Parent window or panel.
             size (tuple[int, int] | None): Size of the panel.
             pos (tuple[int, int] | None): Position of the panel.
             color (tuple[int, int, int] | None): Background color.
             style (int | None): Style flags.
-            node_view_type (type[WrappedPanel]): Type of child panels to manage.
+            node_view_type (type[Panel]): Type of child panels to manage.
             **kwds: Additional keyword arguments.
         """
         super().__init__(
@@ -105,9 +105,9 @@ class MutableListView(core.WrappedScrolledWindow):
 
         if style & styleflags.VSCROLL:
             # Sizer for managing layout
-            self.sizer = core.WrappedBoxSizer(constants.VERTICAL)
+            self.sizer = core.BoxSizer(constants.VERTICAL)
         else:
-            self.sizer = core.WrappedBoxSizer(constants.HORIZONTAL)
+            self.sizer = core.BoxSizer(constants.HORIZONTAL)
 
         self.SetSizer(self.sizer)
 
@@ -161,12 +161,12 @@ if __name__ == "__main__":
         def __init__(self, parent, value):
             super().__init__(parent)
             self.value = value
-            self.button = core.WrappedButton(
+            self.button = core.Button(
                 self, label="Remove",
                 size=(70, 30),
                 pos=(0, 5)
             )
-            self.textfield = core.WrappedStaticText(
+            self.textfield = core.StaticText(
                 self, label=str(value),
                 size=(parent.size[0] - 80, 30),
                 pos=(80, 5)
@@ -180,11 +180,11 @@ if __name__ == "__main__":
             return cls(parent, value=node)
         
     
-    class TestApp(core.WrappedApp[mixins_app.DetectWindow]):
+    class TestApp(core.App[mixins_app.DetectWindow]):
         def __init__(self):
             super().__init__("Test App")
 
-        class TestWindow(core.WrappedWindow[mixins_window.DetectPanel]):
+        class TestWindow(core.Window[mixins_window.DetectPanel]):
             def __init__(self, parent):
                 super().__init__(parent, title="Mutable List View Test", size=(400, 300))
                 self.list_view = MutableListView(

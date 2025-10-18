@@ -20,7 +20,7 @@ import wx
 
 T = TypeVar('T')
 
-class WrappedApp(Generic[T]):
+class App(Generic[T]):
     def __init__(self, name: str = "apiwx", redirect: bool = False) -> None:
         self.name = name
         # 実装...
