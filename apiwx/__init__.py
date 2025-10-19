@@ -379,27 +379,19 @@ except ImportError:
 
 # === File Dialog Functionality ===
 try:
-    from .dialogmodel import (
+    from .dialogcontrol import (
         DialogResult,
-        BaseFileDialog,
         OpenFileDialog,
         SaveFileDialog,
         FolderBrowserDialog,
-        open_file_dialog,
-        save_file_dialog,
-        folder_browser_dialog,
     )
 
 except ImportError:
-    from dialogmodel import (
+    from dialogcontrol import (
         DialogResult,
-        BaseFileDialog,
         OpenFileDialog,
         SaveFileDialog,
         FolderBrowserDialog,
-        open_file_dialog,
-        save_file_dialog,
-        folder_browser_dialog,
     )
 
 
@@ -470,11 +462,8 @@ __all__ = [
     "get_text_input", "get_number_input", "get_choice_input",
     
     # File Dialog Classes
-    "DialogResult", "BaseFileDialog", "OpenFileDialog", "SaveFileDialog", 
+    "DialogResult", "OpenFileDialog", "SaveFileDialog", 
     "FolderBrowserDialog",
-    
-    # File Dialog Functions
-    "open_file_dialog", "save_file_dialog", "folder_browser_dialog",
     
     # Debug & Logging Functions
     "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", 
