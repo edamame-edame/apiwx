@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: apiwx
-Version: 0.5.12
+Version: 0.6.0
 Summary: wxPython API wrapper with enhanced font handling, improved panel mixins, fixed virtual scroll sizing, and comprehensive IDE support
 Author: edamame
 License: MIT
@@ -48,14 +48,14 @@ Dynamic: license-file
 
 - **🔄 Enhanced MutableListView Scroll Handling**: Fixed scroll update issues when adding or removing elements from MutableListView components
 - **⚡ Improved Layout Refresh**: Added automatic layout refresh (`self.layout()`) after append and remove operations for better UI responsiveness
-- **🛠️ Fixed Scroll Rate Configuration**: Corrected scroll rate setting method in WrappedScrolledWindow with proper tuple unpacking
-- **🎯 Better Component Integration**: Enhanced MutableListView to use WrappedBoxSizer consistently for improved layout management
+- **🛠️ Fixed Scroll Rate Configuration**: Corrected scroll rate setting method in ScrolledWindow with proper tuple unpacking
+- **🎯 Better Component Integration**: Enhanced MutableListView to use BoxSizer consistently for improved layout management
 - **📱 Responsive UI Updates**: Ensured proper scroll bar updates and content positioning during dynamic list modifications
 
 ### Previous in v0.5.9
 
-- **📦 WrappedBoxSizer Export**: Added WrappedBoxSizer to public API exports in __init__.py for improved layout management
-- **🔧 Enhanced Layout Support**: Developers can now import and use WrappedBoxSizer directly from the main package
+- **📦 BoxSizer Export**: Added BoxSizer to public API exports in __init__.py for improved layout management
+- **🔧 Enhanced Layout Support**: Developers can now import and use BoxSizer directly from the main package
 - **💡 Better Developer Experience**: Complete layout toolkit with PEP 8 compliant BoxSizer wrapper for intuitive GUI design
 - **⚡ Simplified Imports**: Access all core layout components including sizers through the main apiwx package
 - **🛡️ Robust Multiton Pattern**: Enhanced Multiton mixin with improved `__del__` fallback handling for base UI classes without destructor attributes
@@ -143,10 +143,10 @@ The installation automatically includes complete type stubs for full IDE support
 import apiwx
 
 # Create a simple app with just a few lines
-app = apiwx.WrappedApp("My First App")
-window = apiwx.WrappedWindow(app, title="Hello World", size=(400, 300))
-panel = apiwx.WrappedPanel(window)
-button = apiwx.WrappedButton(panel, label="Click Me!", pos=(150, 100))
+app = apiwx.App("My First App")
+window = apiwx.Window(app, title="Hello World", size=(400, 300))
+panel = apiwx.Panel(window)
+button = apiwx.Button(panel, label="Click Me!", pos=(150, 100))
 
 # Add button functionality
 def on_click(event):
@@ -200,17 +200,17 @@ panel = wx.Panel(frame)
 button = wx.Button(panel, wx.ID_ANY, "Click", pos=(10, 10), size=(100, 30))
 
 # After (apiwx)
-app = apiwx.WrappedApp("MyApp")
-frame = apiwx.WrappedWindow(app, title="Title", size=(800, 600))
-panel = apiwx.WrappedPanel(frame)
-button = apiwx.WrappedButton(panel, label="Click", pos=(10, 10), size=(100, 30))
+app = apiwx.App("MyApp")
+frame = apiwx.Window(app, title="Title", size=(800, 600))
+panel = apiwx.Panel(frame)
+button = apiwx.Button(panel, label="Click", pos=(10, 10), size=(100, 30))
 ```
 
 ### Easy Event Handling
 Connect events with simple syntax:
 
 ```python
-button = apiwx.WrappedButton(panel, label="Save")
+button = apiwx.Button(panel, label="Save")
 
 def save_file(event):
     # Your save logic here
@@ -308,17 +308,17 @@ Add advanced behaviors with the powerful mixin system:
 
 ```python
 # Button that disables itself after clicking (prevents double-clicks)
-button = apiwx.WrappedButton[apiwx.SingleClickDisable](
+button = apiwx.Button[apiwx.SingleClickDisable](
     panel, label="Submit", disable_duration=2.0, auto_re_enable=True
 )
 
 # Button that requires double-click for confirmation
-delete_btn = apiwx.WrappedButton[apiwx.DoubleClickOnly](
+delete_btn = apiwx.Button[apiwx.DoubleClickOnly](
     panel, label="Delete", double_click_timeout=0.5
 )
 
 # Button with click confirmation guard
-confirm_btn = apiwx.WrappedButton[apiwx.ClickGuard](
+confirm_btn = apiwx.Button[apiwx.ClickGuard](
     panel, label="Delete All", guard_message="Click again to confirm"
 )
 
@@ -336,11 +336,11 @@ Automatically position text within parent windows using alignment mixins:
 from apiwx.mixins_statictext import LocateByParent, TextAlign
 
 # Create aligned text using mixin
-class AlignedText(apiwx.WrappedStaticText[LocateByParent]):
+class AlignedText(apiwx.StaticText[LocateByParent]):
     pass
 
-app = apiwx.WrappedApp("Text Positioning Demo")
-window = apiwx.WrappedWindow(app, title="Alignment Demo", size=(400, 300))
+app = apiwx.App("Text Positioning Demo")
+window = apiwx.Window(app, title="Alignment Demo", size=(400, 300))
 
 # Center-aligned text using string shorthand
 center_text = AlignedText(window, label="Centered Text", align="c")
@@ -376,8 +376,8 @@ class TaskNode(AbstractMutableListNode):
         self.task_data = task_data
         
         # Create UI components for this task
-        self.label = apiwx.WrappedStaticText(self, label=f"Task: {task_data['name']}")
-        self.status_btn = apiwx.WrappedButton(self, label="Toggle", size=(60, 25))
+        self.label = apiwx.StaticText(self, label=f"Task: {task_data['name']}")
+        self.status_btn = apiwx.Button(self, label="Toggle", size=(60, 25))
         
         # Connect event
         self.status_btn.slots_on_click += self.toggle_status
@@ -404,8 +404,8 @@ class TaskNode(AbstractMutableListNode):
         self.label.SetLabel(f"{status} Task: {self.task_data['name']}")
 
 # Create the application and window
-app = apiwx.WrappedApp("Task Manager")
-window = apiwx.WrappedWindow(app, title="Dynamic Task List", size=(500, 400))
+app = apiwx.App("Task Manager")
+window = apiwx.Window(app, title="Dynamic Task List", size=(500, 400))
 
 # Create the mutable list view
 task_list = MutableListView(
@@ -429,7 +429,7 @@ for task in tasks:
     task_list.append(task)
 
 # Add new task button
-add_btn = apiwx.WrappedButton(window, label="Add Task", pos=(25, 340), size=(100, 30))
+add_btn = apiwx.Button(window, label="Add Task", pos=(25, 340), size=(100, 30))
 
 def add_new_task(event):
     """Add a new task to the list."""
@@ -443,7 +443,7 @@ def add_new_task(event):
 add_btn.slots_on_click += add_new_task
 
 # Remove completed tasks button
-remove_btn = apiwx.WrappedButton(window, label="Remove Completed", pos=(140, 340), size=(130, 30))
+remove_btn = apiwx.Button(window, label="Remove Completed", pos=(140, 340), size=(130, 30))
 
 def remove_completed(event):
     """Remove all completed tasks."""
@@ -465,15 +465,15 @@ Automatic component detection and management with enhanced indexor search (v0.5.
 
 ```python
 # App with automatic window detection
-app = apiwx.WrappedApp[apiwx.Singleton, apiwx.DetectWindow]("MyApp")
+app = apiwx.App[apiwx.Singleton, apiwx.DetectWindow]("MyApp")
 
 # Window with automatic panel detection and sizing
-window = apiwx.WrappedWindow[apiwx.DetectPanel, apiwx.ByPanelSize](
+window = apiwx.Window[apiwx.DetectPanel, apiwx.ByPanelSize](
     app, title="Smart Window"
 )
 
 # Panel with automatic child detection
-panel = apiwx.WrappedPanel[apiwx.DetectChildren](window)
+panel = apiwx.Panel[apiwx.DetectChildren](window)
 
 # Window with panel transition support (New alias in v0.3.2)
 transit_window = apiwx.WindowSizeTransitWithPanel(app, title="Transition Window")
@@ -486,21 +486,21 @@ Easily find and access dynamically created UI components:
 import apiwx
 
 # Define app with multiple component types detection
-DetectComponents = apiwx.AutoDetect[apiwx.WrappedWindow, apiwx.WrappedButton]
+DetectComponents = apiwx.AutoDetect[apiwx.Window, apiwx.Button]
 
-class MyApp(apiwx.WrappedApp[DetectComponents]):
+class MyApp(apiwx.App[DetectComponents]):
     # Class-level components (detected automatically)
-    main_window = apiwx.WrappedWindow
-    help_window = apiwx.WrappedWindow
+    main_window = apiwx.Window
+    help_window = apiwx.Window
     
     def __init__(self):
         # Instance-level components (also detected)
-        self.dialog_window = apiwx.WrappedWindow
+        self.dialog_window = apiwx.Window
         super().__init__("Component Detection Demo")
         
         # Search for specific component types
-        window_indexors = self.search_child_indexor(apiwx.WrappedWindow)
-        button_indexors = self.search_child_indexor(apiwx.WrappedButton)
+        window_indexors = self.search_child_indexor(apiwx.Window)
+        button_indexors = self.search_child_indexor(apiwx.Button)
         
         print(f"Found {len(window_indexors)} windows")  # 3 windows
         print(f"Found {len(button_indexors)} buttons")  # 0 buttons
@@ -511,25 +511,25 @@ class MyApp(apiwx.WrappedApp[DetectComponents]):
             print(f"Window: {window}")
 
 # Singleton mixin example (returns tuple with single indexor)
-DetectSinglePanel = apiwx.AutoDetect[apiwx.WrappedPanel]
-class SinglePanelApp(apiwx.WrappedApp[DetectSinglePanel]):
-    main_panel = apiwx.WrappedPanel
+DetectSinglePanel = apiwx.AutoDetect[apiwx.Panel]
+class SinglePanelApp(apiwx.App[DetectSinglePanel]):
+    main_panel = apiwx.Panel
     
     def __init__(self):
         super().__init__("Single Panel App")
-        panels = self.search_child_indexor(apiwx.WrappedPanel)
+        panels = self.search_child_indexor(apiwx.Panel)
         assert len(panels) == 1  # Singleton - exactly one panel
 
 # Multiton mixin example (returns tuple with multiple indexors)  
-DetectMultipleButtons = apiwx.AutoDetect[apiwx.WrappedButton]
-class MultiButtonApp(apiwx.WrappedApp[DetectMultipleButtons]):
-    ok_button = apiwx.WrappedButton
-    cancel_button = apiwx.WrappedButton
-    help_button = apiwx.WrappedButton
+DetectMultipleButtons = apiwx.AutoDetect[apiwx.Button]
+class MultiButtonApp(apiwx.App[DetectMultipleButtons]):
+    ok_button = apiwx.Button
+    cancel_button = apiwx.Button
+    help_button = apiwx.Button
     
     def __init__(self):
         super().__init__("Multi Button App")
-        buttons = self.search_child_indexor(apiwx.WrappedButton)
+        buttons = self.search_child_indexor(apiwx.Button)
         assert len(buttons) == 3  # Multiton - three buttons
         
         # Process all buttons
@@ -543,15 +543,15 @@ apiwx v0.5.2 includes a completely redesigned mixin system with full type suppor
 
 ```python
 # Full type hints and IDE support with working mixins
-from apiwx import WrappedApp, WrappedWindow, WrappedButton, Singleton
+from apiwx import App, Window, Button, Singleton
 from typing import Optional
 
 # Singleton app with type safety
-app: WrappedApp = WrappedApp[Singleton]("TypedApp")
-window: WrappedWindow = WrappedWindow(app, title="Typed Window")
+app: App = App[Singleton]("TypedApp")
+window: Window = Window(app, title="Typed Window")
 
 # Enhanced button with type checking and mixin introspection
-button: WrappedButton = WrappedButton[apiwx.SingleClickDisable](
+button: Button = Button[apiwx.SingleClickDisable](
     parent=window,
     label="Click Me",
     size=(120, 40),
@@ -571,16 +571,16 @@ print(f"Applied mixins: {mixins_list}")
 ## Available Components
 
 ### Core GUI Components
-- **WrappedApp** - Application container
-- **WrappedWindow** - Main windows and frames
-- **WrappedPanel** - Container panels
-- **WrappedButton** - Clickable buttons
-- **WrappedStaticText** - Text labels
-- **WrappedTextBox** - Text input fields
-- **WrappedCheckBox** - Checkboxes
-- **WrappedListBox** - List selections
-- **WrappedComboBox** - Dropdown selections
-- **WrappedSlider** - Value sliders
+- **App** - Application container
+- **Window** - Main windows and frames
+- **Panel** - Container panels
+- **Button** - Clickable buttons
+- **StaticText** - Text labels
+- **TextBox** - Text input fields
+- **CheckBox** - Checkboxes
+- **ListBox** - List selections
+- **ComboBox** - Dropdown selections
+- **Slider** - Value sliders
 - **And many more...**
 
 ### File Dialog Components (New in v0.5.3)
@@ -626,24 +626,24 @@ Add advanced behaviors to components with the comprehensive mixin system:
 Comprehensive pre-built classes that combine common mixin behaviors with complete documentation:
 
 **Application Classes:**
-- **AppBase** - `WrappedApp[Singleton]` - Single instance applications
-- **AppDetectWindow** - `WrappedApp[Singleton, DetectWindow]` - With automatic window detection
+- **AppBase** - `App[Singleton]` - Single instance applications
+- **AppDetectWindow** - `App[Singleton, DetectWindow]` - With automatic window detection
 
 **Window Classes:**
-- **WindowWithPanel** - `WrappedWindow[DetectPanel]` - Auto-detects child panels
-- **WindowByPanelSize** - `WrappedWindow[DetectPanel, ByPanelSize]` - Sizes by panel content
-- **WindowPanelTransit** - `WrappedWindow[SupportTransit]` - Panel transition support
-- **WindowSizeTransitWithPanel** - `WrappedWindow[SupportTransit, ByPanelSize]` - Combined features
+- **WindowWithPanel** - `Window[DetectPanel]` - Auto-detects child panels
+- **WindowByPanelSize** - `Window[DetectPanel, ByPanelSize]` - Sizes by panel content
+- **WindowPanelTransit** - `Window[SupportTransit]` - Panel transition support
+- **WindowSizeTransitWithPanel** - `Window[SupportTransit, ByPanelSize]` - Combined features
 
 **Panel Classes:**
-- **PanelDetectChildren** - `WrappedPanel[DetectChildren]` - Auto-detects child components  
-- **PanelWithBoarder** - `WrappedPanel[WithBoarder]` - Built-in border drawing
-- **PanelNoTransition** - `WrappedPanel[NotTransition]` - Excluded from transitions
+- **PanelDetectChildren** - `Panel[DetectChildren]` - Auto-detects child components  
+- **PanelWithBoarder** - `Panel[WithBoarder]` - Built-in border drawing
+- **PanelNoTransition** - `Panel[NotTransition]` - Excluded from transitions
 
 **Button Classes:**
-- **ButtonSingleClickDisable** - `WrappedButton[SingleClickDisable]` - Prevents double-clicks
-- **ButtonDoubleClickOnly** - `WrappedButton[DoubleClickOnly]` - Requires double-click
-- **ButtonClickGuard** - `WrappedButton[ClickGuard]` - Click confirmation protection
+- **ButtonSingleClickDisable** - `Button[SingleClickDisable]` - Prevents double-clicks
+- **ButtonDoubleClickOnly** - `Button[DoubleClickOnly]` - Requires double-click
+- **ButtonClickGuard** - `Button[ClickGuard]` - Click confirmation protection
 
 ```python
 # Easy instantiation with full type support and IntelliSense (v0.5.5)
@@ -684,18 +684,18 @@ panel = PanelWithBoarder(
 ```python
 import apiwx
 
-app = apiwx.WrappedApp("Form Example")
-window = apiwx.WrappedWindow(app, title="User Form", size=(400, 300))
-panel = apiwx.WrappedPanel(window)
+app = apiwx.App("Form Example")
+window = apiwx.Window(app, title="User Form", size=(400, 300))
+panel = apiwx.Panel(window)
 
 # Form elements
-name_label = apiwx.WrappedStaticText(panel, text="Name:", pos=(20, 20))
-name_input = apiwx.WrappedTextBox(panel, pos=(80, 20), size=(200, 25))
+name_label = apiwx.StaticText(panel, text="Name:", pos=(20, 20))
+name_input = apiwx.TextBox(panel, pos=(80, 20), size=(200, 25))
 
-email_label = apiwx.WrappedStaticText(panel, text="Email:", pos=(20, 60))
-email_input = apiwx.WrappedTextBox(panel, pos=(80, 60), size=(200, 25))
+email_label = apiwx.StaticText(panel, text="Email:", pos=(20, 60))
+email_input = apiwx.TextBox(panel, pos=(80, 60), size=(200, 25))
 
-submit_button = apiwx.WrappedButton(panel, label="Submit", pos=(150, 120))
+submit_button = apiwx.Button(panel, label="Submit", pos=(150, 120))
 
 def submit_form(event):
     name = name_input.text
@@ -725,7 +725,7 @@ window: WindowWithPanel = WindowWithPanel(app, title="Type Demo")
 # IDE provides full IntelliSense and error checking
 def create_smart_button(parent: PanelDetectChildren, 
                        label: str,
-                       callback: Optional[callable] = None) -> apiwx.WrappedButton:
+                       callback: Optional[callable] = None) -> apiwx.Button:
     # Use alias for enhanced button behavior
     from apiwx.mixins_alias import ButtonSingleClickDisable
     
@@ -743,7 +743,7 @@ def create_smart_button(parent: PanelDetectChildren,
     return button
 
 # Use convenience methods
-def toggle_button_state(button: apiwx.WrappedButton):
+def toggle_button_state(button: apiwx.Button):
     if button.is_enabled():
         button.disable()
     else:
@@ -833,17 +833,17 @@ def long_operation():
 ```python
 import apiwx
 
-app = apiwx.WrappedApp("Styled App")
-window = apiwx.WrappedWindow(app, title="Colors Demo", size=(400, 300))
-panel = apiwx.WrappedPanel(window)
+app = apiwx.App("Styled App")
+window = apiwx.Window(app, title="Colors Demo", size=(400, 300))
+panel = apiwx.Panel(window)
 
 # Using built-in colors
 panel.color_background = apiwx.Colour.LIGHT_GREY
-title = apiwx.WrappedStaticText(panel, text="Welcome!", pos=(150, 50))
+title = apiwx.StaticText(panel, text="Welcome!", pos=(150, 50))
 title.color_text = apiwx.Colour.DARK_BLUE
 
 # Styled button
-button = apiwx.WrappedButton(panel, label="Colorful Button", pos=(130, 100))
+button = apiwx.Button(panel, label="Colorful Button", pos=(130, 100))
 button.color_background = apiwx.Colour.LIGHT_GREEN
 
 app.mainloop()
@@ -879,7 +879,7 @@ apiwx v0.5.2 includes comprehensive type stubs with redesigned mixin system:
 - Use Python's `help()` function for detailed information:
   ```python
   import apiwx
-  help(apiwx.WrappedButton)
+  help(apiwx.Button)
   help(apiwx.show_info)
   ```
 
