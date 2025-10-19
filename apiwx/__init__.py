@@ -396,6 +396,46 @@ except ImportError:
     )
 
 
+# === File Dialog Functionality ===
+try:
+    from .event_control import (
+        EventControl,
+        CustomEvent,
+        GeometryEventSignal,
+        LifecycleEventSignal,
+        PaintEventSignal,
+        KeyboardEventSignal,
+        MenuEventSignal,
+        FocusEventSignal,
+        ActivationEventSignal,
+        SystemEventSignal,
+        MouseEventSignal,
+        ScrollEventSignal,
+        ControlEventSignal,
+        ToolbarEventSignal,
+        MiscEventSignal
+    )
+
+except ImportError:
+    from event_control import (
+        EventControl,
+        CustomEvent,
+        GeometryEventSignal,
+        LifecycleEventSignal,
+        PaintEventSignal,
+        KeyboardEventSignal,
+        MenuEventSignal,
+        FocusEventSignal,
+        ActivationEventSignal,
+        SystemEventSignal,
+        MouseEventSignal,
+        ScrollEventSignal,
+        ControlEventSignal,
+        ToolbarEventSignal,
+        MiscEventSignal
+    )
+
+
 __all__ = [
     # Core Wrappers
     "Slots",
@@ -471,6 +511,23 @@ __all__ = [
     "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", 
     "uiwarning_log", "uierror_log", "uicritical_log", "uidebug_set_level", 
     "uidebug_get_level", "uilog_output_remaining",
+
+    # Event Control Classes
+    "EventControl",
+    "CustomEvent",
+    "GeometryEventSignal",
+    "LifecycleEventSignal",
+    "PaintEventSignal",
+    "KeyboardEventSignal",
+    "MenuEventSignal",
+    "FocusEventSignal",
+    "ActivationEventSignal",
+    "SystemEventSignal",
+    "MouseEventSignal",
+    "ScrollEventSignal",
+    "ControlEventSignal",
+    "ToolbarEventSignal",
+    "MiscEventSignal"
 ]
 
 
