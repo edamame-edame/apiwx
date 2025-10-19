@@ -7,3 +7,4 @@ apiwx/testcode.py
 project/__pycache__
 test_version_support
 pepresult
+apiwx/ignore_*.py

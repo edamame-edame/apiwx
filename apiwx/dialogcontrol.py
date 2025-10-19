@@ -243,6 +243,12 @@ class FileDialog(
             defaultDir=initial_directory or "",
             defaultFile=initial_filename or "",
         )
+
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.Destroy()
     
 
 class OpenFileDialog(FileDialog):
@@ -255,7 +261,9 @@ class OpenFileDialog(FileDialog):
             filter: str = "All files (*.*)|*.*",
             size: _wx.Size | None = None,
             pos: _wx.Point | None = None,
-            multiselect: bool = False):
+            multiselect: bool = False,
+            initial_directory: str | None = None,
+            initial_filename: str | None = None):
         
         super().__init__(
             parent=parent,
@@ -265,6 +273,8 @@ class OpenFileDialog(FileDialog):
             size=size,
             pos=pos,
             multiselect=multiselect,
+            initial_directory=initial_directory,
+            initial_filename=initial_filename,
             basestyle=_wx.FD_OPEN | _wx.FD_FILE_MUST_EXIST,
         )
 
@@ -278,7 +288,9 @@ class SaveFileDialog(FileDialog):
             message: str = "Choose a location to save the file",
             filter: str = "All files (*.*)|*.*",
             size: _wx.Size | None = None,
-            pos: _wx.Point | None = None):
+            pos: _wx.Point | None = None,
+            initial_directory: str | None = None,
+            initial_filename: str | None = None):
         
         super().__init__(
             parent=parent,
@@ -288,6 +300,8 @@ class SaveFileDialog(FileDialog):
             size=size,
             pos=pos,
             multiselect=False,
+            initial_directory=initial_directory,
+            initial_filename=initial_filename,
             basestyle=_wx.FD_SAVE | _wx.FD_OVERWRITE_PROMPT,
         )
 
@@ -422,6 +436,12 @@ class FolderDialog(
             size=size,
             name=title,
         )
+
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.Destroy()
 
 
 class FolderBrowserDialog(FolderDialog):

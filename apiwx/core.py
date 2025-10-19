@@ -140,7 +140,7 @@ class Slots(list[typing.Callable[..., None]]):
         self,
         control: _wx.Control | _wx.Window,
         signal: _wx.PyEventBinder,
-        timeout: float = 5.0):
+        timeout: float | None = None):
         # init super class
         super().__init__()
     
@@ -207,6 +207,11 @@ class Slots(list[typing.Callable[..., None]]):
                     "EXCEPT",
                     f"Slot exception was ignored."
                     f" ({e.__class__} was occurred in {slot.__name__})"
+                )
+
+                debug.uierror_log(
+                    "EXCINFO",
+                    f"Slot exception info: {e}",
                 )
 
         # cancel watchdog after execution
