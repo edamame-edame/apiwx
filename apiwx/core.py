@@ -56,7 +56,7 @@ import os
 import sys
 import typing
 import webbrowser
-from threading import Timer
+from threading import Timer, get_native_id
 
 # Third-party imports
 import wx as _wx
@@ -398,11 +398,13 @@ class UIAttributes:
     
 
     @property
-    def toplevel(self: _wx.Window) -> (
-            typing.Type['Window']
-            | _wx.TopLevelWindow
-        ):
+    def toplevel(self: _wx.Window) -> typing.Union['Window', _wx.TopLevelWindow]:
         return self.GetTopLevelParent()
+
+
+    @property
+    def app(self) -> 'App':
+        return App.GetInstance()
 
 
     def exists_slots(self, signal: _wx.PyEventBinder):
@@ -458,13 +460,25 @@ class UIAttributes:
         return self.Layout()
 
 
+    def invoke(self: _wx.Window, signal: _wx.PyEventBinder, **kwds):
+        """Invoke a wxPython event signal on this control/window."""
+        event = _wx.PyCommandEvent(
+            signal.typeId, self.GetId()
+        )
+
+        for key, value in kwds.items():
+            setattr(event, key, value)
+
+        _wx.PostEvent(self, event)
+
+
     @classmethod
     def raise_attribute_error(cls, methodname: str, specclass):
         raise AttributeError(
             f"The `{methodname}()` method is only valid"
             f" for objects of the `{specclass}` class."
         )
-
+    
 
 class UIInitializeComponent():
     """Mixin class for saving and accessing initialization arguments.
@@ -637,9 +651,12 @@ class App(
         return _wx.App.GetInstance()
 
 
-    def __init__(self, name: str, *args, **kwds):
+    def __init__(self, name: str = "App", *args, **kwds):
         # init super class
         super().__init__()
+
+        # Memory nativeid (for thread safety call.)
+        self.native_id = get_native_id()
 
         # set application name
         self.appname = name
@@ -649,9 +666,15 @@ class App(
 
 
     def mainloop(self):
-        # run application
+        if get_native_id() != self.native_id:
+            raise RuntimeError(
+                "App.mainloop() must be called from the same thread as initialized."
+            )
+        
+        # Run application.
         exit_code = self.MainLoop()
 
+        # Flush internal debug logs.
         debug.internallog_output_remaining()
 
         return exit_code
@@ -2065,6 +2088,15 @@ class BoxSizer(_wx.BoxSizer):
         return self.Add(item, proportion, flag, border)
     
 
+def safely_call(func: typing.Callable, *args, **kwds):
+    """Safely call a function in the main UI thread."""
+    if get_native_id() != App.GetInstance().native_id:
+        _wx.CallAfter(func, *args, **kwds)
+    
+    else:
+        func(*args, **kwds)
+    
+
 # Export list for explicit module interface
 __all__ = [
     # Core utility classes
@@ -2100,5 +2132,11 @@ __all__ = [
     
     # Media controls
     'Image',
+
+    # Layout managers
+    'BoxSizer',
+
+    # Utility functions
+    'safely_call',
 ]
 

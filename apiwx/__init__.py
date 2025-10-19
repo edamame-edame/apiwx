@@ -106,6 +106,7 @@ except ImportError:
         Choice,
         Image,
         BoxSizer,
+        safely_call,
     )
 
 # Mutable List View Components
@@ -403,6 +404,7 @@ __all__ = [
     "ListBox", "ComboBox", "Slider", "Gauge",
     "ListCtrl", "ScrolledWindow", "Choice", 
     "Image", "BoxSizer",
+    "safely_call",
     
     # Mutable List View Components
     "AbstractMutableListNode", "MutableListView",
@@ -469,11 +471,6 @@ __all__ = [
     "Logger", "LogLevel", "uilog", "uidebug_log", "uiinfo_log", 
     "uiwarning_log", "uierror_log", "uicritical_log", "uidebug_set_level", 
     "uidebug_get_level", "uilog_output_remaining",
-    
-    # Internal Logging Functions
-    "internallog", "internaldebug_log", "internalinfo_log", 
-    "internalwarning_log", "internalerror_log", "internalcritical_log", 
-    "internal_set_level", "internal_get_level", "internallog_output_remaining",
 ]
 
 
