@@ -8,8 +8,17 @@ from typing import (
 
 import wx as _wx
 
-import core
-import mixins_core
+try:
+    from . import core
+
+except ImportError:
+    import core
+
+try:
+    from . import mixins_core
+    
+except ImportError:
+    import mixins_core
 
 
 class DialogResult(enum.IntEnum):
